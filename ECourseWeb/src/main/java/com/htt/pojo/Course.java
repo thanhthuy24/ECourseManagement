@@ -1,0 +1,254 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.htt.pojo;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author Admin
+ */
+@Entity
+@Table(name = "course")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c"),
+    @NamedQuery(name = "Course.findById", query = "SELECT c FROM Course c WHERE c.id = :id"),
+    @NamedQuery(name = "Course.findByName", query = "SELECT c FROM Course c WHERE c.name = :name"),
+    @NamedQuery(name = "Course.findByDescription", query = "SELECT c FROM Course c WHERE c.description = :description"),
+    @NamedQuery(name = "Course.findByIsActive", query = "SELECT c FROM Course c WHERE c.isActive = :isActive"),
+    @NamedQuery(name = "Course.findByCreatedDate", query = "SELECT c FROM Course c WHERE c.createdDate = :createdDate"),
+    @NamedQuery(name = "Course.findByUpdatedDate", query = "SELECT c FROM Course c WHERE c.updatedDate = :updatedDate"),
+    @NamedQuery(name = "Course.findByPrice", query = "SELECT c FROM Course c WHERE c.price = :price"),
+    @NamedQuery(name = "Course.findByDiscount", query = "SELECT c FROM Course c WHERE c.discount = :discount")})
+public class Course implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "name")
+    private String name;
+    @Size(max = 255)
+    @Column(name = "description")
+    private String description;
+    @Column(name = "isActive")
+    private Boolean isActive;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "createdDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "updatedDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "price")
+    private float price;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "discount")
+    private float discount;
+    @OneToMany(mappedBy = "courseId")
+    private Set<Lesson> lessonSet;
+    @OneToMany(mappedBy = "courseId")
+    private Set<Video> videoSet;
+    @OneToMany(mappedBy = "courseId")
+    private Set<Certification> certificationSet;
+    @OneToMany(mappedBy = "courseId")
+    private Set<Enrollment> enrollmentSet;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ManyToOne
+    private Category categoryId;
+    @OneToMany(mappedBy = "courseId")
+    private Set<Receipt> receiptSet;
+
+    public Course() {
+    }
+
+    public Course(Integer id) {
+        this.id = id;
+    }
+
+    public Course(Integer id, String name, Date createdDate, Date updatedDate, float price, float discount) {
+        this.id = id;
+        this.name = name;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.price = price;
+        this.discount = discount;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(float discount) {
+        this.discount = discount;
+    }
+
+    @XmlTransient
+    public Set<Lesson> getLessonSet() {
+        return lessonSet;
+    }
+
+    public void setLessonSet(Set<Lesson> lessonSet) {
+        this.lessonSet = lessonSet;
+    }
+
+    @XmlTransient
+    public Set<Video> getVideoSet() {
+        return videoSet;
+    }
+
+    public void setVideoSet(Set<Video> videoSet) {
+        this.videoSet = videoSet;
+    }
+
+    @XmlTransient
+    public Set<Certification> getCertificationSet() {
+        return certificationSet;
+    }
+
+    public void setCertificationSet(Set<Certification> certificationSet) {
+        this.certificationSet = certificationSet;
+    }
+
+    @XmlTransient
+    public Set<Enrollment> getEnrollmentSet() {
+        return enrollmentSet;
+    }
+
+    public void setEnrollmentSet(Set<Enrollment> enrollmentSet) {
+        this.enrollmentSet = enrollmentSet;
+    }
+
+    public Category getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Category categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    @XmlTransient
+    public Set<Receipt> getReceiptSet() {
+        return receiptSet;
+    }
+
+    public void setReceiptSet(Set<Receipt> receiptSet) {
+        this.receiptSet = receiptSet;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Course)) {
+            return false;
+        }
+        Course other = (Course) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.htt.pojo.Course[ id=" + id + " ]";
+    }
+    
+}
