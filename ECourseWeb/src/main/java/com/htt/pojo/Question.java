@@ -53,6 +53,8 @@ public class Question implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "type")
     private String type;
+    @OneToMany(mappedBy = "questionId")
+    private Set<Answerchoice> answerchoiceSet;
     @JoinColumn(name = "assignment_id", referencedColumnName = "id")
     @ManyToOne
     private Assignment assignmentId;
@@ -96,6 +98,15 @@ public class Question implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @XmlTransient
+    public Set<Answerchoice> getAnswerchoiceSet() {
+        return answerchoiceSet;
+    }
+
+    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
+        this.answerchoiceSet = answerchoiceSet;
     }
 
     public Assignment getAssignmentId() {

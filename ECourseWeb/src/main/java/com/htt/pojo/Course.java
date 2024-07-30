@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Course.findByCreatedDate", query = "SELECT c FROM Course c WHERE c.createdDate = :createdDate"),
     @NamedQuery(name = "Course.findByUpdatedDate", query = "SELECT c FROM Course c WHERE c.updatedDate = :updatedDate"),
     @NamedQuery(name = "Course.findByPrice", query = "SELECT c FROM Course c WHERE c.price = :price"),
-    @NamedQuery(name = "Course.findByDiscount", query = "SELECT c FROM Course c WHERE c.discount = :discount")})
+    @NamedQuery(name = "Course.findByDiscount", query = "SELECT c FROM Course c WHERE c.discount = :discount"),
+    @NamedQuery(name = "Course.findByImage", query = "SELECT c FROM Course c WHERE c.image = :image")})
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -79,6 +80,9 @@ public class Course implements Serializable {
     @NotNull
     @Column(name = "discount")
     private float discount;
+    @Size(max = 255)
+    @Column(name = "image")
+    private String image;
     @OneToMany(mappedBy = "courseId")
     private Set<Lesson> lessonSet;
     @OneToMany(mappedBy = "courseId")
@@ -171,6 +175,14 @@ public class Course implements Serializable {
 
     public void setDiscount(float discount) {
         this.discount = discount;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @XmlTransient

@@ -5,7 +5,7 @@
 package com.htt.pojo;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,26 +16,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Admin
  */
 @Entity
-@Table(name = "choice")
+@Table(name = "answerchoice")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Choice.findAll", query = "SELECT c FROM Choice c"),
-    @NamedQuery(name = "Choice.findById", query = "SELECT c FROM Choice c WHERE c.id = :id"),
-    @NamedQuery(name = "Choice.findByContent", query = "SELECT c FROM Choice c WHERE c.content = :content"),
-    @NamedQuery(name = "Choice.findByIsCorrect", query = "SELECT c FROM Choice c WHERE c.isCorrect = :isCorrect")})
-public class Choice implements Serializable {
+    @NamedQuery(name = "Answerchoice.findAll", query = "SELECT a FROM Answerchoice a"),
+    @NamedQuery(name = "Answerchoice.findById", query = "SELECT a FROM Answerchoice a WHERE a.id = :id"),
+    @NamedQuery(name = "Answerchoice.findByCreatedDate", query = "SELECT a FROM Answerchoice a WHERE a.createdDate = :createdDate")})
+public class Answerchoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,29 +40,24 @@ public class Choice implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "content")
-    private String content;
-    @Column(name = "isCorrect")
-    private Boolean isCorrect;
-    @OneToMany(mappedBy = "choiceId")
-    private Set<Answerchoice> answerchoiceSet;
+    @Column(name = "createdDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+    @JoinColumn(name = "choice_id", referencedColumnName = "id")
+    @ManyToOne
+    private Choice choiceId;
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @ManyToOne
     private Question questionId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
 
-    public Choice() {
+    public Answerchoice() {
     }
 
-    public Choice(Integer id) {
+    public Answerchoice(Integer id) {
         this.id = id;
-    }
-
-    public Choice(Integer id, String content) {
-        this.id = id;
-        this.content = content;
     }
 
     public Integer getId() {
@@ -76,29 +68,20 @@ public class Choice implements Serializable {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Boolean getIsCorrect() {
-        return isCorrect;
+    public Choice getChoiceId() {
+        return choiceId;
     }
 
-    public void setIsCorrect(Boolean isCorrect) {
-        this.isCorrect = isCorrect;
-    }
-
-    @XmlTransient
-    public Set<Answerchoice> getAnswerchoiceSet() {
-        return answerchoiceSet;
-    }
-
-    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
-        this.answerchoiceSet = answerchoiceSet;
+    public void setChoiceId(Choice choiceId) {
+        this.choiceId = choiceId;
     }
 
     public Question getQuestionId() {
@@ -107,6 +90,14 @@ public class Choice implements Serializable {
 
     public void setQuestionId(Question questionId) {
         this.questionId = questionId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -119,10 +110,10 @@ public class Choice implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Choice)) {
+        if (!(object instanceof Answerchoice)) {
             return false;
         }
-        Choice other = (Choice) object;
+        Answerchoice other = (Answerchoice) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -131,7 +122,7 @@ public class Choice implements Serializable {
 
     @Override
     public String toString() {
-        return "com.htt.pojo.Choice[ id=" + id + " ]";
+        return "com.htt.pojo.Answerchoice[ id=" + id + " ]";
     }
     
 }

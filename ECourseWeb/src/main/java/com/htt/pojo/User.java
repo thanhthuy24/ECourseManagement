@@ -97,11 +97,15 @@ public class User implements Serializable {
     @Column(name = "phoneNumber")
     private String phoneNumber;
     @OneToMany(mappedBy = "userId")
+    private Set<Answerchoice> answerchoiceSet;
+    @OneToMany(mappedBy = "userId")
     private Set<Certification> certificationSet;
     @OneToMany(mappedBy = "userId")
     private Set<Enrollment> enrollmentSet;
     @OneToMany(mappedBy = "userId")
     private Set<Score> scoreSet;
+    @OneToMany(mappedBy = "userId")
+    private Set<Essay> essaySet;
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ManyToOne
     private Teacher teacherId;
@@ -212,6 +216,15 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public Set<Answerchoice> getAnswerchoiceSet() {
+        return answerchoiceSet;
+    }
+
+    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
+        this.answerchoiceSet = answerchoiceSet;
+    }
+
+    @XmlTransient
     public Set<Certification> getCertificationSet() {
         return certificationSet;
     }
@@ -236,6 +249,15 @@ public class User implements Serializable {
 
     public void setScoreSet(Set<Score> scoreSet) {
         this.scoreSet = scoreSet;
+    }
+
+    @XmlTransient
+    public Set<Essay> getEssaySet() {
+        return essaySet;
+    }
+
+    public void setEssaySet(Set<Essay> essaySet) {
+        this.essaySet = essaySet;
     }
 
     public Teacher getTeacherId() {

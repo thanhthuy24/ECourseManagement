@@ -69,6 +69,8 @@ public class Lesson implements Serializable {
     @Column(name = "updatedDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+    @OneToMany(mappedBy = "lessionId")
+    private Set<Assignment> assignmentSet;
     @OneToMany(mappedBy = "lessonId")
     private Set<Document> documentSet;
     @JoinColumn(name = "course_id", referencedColumnName = "id")
@@ -137,6 +139,15 @@ public class Lesson implements Serializable {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    @XmlTransient
+    public Set<Assignment> getAssignmentSet() {
+        return assignmentSet;
+    }
+
+    public void setAssignmentSet(Set<Assignment> assignmentSet) {
+        this.assignmentSet = assignmentSet;
     }
 
     @XmlTransient

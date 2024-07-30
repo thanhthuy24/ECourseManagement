@@ -4,13 +4,13 @@
  */
 package com.htt.controllers;
 
-import javax.persistence.Query;
-import org.hibernate.Session;
+import com.htt.service.CategoryService;
+import com.htt.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -18,16 +18,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Admin
  */
 @Controller
+@ControllerAdvice
 public class HomeController {
     @Autowired
     private LocalSessionFactoryBean factory;
     
+    @Autowired
+    private CourseService courseService;
+    
+    @Autowired
+    private CategoryService cateService;
+    
     @RequestMapping("/")
-    @Transactional
+    
     public String index(Model model){
-        Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Category");
-        model.addAttribute("cates", q.getResultList());
+        model.addAttribute("cates", this.cateService.getCates());
+        model.addAttribute("courses", this.courseService.getCourses(null));
         
         return "index";
     }
