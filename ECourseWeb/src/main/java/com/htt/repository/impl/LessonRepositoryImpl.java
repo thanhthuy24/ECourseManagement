@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.htt.repository.impl;
-
-import com.htt.pojo.Course;
-import com.htt.repository.CourseRepository;
+import com.htt.pojo.Lesson;
+import com.htt.repository.LessonRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,21 +25,21 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class CourseRepositoryImpl implements CourseRepository{
-
-    private static final int PAGE_SIZE = 10;
+public class LessonRepositoryImpl implements LessonRepository{
+    
+     private static final int PAGE_SIZE = 10;
     
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Override
-    public List<Course> getCourses(Map<String, String> params) {
+    public List<Lesson> getLessons(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         
-        CriteriaQuery<Course> c = b.createQuery(Course.class);
+        CriteriaQuery<Lesson> c = b.createQuery(Lesson.class);
         
-        Root root = c.from(Course.class);
+        Root root = c.from(Lesson.class);
         c.select(root);
         
         if(params != null){
@@ -50,24 +49,6 @@ public class CourseRepositoryImpl implements CourseRepository{
             if(kw != null && !kw.isEmpty()){
                 Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
                 predicates.add(p1);
-            }
-            
-            String fromPrice = params.get("fromPrice");
-            if (fromPrice != null && !fromPrice.isEmpty()) {
-                Predicate p2 = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice));
-                predicates.add(p2);
-            }
-
-            String toPrice = params.get("toPrice");
-            if (toPrice != null && !toPrice.isEmpty()) {
-                Predicate p3 = b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice));
-                predicates.add(p3);
-            }
-
-            String cateId = params.get("cateId");
-            if (cateId != null && !cateId.isEmpty()) {
-                Predicate p4 = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
-                predicates.add(p4);
             }
             
             c.where(predicates.toArray(Predicate[]::new));
@@ -90,7 +71,7 @@ public class CourseRepositoryImpl implements CourseRepository{
     }
 
     @Override
-    public void addOrUpdate(Course c) {
+    public void addOrUpdate(Lesson c) {
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
@@ -100,15 +81,15 @@ public class CourseRepositoryImpl implements CourseRepository{
     }
 
     @Override
-    public Course getCourseById(int id) {
+    public Lesson getLessonById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        return s.get(Course.class, id);
+        return s.get(Lesson.class, id);
     }
 
     @Override
-    public void deleteCourse(int id) {
+    public void deleteLesson(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        Course c = this.getCourseById(id);
+        Lesson c = this.getLessonById(id);
         s.delete(c);
     }
     

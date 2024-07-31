@@ -21,8 +21,6 @@ public class CourseServiceImpl implements CourseService{
     
     @Autowired
     private CourseRepository courseRepo;
-    
-    
 
     @Override
     public List<Course> getCourses(Map<String, String> params) {

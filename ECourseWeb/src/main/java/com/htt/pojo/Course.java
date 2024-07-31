@@ -75,7 +75,7 @@ public class Course implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
-    private float price;
+    private long price;
     @Basic(optional = false)
     @NotNull
     @Column(name = "discount")
@@ -104,7 +104,7 @@ public class Course implements Serializable {
         this.id = id;
     }
 
-    public Course(Integer id, String name, Date createdDate, Date updatedDate, float price, float discount) {
+    public Course(Integer id, String name, Date createdDate, Date updatedDate, long price, float discount) {
         this.id = id;
         this.name = name;
         this.createdDate = createdDate;
@@ -161,11 +161,11 @@ public class Course implements Serializable {
         this.updatedDate = updatedDate;
     }
 
-    public float getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 

@@ -6,12 +6,14 @@ package com.htt.controllers;
 
 import com.htt.service.CategoryService;
 import com.htt.service.CourseService;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -31,10 +33,10 @@ public class HomeController {
     
     @RequestMapping("/")
     
-    public String index(Model model){
+    public String index(Model model, @RequestParam Map<String, String> params){
         model.addAttribute("cates", this.cateService.getCates());
-        model.addAttribute("courses", this.courseService.getCourses(null));
+        model.addAttribute("courses", this.courseService.getCourses(params));
         
-        return "index";
+        return "home";
     }
 }

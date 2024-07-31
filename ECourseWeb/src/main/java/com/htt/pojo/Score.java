@@ -43,7 +43,7 @@ public class Score implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "score")
-    private float score;
+    private long score;
     @Size(max = 255)
     @Column(name = "feedBack")
     private String feedBack;
@@ -61,7 +61,7 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public Score(Integer id, float score) {
+    public Score(Integer id, long score) {
         this.id = id;
         this.score = score;
     }
@@ -74,11 +74,11 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public float getScore() {
+    public long getScore() {
         return score;
     }
 
-    public void setScore(float score) {
+    public void setScore(long score) {
         this.score = score;
     }
 

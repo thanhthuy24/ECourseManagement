@@ -52,7 +52,7 @@ public class Receipt implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "total")
-    private float total;
+    private long total;
     @Column(name = "createdDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
@@ -67,7 +67,7 @@ public class Receipt implements Serializable {
         this.id = id;
     }
 
-    public Receipt(Integer id, String name, float total) {
+    public Receipt(Integer id, String name, long total) {
         this.id = id;
         this.name = name;
         this.total = total;
@@ -89,11 +89,11 @@ public class Receipt implements Serializable {
         this.name = name;
     }
 
-    public float getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 
