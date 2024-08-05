@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -49,8 +51,11 @@ public class Teacher implements Serializable {
     @Size(max = 255)
     @Column(name = "description")
     private String description;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
     @OneToMany(mappedBy = "teacherId")
-    private Set<User> userSet;
+    private Set<Course> courseSet;
 
     public Teacher() {
     }
@@ -88,13 +93,21 @@ public class Teacher implements Serializable {
         this.description = description;
     }
 
-    @XmlTransient
-    public Set<User> getUserSet() {
-        return userSet;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    @XmlTransient
+    public Set<Course> getCourseSet() {
+        return courseSet;
+    }
+
+    public void setCourseSet(Set<Course> courseSet) {
+        this.courseSet = courseSet;
     }
 
     @Override

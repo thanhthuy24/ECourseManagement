@@ -21,10 +21,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -63,12 +65,10 @@ public class Course implements Serializable {
     @Column(name = "isActive")
     private Boolean isActive;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "createdDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "updatedDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
@@ -94,8 +94,17 @@ public class Course implements Serializable {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
     private Category categoryId;
+    @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    @ManyToOne
+    private Tag tagId;
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+    @ManyToOne
+    private Teacher teacherId;
     @OneToMany(mappedBy = "courseId")
     private Set<Receipt> receiptSet;
+    
+     @Transient
+    private MultipartFile file;
 
     public Course() {
     }
@@ -229,6 +238,22 @@ public class Course implements Serializable {
         this.categoryId = categoryId;
     }
 
+    public Tag getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Tag tagId) {
+        this.tagId = tagId;
+    }
+
+    public Teacher getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Teacher teacherId) {
+        this.teacherId = teacherId;
+    }
+
     @XmlTransient
     public Set<Receipt> getReceiptSet() {
         return receiptSet;
@@ -261,6 +286,17 @@ public class Course implements Serializable {
     @Override
     public String toString() {
         return "com.htt.pojo.Course[ id=" + id + " ]";
+    }
+    
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

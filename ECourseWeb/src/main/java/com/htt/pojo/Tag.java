@@ -5,31 +5,34 @@
 package com.htt.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Admin
  */
 @Entity
-@Table(name = "enrollment")
+@Table(name = "tag")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Enrollment.findAll", query = "SELECT e FROM Enrollment e"),
-    @NamedQuery(name = "Enrollment.findById", query = "SELECT e FROM Enrollment e WHERE e.id = :id"),
-    @NamedQuery(name = "Enrollment.findByProgress", query = "SELECT e FROM Enrollment e WHERE e.progress = :progress")})
-public class Enrollment implements Serializable {
+    @NamedQuery(name = "Tag.findAll", query = "SELECT t FROM Tag t"),
+    @NamedQuery(name = "Tag.findById", query = "SELECT t FROM Tag t WHERE t.id = :id"),
+    @NamedQuery(name = "Tag.findByName", query = "SELECT t FROM Tag t WHERE t.name = :name")})
+public class Tag implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,20 +40,24 @@ public class Enrollment implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "progress")
-    private Long progress;
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
-    @ManyToOne
-    private Course courseId;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
-    private User userId;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "name")
+    private String name;
+    @OneToMany(mappedBy = "tagId")
+    private Set<Course> courseSet;
 
-    public Enrollment() {
+    public Tag() {
     }
 
-    public Enrollment(Integer id) {
+    public Tag(Integer id) {
         this.id = id;
+    }
+
+    public Tag(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -61,28 +68,21 @@ public class Enrollment implements Serializable {
         this.id = id;
     }
 
-    public Long getProgress() {
-        return progress;
+    public String getName() {
+        return name;
     }
 
-    public void setProgress(Long progress) {
-        this.progress = progress;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Course getCourseId() {
-        return courseId;
+    @XmlTransient
+    public Set<Course> getCourseSet() {
+        return courseSet;
     }
 
-    public void setCourseId(Course courseId) {
-        this.courseId = courseId;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setCourseSet(Set<Course> courseSet) {
+        this.courseSet = courseSet;
     }
 
     @Override
@@ -95,10 +95,10 @@ public class Enrollment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Enrollment)) {
+        if (!(object instanceof Tag)) {
             return false;
         }
-        Enrollment other = (Enrollment) object;
+        Tag other = (Tag) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -107,7 +107,7 @@ public class Enrollment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.htt.pojo.Enrollment[ id=" + id + " ]";
+        return "com.htt.pojo.Tag[ id=" + id + " ]";
     }
     
 }

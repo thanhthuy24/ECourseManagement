@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -105,10 +103,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "userId")
     private Set<Score> scoreSet;
     @OneToMany(mappedBy = "userId")
+    private Set<Teacher> teacherSet;
+    @OneToMany(mappedBy = "userId")
     private Set<Essay> essaySet;
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    @ManyToOne
-    private Teacher teacherId;
 
     public User() {
     }
@@ -252,20 +249,21 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public Set<Teacher> getTeacherSet() {
+        return teacherSet;
+    }
+
+    public void setTeacherSet(Set<Teacher> teacherSet) {
+        this.teacherSet = teacherSet;
+    }
+
+    @XmlTransient
     public Set<Essay> getEssaySet() {
         return essaySet;
     }
 
     public void setEssaySet(Set<Essay> essaySet) {
         this.essaySet = essaySet;
-    }
-
-    public Teacher getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(Teacher teacherId) {
-        this.teacherId = teacherId;
     }
 
     @Override

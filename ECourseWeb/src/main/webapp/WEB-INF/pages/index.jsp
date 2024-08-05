@@ -53,6 +53,13 @@
                     </form>
                 </div>
                 <div class="col-md-7 col-12" style="background: #EEEEEE">
+                     <a class="btn mt-2" href="<c:url value="/courses" />"
+                                style="color: #468585; 
+                                background-color: #D8EFD3; 
+                                border-color: #D8EFD3; 
+                                font-weight: bold;" >
+                            Thêm khóa học
+                        </a>
                     <c:url value="/" var="action" />
                     <form action="${action}" class="d-flex justify-content-end mb-3 mt-3 container">
                         <!-- Removed inline style and used Bootstrap classes -->
@@ -68,6 +75,7 @@
                     </form>
 
                     <div class=" d-flex flex-wrap">
+                       
                         <c:forEach items="${courses}" var="c" >
                             <div class="container mt-3" id="course${c.id}" style="width: 280px; margin: 0">
                                 <div class="card" style="width:250px">
@@ -75,7 +83,25 @@
                                     <div class="card-body">
                                         <h4 class="card-title">${c.name}</h4>
                                         <p class="card-text">${c.description}</p>
-                                        <p class="card-text">${String.format("%,d", c.price)}</p>
+
+                                        <c:choose>
+                                            <c:when test="${c.tagId.name == 'Beginner'}">
+                                                <button type="button" class="btn mb-2" style="color: #468585; background-color: #D8EFD3; border-color: #D8EFD3; font-weight: bold;" >
+                                                    ${c.tagId.name}
+                                                </button>
+                                            </c:when>
+                                            <c:when test="${c.tagId.name == 'Intermediate'}">
+                                                <button type="button" class="btn mb-2" style="color: #FFA823; background-color: #FFFED3; border-color: #FFFED3; font-weight: bold;" >
+                                                    ${c.tagId.name}
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button type="button" class="btn mb-2" style="color: #C63C51; background-color: #FFAAAA; border-color: #FFAAAA; font-weight: bold" >
+                                                    ${c.tagId.name}
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <p class="card-text">${String.format("%,d", c.price)}VNĐ</p>
                                         <div class="row">
                                             <div style="justify-content: space-between">
                                                 <a href="#" class="btn btn-primary">See Profile</a>

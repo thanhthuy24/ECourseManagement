@@ -5,6 +5,7 @@
 package com.htt.service.impl;
 
 import com.htt.pojo.Course;
+import com.htt.pojo.Teacher;
 import com.htt.repository.CourseRepository;
 import com.htt.service.CourseService;
 import java.util.List;
@@ -40,6 +41,11 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public void deleteCourse(int id) {
         this.courseRepo.deleteCourse(id);
+    }
+
+    @Override
+    public void addTeacher(Teacher c) {
+       this.courseRepo.addTeacher(c);
     }
     
 }

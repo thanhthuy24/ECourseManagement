@@ -4,8 +4,7 @@
  */
 package com.htt.service;
 
-import com.htt.pojo.Course;
-import com.htt.pojo.Teacher;
+import com.htt.pojo.Assignment;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +12,9 @@ import java.util.Map;
  *
  * @author Admin
  */
-public interface CourseService {
-    List<Course> getCourses(Map<String, String> params);
-    void addOrUpdate(Course c);
-    void addTeacher(Teacher c);
-    Course getCourseById(int id);
-    void deleteCourse(int id);
+public interface AssignmentService {
+    List<Assignment> getAssignment(Map<String, String> params);
+    void addOrUpdate(Assignment c);
+    Assignment getAssignmentById(int id);
+    void deleteAssignment(int id);
 }

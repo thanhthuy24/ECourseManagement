@@ -4,9 +4,9 @@
  */
 package com.htt.repository.impl;
 
-import com.htt.pojo.Course;
+import com.htt.pojo.Lesson;
 import com.htt.pojo.Teacher;
-import com.htt.repository.CourseRepository;
+import com.htt.repository.TeacherRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,53 +27,34 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class CourseRepositoryImpl implements CourseRepository{
+public class TeacherRepositoryImpl implements TeacherRepository {
 
     private static final int PAGE_SIZE = 10;
-    
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Override
-    public List<Course> getCourses(Map<String, String> params) {
+    public List<Teacher> getTeachers(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
-        
-        CriteriaQuery<Course> c = b.createQuery(Course.class);
-        
-        Root root = c.from(Course.class);
+
+        CriteriaQuery<Teacher> c = b.createQuery(Teacher.class);
+
+        Root root = c.from(Lesson.class);
         c.select(root);
-        
-        if(params != null){
+
+        if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
-            
+
             String kw = params.get("q");
-            if(kw != null && !kw.isEmpty()){
+            if (kw != null && !kw.isEmpty()) {
                 Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
                 predicates.add(p1);
             }
-            
-            String fromPrice = params.get("fromPrice");
-            if (fromPrice != null && !fromPrice.isEmpty()) {
-                Predicate p2 = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice));
-                predicates.add(p2);
-            }
 
-            String toPrice = params.get("toPrice");
-            if (toPrice != null && !toPrice.isEmpty()) {
-                Predicate p3 = b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice));
-                predicates.add(p3);
-            }
-
-            String cateId = params.get("cateId");
-            if (cateId != null && !cateId.isEmpty()) {
-                Predicate p4 = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
-                predicates.add(p4);
-            }
-            
             c.where(predicates.toArray(Predicate[]::new));
         }
-        
+
         Query query = s.createQuery(c);
 
         if (params != null) {
@@ -86,12 +67,12 @@ public class CourseRepositoryImpl implements CourseRepository{
                 query.setMaxResults(PAGE_SIZE);
             }
         }
-        
+
         return query.getResultList();
     }
 
     @Override
-    public void addOrUpdate(Course c) {
+    public void addOrUpdate(Teacher c) {
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
@@ -99,26 +80,25 @@ public class CourseRepositoryImpl implements CourseRepository{
             s.save(c); //chen
         }
     }
-    
+
     @Override
-    public void addTeacher(Teacher c) {
+    public Teacher getTeacherById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        if (c.getId() != null) {
-            s.update(c);
-        } 
+        return s.get(Teacher.class, id);
     }
 
     @Override
-    public Course getCourseById(int id) {
+    public void deleteTeacher(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        return s.get(Course.class, id);
-    }
-
-    @Override
-    public void deleteCourse(int id) {
-        Session s = this.factory.getObject().getCurrentSession();
-        Course c = this.getCourseById(id);
+        Teacher c = this.getTeacherById(id);
         s.delete(c);
     }
-    
+
+    @Override
+    public List<Teacher> getTeachers() {
+        Session s = this.factory.getObject().getCurrentSession();
+            Query q = s.createQuery("From Teacher");
+            return q.getResultList();
+    }
+
 }
