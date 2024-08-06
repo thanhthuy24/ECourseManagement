@@ -6,9 +6,11 @@ package com.htt.controllers;
 
 import com.htt.pojo.Course;
 import com.htt.service.CourseService;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +32,11 @@ public class CourseController {
     }
 
     @PostMapping("/courses")
-    public String createView(Model model, @ModelAttribute("course") Course c) {
+    public String createView(Model model, @ModelAttribute(value = "course") @Valid Course c,
+            BindingResult rs) {
+        if(rs.hasErrors()){
+            return "courses";
+        }
         this.courseSer.addOrUpdate(c);
 
         return "redirect:/";

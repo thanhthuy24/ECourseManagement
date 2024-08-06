@@ -8,6 +8,7 @@ import com.htt.pojo.Course;
 import com.htt.pojo.Teacher;
 import com.htt.repository.CourseRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Query;
@@ -27,32 +28,32 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class CourseRepositoryImpl implements CourseRepository{
+public class CourseRepositoryImpl implements CourseRepository {
 
     private static final int PAGE_SIZE = 10;
-    
+
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Override
     public List<Course> getCourses(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
-        
+
         CriteriaQuery<Course> c = b.createQuery(Course.class);
-        
+
         Root root = c.from(Course.class);
         c.select(root);
-        
-        if(params != null){
+
+        if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
-            
+
             String kw = params.get("q");
-            if(kw != null && !kw.isEmpty()){
+            if (kw != null && !kw.isEmpty()) {
                 Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
                 predicates.add(p1);
             }
-            
+
             String fromPrice = params.get("fromPrice");
             if (fromPrice != null && !fromPrice.isEmpty()) {
                 Predicate p2 = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice));
@@ -70,10 +71,10 @@ public class CourseRepositoryImpl implements CourseRepository{
                 Predicate p4 = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
                 predicates.add(p4);
             }
-            
+
             c.where(predicates.toArray(Predicate[]::new));
         }
-        
+
         Query query = s.createQuery(c);
 
         if (params != null) {
@@ -86,7 +87,7 @@ public class CourseRepositoryImpl implements CourseRepository{
                 query.setMaxResults(PAGE_SIZE);
             }
         }
-        
+
         return query.getResultList();
     }
 
@@ -95,17 +96,20 @@ public class CourseRepositoryImpl implements CourseRepository{
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
+            c.setUpdatedDate(new Date());
         } else {
             s.save(c); //chen
+            c.setCreatedDate(new Date());
+            c.setIsActive(true);
         }
     }
-    
+
     @Override
     public void addTeacher(Teacher c) {
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
-        } 
+        }
     }
 
     @Override
@@ -120,5 +124,5 @@ public class CourseRepositoryImpl implements CourseRepository{
         Course c = this.getCourseById(id);
         s.delete(c);
     }
-    
+
 }

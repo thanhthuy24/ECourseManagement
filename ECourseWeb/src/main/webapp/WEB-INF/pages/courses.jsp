@@ -11,16 +11,16 @@
 
 <section>
     <div class="row ">
-        <div class="col-md-3 col-12 bg-light " >
+        <div class="col-md-2 col-12 bg-light " >
             3
         </div>
-        <div class="col-md-7 col-12 bg-light " >
+        <div class="col-md-9 col-12 bg-light " >
             <c:url value="/courses" var="action" />
             <form:form method="post" enctype="multipart/form-data" action="${action}" modelAttribute="course">
                 <div class="mb-3 mt-3">
                     <label for="name" class="form-label">Course name:</label>
                     <form:input path="name" type="text" class="form-control" id="name" placeholder="type your course name..." name="name" />
-
+                    <form:errors path="name" element="div" cssClass="alert alert-danger" />
                 </div>
                 <div class="mb-3 mt-3">
                     <label for="description" class="form-label">Course description:</label>
@@ -100,18 +100,16 @@
 
                         <c:choose>
                             <c:when test="${course.id != null}">
-                                <option value="${c.id}" selected>Cập nhật sản phẩm</option>
+                                <option value="${c.id}" selected>Update course</option>
                             </c:when>
                             <c:otherwise>
-                                Thêm sản phẩm
+                                Add course
                             </c:otherwise>
                         </c:choose>
                     </button>
                 </div>
             </form:form>
         </div>
-        <div class="col-md-2 col-12 bg-light " >
-            4
-        </div>
     </div>
 </section>
+

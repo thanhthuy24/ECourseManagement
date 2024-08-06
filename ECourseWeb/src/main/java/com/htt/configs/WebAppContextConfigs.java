@@ -4,11 +4,17 @@
  */
 package com.htt.configs;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.htt.formatters.CategoryFormatter;
+import com.htt.formatters.TagFormatter;
+import com.htt.formatters.TeacherFormatter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -54,28 +60,40 @@ public class WebAppContextConfigs implements WebMvcConfigurer{
         return m;
     }
 
-//    @Bean(name = "validator")
-//    public LocalValidatorFactoryBean validator() {
-//        LocalValidatorFactoryBean bean
-//                = new LocalValidatorFactoryBean();
-//        bean.setValidationMessageSource(messageSource());
-//        return bean;
-//    }
+    @Bean(name = "validator")
+    public LocalValidatorFactoryBean validator() {
+        LocalValidatorFactoryBean bean
+                = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource());
+        return bean;
+    }
 
-//    @Override
-//    public Validator getValidator() {
-//        return validator();
-//    }
+    @Override
+    public Validator getValidator() {
+        return validator();
+    }
 
-//    @Override
-//    public void addFormatters(FormatterRegistry registry) {
-//        registry.addFormatter(new CategoryFormatter());
-//    }
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new CategoryFormatter());
+        registry.addFormatter(new TeacherFormatter());
+        registry.addFormatter(new TagFormatter());
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
     }
     
+    @Bean
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary
+                = new Cloudinary(ObjectUtils.asMap(
+                        "cloud_name", "dps7wzdje",
+                        "api_key", "617746798111338",
+                        "api_secret", "fd9RqNR0zX5GfzbJd-Rcp1tA8Yo",
+                        "secure", true));
+        return cloudinary;
+    }
     
 }

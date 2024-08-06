@@ -51,7 +51,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -110,11 +110,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Integer id) {
+    public User(Long id) {
         this.id = id;
     }
 
-    public User(Integer id, String username, String role, String firstName, String lastName, String email, String phoneNumber) {
+    public User(Long id, String username, String role, String firstName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.username = username;
         this.role = role;
@@ -124,11 +124,11 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

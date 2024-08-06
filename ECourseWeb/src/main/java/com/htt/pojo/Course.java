@@ -56,7 +56,7 @@ public class Course implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = "{course.name.errMsg}")
     @Column(name = "name")
     private String name;
     @Size(max = 255)
@@ -64,11 +64,9 @@ public class Course implements Serializable {
     private String description;
     @Column(name = "isActive")
     private Boolean isActive;
-    @Basic(optional = false)
     @Column(name = "createdDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @Basic(optional = false)
     @Column(name = "updatedDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
