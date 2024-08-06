@@ -14,7 +14,23 @@
         <title>
             <tiles:insertAttribute name="title" />
         </title>
-                <style>
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        
+        <script src="<c:url value="/js/script.js" />"></script>
+
+    </head>
+    <body style="background: radial-gradient(circle, #F7DBF0, #DFF4F3); width: 100% " >
+        <tiles:insertAttribute name="header" />
+
+        <tiles:insertAttribute name="content" />
+    </div>
+    <!--class="container"-->
+    <tiles:insertAttribute name="footer" />
+</body>
+</html>
+<!--<style>
             .sidebar {
                 position: fixed;
                 top: 60px; /* Adjust based on header height */
@@ -26,25 +42,11 @@
                 box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
                 padding: 10px;
             }
-            
+
             .content {
                 margin-top: 60px; /* Adjust based on header height */
                 padding: 20px;
                 height: calc(100% - 100px); /* Adjust based on header and footer height */
                 overflow-y: auto;
             }
-        </style>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <!--<script src="<c:url value="/js/script.js" />"></script>-->
-
-    </head>
-    <body style="background: radial-gradient(circle, #F7DBF0, #DFF4F3); width: 100% " >
-        <tiles:insertAttribute name="header" />
-  
-            <tiles:insertAttribute name="content" />
-        </div>
-        <!--class="container"-->
-        <tiles:insertAttribute name="footer" />
-    </body>
-</html>
+        </style>-->

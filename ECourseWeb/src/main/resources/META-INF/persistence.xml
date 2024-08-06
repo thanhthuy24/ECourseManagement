@@ -2,23 +2,23 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="com.htt_ECourseWeb_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.htt.pojo.Question</class>
-    <class>com.htt.pojo.Document</class>
-    <class>com.htt.pojo.Choice</class>
-    <class>com.htt.pojo.Receipt</class>
-    <class>com.htt.pojo.Certification</class>
-    <class>com.htt.pojo.Video</class>
-    <class>com.htt.pojo.Lesson</class>
-    <class>com.htt.pojo.Teacher</class>
-    <class>com.htt.pojo.User</class>
-    <class>com.htt.pojo.Essay</class>
     <class>com.htt.pojo.Category</class>
-    <class>com.htt.pojo.Score</class>
-    <class>com.htt.pojo.Assignment</class>
     <class>com.htt.pojo.Enrollment</class>
-    <class>com.htt.pojo.Course</class>
+    <class>com.htt.pojo.Essay</class>
     <class>com.htt.pojo.Answerchoice</class>
+    <class>com.htt.pojo.Assignment</class>
+    <class>com.htt.pojo.Teacher</class>
+    <class>com.htt.pojo.Receipt</class>
+    <class>com.htt.pojo.Course</class>
+    <class>com.htt.pojo.Score</class>
     <class>com.htt.pojo.Tag</class>
+    <class>com.htt.pojo.User</class>
+    <class>com.htt.pojo.Video</class>
+    <class>com.htt.pojo.Document</class>
+    <class>com.htt.pojo.Lesson</class>
+    <class>com.htt.pojo.Certification</class>
+    <class>com.htt.pojo.Choice</class>
+    <class>com.htt.pojo.Question</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ecoursedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

@@ -82,13 +82,13 @@ public class TeacherRepositoryImpl implements TeacherRepository {
     }
 
     @Override
-    public Teacher getTeacherById(int id) {
+    public Teacher getTeacherById(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Teacher.class, id);
     }
 
     @Override
-    public void deleteTeacher(int id) {
+    public void deleteTeacher(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         Teacher c = this.getTeacherById(id);
         s.delete(c);

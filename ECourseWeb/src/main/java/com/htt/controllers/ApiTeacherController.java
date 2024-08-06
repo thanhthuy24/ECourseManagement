@@ -28,7 +28,7 @@ public class ApiTeacherController {
     
     @DeleteMapping("/teachers/{teacherId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable(value = "teacherId") int id){
+    public void delete(@PathVariable(value = "teacherId") Long id){
         this.teacherSer.deleteTeacher(id);
     }
 }

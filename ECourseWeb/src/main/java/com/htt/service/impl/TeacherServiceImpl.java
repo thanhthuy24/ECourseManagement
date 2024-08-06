@@ -33,12 +33,12 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
     @Override
-    public Teacher getTeacherById(int id) {
+    public Teacher getTeacherById(Long id) {
         return this.teacherRepo.getTeacherById(id);
     }
 
     @Override
-    public void deleteTeacher(int id) {
+    public void deleteTeacher(Long id) {
         this.teacherRepo.deleteTeacher(id);
     }
 

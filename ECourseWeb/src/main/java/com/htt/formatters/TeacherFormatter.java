@@ -23,7 +23,7 @@ public class TeacherFormatter implements Formatter<Teacher> {
     @Override
     public Teacher parse(String teacherId, Locale locale) throws ParseException {
         Teacher c = new Teacher();
-        c.setId(Integer.parseInt(teacherId));
+        c.setId(Long.parseLong(teacherId));
 
         return c;
     }

@@ -4,18 +4,15 @@
  */
 package com.htt.service;
 
-import com.htt.pojo.Teacher;
+import com.htt.pojo.User;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author Admin
  */
-public interface TeacherService {
-    List<Teacher> getTeachers();
-    List<Teacher> getTeachers(Map<String, String> params);
-    void addOrUpdate(Teacher c);
-    Teacher getTeacherById(Long id);
-    void deleteTeacher(Long id);
+public interface UserService {
+    List<User> getUsers();
+    void addOrUpdate(User c);
+    User getUserById(Long id);
 }
