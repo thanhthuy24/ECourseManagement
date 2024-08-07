@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -31,11 +32,17 @@ public class CourseController {
         return "courses";
     }
 
+    @GetMapping("/courses/{courseId}")
+    public String courseView(Model model, @PathVariable(value = "courseId") int id) {
+        model.addAttribute("course", this.courseSer.getCourseById(id));
+        return "course";
+    }
+
     @PostMapping("/courses")
     public String createView(Model model, @ModelAttribute(value = "course") @Valid Course c,
             BindingResult rs) {
-        if(rs.hasErrors()){
-            return "courses";
+        if (rs.hasErrors()) {
+            return "course";
         }
         this.courseSer.addOrUpdate(c);
 

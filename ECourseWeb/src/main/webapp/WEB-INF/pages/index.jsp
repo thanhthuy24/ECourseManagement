@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,8 +12,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Trang chủ</title>
-<!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
+        <!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
 
         <style>
             .menu {
@@ -43,7 +44,7 @@
         </style>
     </head>
     <body>
-       
+
         <section>
             <div class="row">
                 <div class="col-md-2 col-12 " style="background-color: white" >
@@ -52,128 +53,128 @@
                     </div>
                     <%--<c:url value="/" var="action" />--%>
                     <!--<form  action="${action}" class="d-flex justify-content-end mb-3 mt-3 container">-->
-                        <div class="list-group list-a">
-                            <a href="<c:url value="/courses" />" class="list-group-item">Courses</a>
-                            <a href="<c:url value="/teachers" />" class="list-group-item">Teachers</a>
-                            <a href="#" class="list-group-item">Students</a>
-                            <a href="#" class="list-group-item">Resource</a>
-                            <a href="#" class="list-group-item">Certificate</a>
-                        </div>
-                    <!--</form>-->
-                    <%--<c:url value="/" var="action" />--%>
-<!--                    <form action="${action}">
-                        <div class="mb-3 mt-3 container" >
-                            <label for="fromPrice" class="form-label">Từ giá</label>
-                            <input type="number" class="form-control" id="fromPrice" placeholder="Từ giá" name="fromPrice">
-                        </div>
-                        <div class="mb-3 container" >
-                            <label for="toPrice" class="form-label">Đến giá</label>
-                            <input type="number" class="form-control" id="toPrice" placeholder="Đến giá" name="toPrice">
-                        </div>
-                        <div class="mb-3 container">
-                            <input type="submit" class="btn btn-success" value="Tìm" />
-                        </div>
+                    <div class="list-group list-a">
+                        <a href="<c:url value="/" />" class="list-group-item">Courses</a>
+                        <a href="<c:url value="/teachers" />" class="list-group-item">Teachers</a>
+                        <a href="#" class="list-group-item">Students</a>
+                        <a href="#" class="list-group-item">Resource</a>
+                        <a href="#" class="list-group-item">Certificate</a>
+                    </div>
 
-                    </form>-->
                 </div>
                 <div class="col-md-9 col-12" <div style="background: radial-gradient(circle, #F7DBF0, #DFF4F3)">
-                    <a class="btn mt-2" href="<c:url value="/courses" />"
-                       style="color: #468585;
-                       background-color: #D8EFD3;
-                       border-color: #D8EFD3;
-                       font-weight: bold;" >
-                        Thêm khóa học
-                    </a>
 
-                    <c:url value="/" var="action" />
-                    <form  action="${action}" class="d-flex justify-content-end mb-3 mt-3 container">
-                        <!-- Removed inline style and used Bootstrap classes -->
-                        <input
-                            style="width: 200px; height: 43px"
-                            type="text"
-                            class="form-control me-2"
-                            id="q"s
-                            placeholder="Tên khóa học"
-                            name="q"
-                            />
-                        <input type="submit" class="btn btn-success" value="Tìm" />
-                    </form>
-
-                    <div class=" d-flex flex-wrap" >
-
-                        <c:forEach items="${courses}" var="c" >
-                            <div class="container mt-3" id="course${c.id}" style="width: 280px; margin: 0">
-                                <div class="card" style="width:250px;">
-                                    <img class="card-img-top" src="${c.image}" alt="Card image" style="width:100%; height: 100%">
-                                    <div class="card-body">
-                                        <h4 class="card-title">${c.name}</h4>
-                                        <p class="card-text">${c.description}</p>
-
-                                        <c:choose>
-                                            <c:when test="${c.tagId.name == 'Beginner'}">
-                                                <button type="button" class="btn mb-2" style="color: #468585; background-color: #D8EFD3; border-color: #D8EFD3; font-weight: bold;" >
-                                                    ${c.tagId.name}
-                                                </button>
-                                            </c:when>
-                                            <c:when test="${c.tagId.name == 'Intermediate'}">
-                                                <button type="button" class="btn mb-2" style="color: #FFA823; background-color: #FFFED3; border-color: #FFFED3; font-weight: bold;" >
-                                                    ${c.tagId.name}
-                                                </button>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <button type="button" class="btn mb-2" style="color: #C63C51; background-color: #FFAAAA; border-color: #FFAAAA; font-weight: bold" >
-                                                    ${c.tagId.name}
-                                                </button>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <p class="card-text">${String.format("%,d", c.price)}VNĐ</p>
-                                        <div class="row">
-                                            <div style="justify-content: space-between">
-                                                <a href="#" class="btn btn-primary">See Profile</a>
-                                                <a href="#" class="btn btn-primary">See Profile</a>
-                                            </div>
-                                        </div>
+                    <div class="d-flex mt-3" style="justify-content: space-between">
+                        <div style="margin-top: 20px">
+                            <c:url value="/" var="action" />
+                            <form action="${action}" class="d-flex">
+                                <div style="display: flex; justify-content: space-evenly; height: 37px;">
+                                    <label for="fromPrice" class="form-label" style="width: 80px; align-self: center">Từ giá</label>
+                                    <input type="number" class="form-control" id="fromPrice" placeholder="Từ giá" name="fromPrice">
+                                </div>
+                                <div style="display: flex; justify-content: space-evenly; height: 37px;">
+                                    <label for="toPrice" class="form-label" style="width: 80px; margin-left: 5px; align-self: center">Đến giá</label>
+                                    <input type="number" class="form-control" id="toPrice" placeholder="Đến giá" name="toPrice">
+                                </div>
+                                <div >
+                                    <input type="submit" class="btn btn-success" value="Tìm" />
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <c:url value="/" var="action" />
+                            <form  action="${action}" class="d-flex justify-content-end mb-3 mt-3 container">
+                                <!-- Removed inline style and used Bootstrap classes -->
+                                <div class="d-flex">
+                                    <input
+                                        style="width: 200px; height: 43px"
+                                        type="text"
+                                        class="form-control me-2"
+                                        id="q"s
+                                        placeholder="Tên khóa học"
+                                        name="q"
+                                        />
+                                    <div>
+                                        <input type="submit" class="btn btn-success" value="Tìm" />
                                     </div>
                                 </div>
-                                <br>
-                            </div>
-                        </c:forEach>
+                            </form>
+                        </div>
+
                     </div>
+                    <div style="display: flex;
+                         justify-content: flex-end;
+                         margin-right: 7%;">
+                        <a class="btn mt-2" href="<c:url value="/courses" />"
+                           style="color: #468585;
+                           background-color: #D8EFD3;
+                           border-color: #D8EFD3;
+                           font-weight: bold;" >
+                            Thêm khóa học
+                        </a>
+                    </div>   
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Created date</th>
+                                    <th>Tag</th>
+                                    <th>Price</th>
+                                    <th>Instructor</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${courses}" var="c" >
+                                    <tr id="course${c.id}">
+                                        <td>
+                                            <img src="${c.image}" alt="Card image" style="width:60px;" />
+                                            ${c.name}
+                                        </td>
+                                        <td>
+                                            <fmt:formatDate value="${c.createdDate}" pattern="dd/MM/yyyy" />
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${c.tagId.name == 'Beginner'}">
+                                                    <button type="button" class="btn mb-2" style="color: #468585; background-color: #D8EFD3; border-color: #D8EFD3; font-weight: bold;" >
+                                                        ${c.tagId.name}
+                                                    </button>
+                                                </c:when>
+                                                <c:when test="${c.tagId.name == 'Intermediate'}">
+                                                    <button type="button" class="btn mb-2" style="color: #FFA823; background-color: #FFFED3; border-color: #FFFED3; font-weight: bold;" >
+                                                        ${c.tagId.name}
+                                                    </button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <button type="button" class="btn mb-2" style="color: #C63C51; background-color: #FFAAAA; border-color: #FFAAAA; font-weight: bold" >
+                                                        ${c.tagId.name}
+                                                    </button>
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                        </td>
+                                        <td>${c.price}</td>
+                                        <td>
+                                            ${c.teacherId.userId.firstName} ${c.teacherId.userId.lastName} 
+                                        </td>
+                                        <td>
+                                            <c:url value="/courses/${c.id}" var="u" />
+                                            <a href="${u}" class="btn" style="background-color: #B762C1">&#128221;</a>
+
+                                            <!--                                    <c:url value="/api/courses/${c.id}" var="endpoint" />
+                                            -->                                    <button id="btnDelete" onClick="deleteCourse('${endpoint}', ${c.id})" 
+                                                                                           class="btn btn-danger">&#128465;</button>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>     
                 </div>
-                <!--                <div class="col-md-3 col-12 bg-light" >
-                                    <div>
-                                        <ul style="list-style-type: none;">
-                
-                <c:forEach items="${cates}" var="c">
-                    <c:url value="/" var="cateURL">
-                        <c:param name="cateId" value="${c.id}"/>
-                    </c:url>
-                    <li style="width: 200px ;padding: 10px; background: white; margin: 10px; border: 1px #EEEEEE solid; display: flex; justify-content: center; align-items: center;">
-                        <a style="text-decoration: none; " href="${cateURL}">${c.name}</a>
-                    </li>
-                </c:forEach>
-            </ul>
-        </div>
-    </div>-->
         </section>
 
-        <!--        <h1>Hello World!</h1>
-        
-                <ul>
-        <c:forEach items="${cates}" var="c">
-            <li>
-            ${c.name}
-        </li>
-        </c:forEach>
-    </ul>
-
-    <ul>
-        <c:forEach items="${courses}" var="c">
-            <li>
-            ${c.name}
-        </li>
-        </c:forEach>
-    </ul>-->
         <script>
             // Get all list items
             const listItems = document.querySelectorAll('.list-group-item');

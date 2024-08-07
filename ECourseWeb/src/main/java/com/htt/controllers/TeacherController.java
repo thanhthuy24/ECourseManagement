@@ -50,16 +50,7 @@ public class TeacherController {
         model.addAttribute("user", this.userSer.getUserById(id));
         return "teachers";
     }
-
-//    @PostMapping("/teachers")
-//    public String create(Model model, @ModelAttribute(value = "teacher") @Valid Teacher p, @Valid User u, BindingResult rs) {
-//        if(rs.hasErrors()){
-//            return "teachers";
-//        }
-//        this.teacherSer.addOrUpdate(p);
-//        this.userSer.addOrUpdate(u);
-//        return "redirect:/";
-//    }
+    
     @PostMapping("/teachers")
     public String create(Model model,
             @ModelAttribute(value = "teacher") @Valid Teacher teacher,

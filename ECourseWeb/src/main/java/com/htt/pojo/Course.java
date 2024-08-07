@@ -64,6 +64,7 @@ public class Course implements Serializable {
     private String description;
     @Column(name = "isActive")
     private Boolean isActive;
+//    @NotNull
     @Column(name = "createdDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;

@@ -64,5 +64,10 @@ public class CourseServiceImpl implements CourseService{
     public void addTeacher(Teacher c) {
        this.courseRepo.addTeacher(c);
     }
+
+    @Override
+    public List<Course> getCourses() {
+        return this.courseRepo.getCourses();
+    }
     
 }
