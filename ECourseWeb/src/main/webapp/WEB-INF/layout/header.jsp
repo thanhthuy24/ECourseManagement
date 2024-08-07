@@ -25,3 +25,20 @@
   </div>
 
 </nav>-->
+
+<!--<div class="col-md-2 col-12 " style="background-color: white" >
+            <div class="menu">
+                <p>Menu</p>
+            </div>
+            <%--<c:url value="/" var="action" />--%>
+            <form  action="${action}" class="d-flex justify-content-end mb-3 mt-3 container">
+            <div class="list-group list-a">
+                <a href="<c:url value="/" />" class="list-group-item">Courses</a>
+                <a href="<c:url value="/course" />" class="list-group-item">Courses table</a>
+                <a href="<c:url value="/teachers" />" class="list-group-item">Teachers</a>
+                <a href="#" class="list-group-item">Students</a>
+                <a href="#" class="list-group-item">Resource</a>
+                <a href="#" class="list-group-item">Certificate</a>
+            </div>
+
+        </div>-->

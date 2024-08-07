@@ -14,40 +14,60 @@
         <title>
             <tiles:insertAttribute name="title" />
         </title>
-        
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        
+
         <script src="<c:url value="/js/script.js" />"></script>
         <script src="<c:url value="/js/courseDelete.js" />"></script>
+        <style>
+            .menu {
+                padding: 20px;
+                font-size: 20px;
+                font-weight: bold;
+                margin-left: 5px;
+            }
+            .list-a a {
+                margin-bottom: 10px;
+                border: 0px;
+                /*                display: block;
+                                text-align: center;*/
+            }
+            .list-group-item {
+                display: block;
+                text-align: center;
+                color: black;
+                text-decoration: none;
+                padding: 10px;
+                transition: background-color 0.002s, color 0.02s;
+            }
 
+            .list-group-item.active {
+                background-color: #F7DBF0;
+                color: black;
+            }
+
+            .form-input {
+                width: 80%;
+            }
+
+            .label-input {
+                font-weight: bold;
+            }
+
+        </style>
     </head>
     <body style="background: radial-gradient(circle, #F7DBF0, #DFF4F3); width: 100% " >
         <tiles:insertAttribute name="header" />
 
-        <tiles:insertAttribute name="content" />
+        <div class="row">
+            <tiles:insertAttribute name="left-side" />
+            <div class="col-md-9 col-12" style="background: radial-gradient(circle, #F7DBF0, #DFF4F3)">
+                <tiles:insertAttribute name="content" />
+            </div>
+        </div>
     </div>
     <!--class="container"-->
     <tiles:insertAttribute name="footer" />
 </body>
 </html>
-<!--<style>
-            .sidebar {
-                position: fixed;
-                top: 60px; /* Adjust based on header height */
-                left: 0;
-                width: 200px;
-                height: calc(100% - 100px); /* Adjust based on header and footer height */
-                background-color: #f8f9fa;
-                overflow-y: auto;
-                box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-                padding: 10px;
-            }
-
-            .content {
-                margin-top: 60px; /* Adjust based on header height */
-                padding: 20px;
-                height: calc(100% - 100px); /* Adjust based on header and footer height */
-                overflow-y: auto;
-            }
-        </style>-->

@@ -6,7 +6,7 @@
     <definition name="baseLayout" template="/WEB-INF/layout/base.jsp" >
         <!--Điền thông tin "name" bằng giá trị value khai báo ở dưới-->
         <!--"name" được thay thế ở tiles:insertAttribute-->
-        <put-attribute name="title" value="..." />
+         <put-attribute name="left-side" value="/WEB-INF/layout/sidebar.jsp"/>
         <put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
         <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
         <put-attribute name="content" value="..." />
@@ -36,5 +36,10 @@
         <put-attribute name="title" value="Quản trị giảng viên" />
         <put-attribute name="content" value="/WEB-INF/pages/teachers.jsp" />
     </definition>  
+    
+    <definition name="lessons" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các bài học" />
+        <put-attribute name="content" value="/WEB-INF/pages/lessons.jsp" />
+    </definition> 
     
 </tiles-definitions>
