@@ -6,6 +6,7 @@ package com.htt.controllers;
 
 import com.htt.service.CategoryService;
 import com.htt.service.CourseService;
+import com.htt.service.LessonService;
 import com.htt.service.TagService;
 import com.htt.service.TeacherService;
 import java.util.Map;
@@ -40,6 +41,9 @@ public class HomeController {
     @Autowired
     private TagService tagService;
     
+        @Autowired
+    private LessonService lessonSer;
+    
     @ModelAttribute
     public void commAttrs(Model model) {
         model.addAttribute("categories", cateService.getCates());
@@ -50,7 +54,14 @@ public class HomeController {
     @RequestMapping("/")
     public String index(Model model, @RequestParam Map<String, String> params){
         model.addAttribute("courses", this.courseService.getCourses(params));
-        
+         model.addAttribute("lessons", this.lessonSer.getLessons(params));
         return "home";
+    }
+    
+    @RequestMapping("/lessons/")
+    public String indexCourse(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("lessons", this.lessonSer.getLessons(params));
+        
+        return "lessons";
     }
 }

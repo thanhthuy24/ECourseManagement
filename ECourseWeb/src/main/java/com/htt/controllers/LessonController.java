@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
@@ -20,24 +21,26 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class LessonController {
-    
+
     @Autowired
     private LessonService lessonSer;
-    
+
     @Autowired
     private AssignmentService assignSer;
-    
+
     @Autowired
     private DocumentService documentSer;
-    
-//    @Autowired
-//    private LessonService lessonSer;
-    
+
     @GetMapping("/lessons")
     public String viewLessons(Model model) {
         model.addAttribute("lesson", new Lesson());
         return "lessons";
     }
 
-    
+    @GetMapping("/lessons/{lessonsId}")
+    public String lessonView(Model model, @PathVariable(value = "lessonsId") int id) {
+        model.addAttribute("course", this.lessonSer.getLessonById(id));
+        return "lesson";
+    }
+
 }

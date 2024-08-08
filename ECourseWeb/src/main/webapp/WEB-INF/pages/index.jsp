@@ -143,9 +143,11 @@
                                         ${c.teacherId.userId.firstName} ${c.teacherId.userId.lastName} 
                                     </td>
                                     <td>
-                                        <c:url value="/lessons" var="u" />
+                                        <c:url value="/lessons/" var="u">
+                                            <c:param name="courseId" value="${c.id}" />
+                                        </c:url>
                                         <a href="${u}" class="btn" style="background-color: #597445">&#128194;</a>
-                                        
+
                                         <c:url value="/courses/${c.id}" var="u" />
                                         <a href="${u}" class="btn" style="background-color: #B762C1">&#128221;</a>
 
