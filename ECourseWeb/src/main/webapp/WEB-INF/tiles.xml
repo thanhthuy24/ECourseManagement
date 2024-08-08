@@ -16,12 +16,7 @@
         <put-attribute name="title" value="Trang chủ" />
         <put-attribute name="content" value="/WEB-INF/pages/index.jsp" />
     </definition>  
-    
-    <definition name="courses" extends="baseLayout">
-        <put-attribute name="title" value="Quản trị khóa học" />
-        <put-attribute name="content" value="/WEB-INF/pages/course.jsp" />
-    </definition>  
-    
+   
     <definition name="course" extends="baseLayout">
         <put-attribute name="title" value="Quản trị khóa học" />
         <put-attribute name="content" value="/WEB-INF/pages/course.jsp" />
@@ -40,6 +35,11 @@
     <definition name="lessons" extends="baseLayout">
         <put-attribute name="title" value="Quản trị các bài học" />
         <put-attribute name="content" value="/WEB-INF/pages/lessons.jsp" />
+    </definition> 
+    
+    <definition name="videos" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các video bài giảng" />
+        <put-attribute name="content" value="/WEB-INF/pages/video.jsp" />
     </definition> 
     
 </tiles-definitions>

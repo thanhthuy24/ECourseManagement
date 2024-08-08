@@ -12,7 +12,8 @@
     <div>
         <h1 class="text-center text-primary mt-1">QUẢN LÝ KHÓA HỌC</h1>
         <c:url value="/courses" var="action" />
-        <form:form method="post" enctype="multipart/form-data" style="margin-left: 20%" action="${action}" modelAttribute="course">
+        <form:form method="post" enctype="multipart/form-data" 
+                   style="margin-left: 20%" action="${action}" modelAttribute="course">
             <div class="mb-3 mt-3">
                 <label for="name" class="form-label label-input">Course name:</label>
                 <form:input path="name" type="text" class="form-control form-input" id="name" placeholder="type your course name..." name="name" />
@@ -83,11 +84,11 @@
 
             <div class="mb-3 mt-3">
                 <label for="file" class="form-label label-input">Ảnh sản phẩm:</label>
-                <form:input path="file" type="file" accept="*" class="form-control form-input" id="file" name="file" />
+                <form:input path="file" type="file" accept="*" 
+                            class="form-control form-input" id="file" name="file" />
                 <c:if test="${course.image != null}">
                     <video width="640" height="360" controls>
                         <source src="${course.image}" type="video/mp4">
-
                         Trình duyệt của bạn không hỗ trợ thẻ video.
                     </video>
                     <img class="mt-3" src="${course.image}" alt="${course.image}" width="120px" />

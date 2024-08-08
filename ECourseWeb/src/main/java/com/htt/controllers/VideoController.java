@@ -5,7 +5,9 @@
 package com.htt.controllers;
 
 import com.htt.pojo.Course;
-import com.htt.service.CourseService;
+import com.htt.pojo.Video;
+import com.htt.repository.VideoRepository;
+import com.htt.service.VideoService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -21,30 +22,24 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author Admin
  */
 @Controller
-public class CourseController {
-
+public class VideoController {
+    
     @Autowired
-    private CourseService courseSer;
-
-    @GetMapping("/courses")
+    private VideoService videoSer;
+    
+    @GetMapping("/videos")
     public String viewCourse(Model model) {
-        model.addAttribute("course", new Course());
-        return "course";
+        model.addAttribute("video", new Course());
+        return "videos";
     }
-
-    @GetMapping("/courses/{courseId}")
-    public String courseView(Model model, @PathVariable(value = "courseId") int id) {
-        model.addAttribute("course", this.courseSer.getCourseById(id));
-        return "course";
-    }
-
-    @PostMapping("/courses")
-    public String createView(Model model, @ModelAttribute(value = "course") @Valid Course c,
+    
+    @PostMapping("/videos")
+    public String createVideo(Model model, @ModelAttribute(value = "video") @Valid Video c,
             BindingResult rs) {
         if (rs.hasErrors()) {
-            return "course";
+            return "videos";
         }
-        this.courseSer.addOrUpdate(c);
+        this.videoSer.addOrUpdate(c);
 
         return "redirect:/";
     }
