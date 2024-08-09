@@ -46,6 +46,7 @@ public class HomeController {
     
     @ModelAttribute
     public void commAttrs(Model model) {
+        
         model.addAttribute("categories", cateService.getCates());
         model.addAttribute("teachers", teacherService.getTeachers());
         model.addAttribute("tags", tagService.getTags());

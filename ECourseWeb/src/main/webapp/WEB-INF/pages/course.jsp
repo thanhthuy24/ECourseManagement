@@ -45,7 +45,7 @@
                 <form:select class="form-select form-input" path="teacherId" >
                     <c:forEach items="${teachers}" var="c">
                         <c:choose>
-                            <c:when test="${c.id == teacher.userId}">
+                            <c:when test="${c.id == course.teacherId.id}">
                                 <option value="${c.id}" selected>Giáo sư ${c.userId.lastName}</option>
                             </c:when>
                             <c:otherwise>
@@ -71,7 +71,7 @@
                 <form:select class="form-select form-input" path="tagId" >
                     <c:forEach items="${tags}" var="c">
                         <c:choose>
-                            <c:when test="${c.id == tag.name}">
+                            <c:when test="${c.id == course.tagId.id}">
                                 <option value="${c.id}" selected>${c.name}</option>
                             </c:when>
                             <c:otherwise>
@@ -95,14 +95,10 @@
                 </c:if>
             </div>
 
-
-
-
             <div class="mb-3 mt-3">
                 <form:hidden path="id" />
                 <form:hidden path="image" />
                 <button class="btn btn-success" type="submit">
-
                     <c:choose>
                         <c:when test="${course.id != null}">
                             <option value="${c.id}" selected>Update course</option>

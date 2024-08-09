@@ -20,6 +20,8 @@ public interface VideoRepository {
 
     void addOrUpdate(Video c);
 
+//    List<Video> getVideoByLessonId(int id);
+
     Video getVideoById(int id);
 
     void deleteVideo(int id);

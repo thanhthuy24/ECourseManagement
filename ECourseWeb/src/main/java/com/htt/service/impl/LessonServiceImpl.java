@@ -41,5 +41,10 @@ public class LessonServiceImpl implements LessonService{
     public void deleteLesson(int id) {
         this.lessonRepo.deleteLesson(id);
     }
+
+    @Override
+    public List<Lesson> getLessons() {
+        return this.lessonRepo.getLessons();
+    }
     
 }

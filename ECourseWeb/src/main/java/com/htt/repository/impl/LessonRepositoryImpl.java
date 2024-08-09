@@ -98,5 +98,12 @@ public class LessonRepositoryImpl implements LessonRepository{
         Lesson c = this.getLessonById(id);
         s.delete(c);
     }
+
+    @Override
+    public List<Lesson> getLessons() {
+       Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("From Lesson");
+        return q.getResultList();
+    }
     
 }

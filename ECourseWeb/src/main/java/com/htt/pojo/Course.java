@@ -4,6 +4,7 @@
  */
 package com.htt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -82,13 +83,21 @@ public class Course implements Serializable {
     @Size(max = 255)
     @Column(name = "image")
     private String image;
+
     @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
     private Set<Lesson> lessonSet;
+
     @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
     private Set<Video> videoSet;
+
     @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
     private Set<Certification> certificationSet;
+
     @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
     private Set<Enrollment> enrollmentSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
@@ -99,10 +108,12 @@ public class Course implements Serializable {
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ManyToOne
     private Teacher teacherId;
+
     @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
     private Set<Receipt> receiptSet;
-    
-     @Transient
+
+    @Transient
     private MultipartFile file;
 
     public Course() {
@@ -286,7 +297,7 @@ public class Course implements Serializable {
     public String toString() {
         return "com.htt.pojo.Course[ id=" + id + " ]";
     }
-    
+
     public MultipartFile getFile() {
         return file;
     }
@@ -297,5 +308,5 @@ public class Course implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
 }

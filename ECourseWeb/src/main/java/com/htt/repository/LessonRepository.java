@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public interface LessonRepository {
     List<Lesson> getLessons(Map<String, String> params);
+    List<Lesson> getLessons();
     void addOrUpdate(Lesson c);
     Lesson getLessonById(int id);
     void deleteLesson(int id);

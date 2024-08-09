@@ -5,6 +5,7 @@
 package com.htt.repository.impl;
 
 import com.htt.pojo.Course;
+import com.htt.pojo.Teacher;
 import com.htt.pojo.Video;
 import com.htt.repository.VideoRepository;
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class VideoRepositoryImpl implements VideoRepository {
             s.save(c); //chen
         }
     }
-
+    
     @Override
     public Video getVideoById(int id) {
         Session s = this.factory.getObject().getCurrentSession();

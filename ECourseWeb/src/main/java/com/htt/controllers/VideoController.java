@@ -4,9 +4,9 @@
  */
 package com.htt.controllers;
 
-import com.htt.pojo.Course;
 import com.htt.pojo.Video;
-import com.htt.repository.VideoRepository;
+import com.htt.service.CourseService;
+import com.htt.service.LessonService;
 import com.htt.service.VideoService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 /**
@@ -23,25 +24,69 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class VideoController {
-    
+
     @Autowired
     private VideoService videoSer;
-    
+
+    @Autowired
+    private LessonService lessonSer;
+
+    @Autowired
+    private CourseService courseSer;
+
+    @ModelAttribute
+    public void commAttrs(Model model) {
+        model.addAttribute("lessons", this.lessonSer.getLessons());
+        model.addAttribute("courses", this.courseSer.getCourses());
+    }
+
     @GetMapping("/videos")
-    public String viewCourse(Model model) {
-        model.addAttribute("video", new Course());
+    public String videoView(Model model) {
+        model.addAttribute("videos", this.videoSer.getVideos());
         return "videos";
     }
-    
+
+    @GetMapping("/videos/{videoId}")
+    public String videoUpdate(Model model, @PathVariable(value = "videoId") int id) {
+        model.addAttribute("video", this.videoSer.getVideoById(id));
+        return "video";
+    }
+
     @PostMapping("/videos")
-    public String createVideo(Model model, @ModelAttribute(value = "video") @Valid Video c,
+    public String createVideo2(Model model, @ModelAttribute(value = "video") @Valid Video c,
             BindingResult rs) {
         if (rs.hasErrors()) {
-            return "videos";
+            return "video";
         }
         this.videoSer.addOrUpdate(c);
 
-        return "redirect:/";
+        return "videos";
+    }
+
+    @PostMapping("/videos/{videoId}")
+    public String updateVideo(@PathVariable("videoId") int id, @ModelAttribute @Valid Video video, BindingResult rs, Model model) {
+        if (rs.hasErrors()) {
+//            model.addAttribute("video", video);
+            return "redirect:/";
+        }
+        this.videoSer.addOrUpdate(video);
+        return "redirect:/videos";
     }
     
+    @GetMapping("/videosCreate")
+    public String createVideoView(Model model) {
+        model.addAttribute("video", new Video());
+        return "video";
+    }
+
+    @PostMapping("/videosCreate")
+    public String createVideo(Model model, @ModelAttribute(value = "video") @Valid Video c,
+            BindingResult rs) {
+        if (rs.hasErrors()) {
+            return "video";
+        }
+        this.videoSer.addOrUpdate(c);
+
+        return "videos";
+    }
 }

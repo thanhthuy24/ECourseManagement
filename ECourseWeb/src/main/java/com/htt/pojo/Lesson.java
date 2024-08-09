@@ -4,6 +4,7 @@
  */
 package com.htt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -69,14 +70,19 @@ public class Lesson implements Serializable {
     @Column(name = "updatedDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
     @OneToMany(mappedBy = "lessionId")
+//    @JsonIgnore
     private Set<Assignment> assignmentSet;
+//    @JsonIgnore
     @OneToMany(mappedBy = "lessonId")
     private Set<Document> documentSet;
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @ManyToOne
     private Course courseId;
+
     @OneToMany(mappedBy = "lessonId")
+    @JsonIgnore
     private Set<Video> videoSet;
 
     public Lesson() {
@@ -200,5 +206,5 @@ public class Lesson implements Serializable {
     public String toString() {
         return "com.htt.pojo.Lesson[ id=" + id + " ]";
     }
-    
+
 }

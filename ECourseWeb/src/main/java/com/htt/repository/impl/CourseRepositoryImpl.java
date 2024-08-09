@@ -131,7 +131,7 @@ public class CourseRepositoryImpl implements CourseRepository {
     @Override
     public List<Course> getCourses() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Teacher");
+        Query q = s.createQuery("From Course");
         return q.getResultList();
     }
 

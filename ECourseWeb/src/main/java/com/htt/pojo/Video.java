@@ -4,6 +4,7 @@
  */
 package com.htt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -53,7 +54,9 @@ public class Video implements Serializable {
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @ManyToOne
     private Course courseId;
+    
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
+    
     @ManyToOne
     private Lesson lessonId;
     
@@ -94,14 +97,6 @@ public class Video implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Course getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Course courseId) {
-        this.courseId = courseId;
     }
 
     public Lesson getLessonId() {
@@ -149,6 +144,20 @@ public class Video implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    /**
+     * @return the courseId
+     */
+    public Course getCourseId() {
+        return courseId;
+    }
+
+    /**
+     * @param courseId the courseId to set
+     */
+    public void setCourseId(Course courseId) {
+        this.courseId = courseId;
     }
     
 }

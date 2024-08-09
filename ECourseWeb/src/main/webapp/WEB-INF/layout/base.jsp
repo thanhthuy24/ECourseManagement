@@ -20,6 +20,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="<c:url value="/js/script.js" />"></script>
         <script src="<c:url value="/js/courseDelete.js" />"></script>
+        <script src="<c:url value="/js/videoDelete.js" />"></script>
         <style>
             .menu {
                 padding: 20px;

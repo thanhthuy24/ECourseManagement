@@ -39,7 +39,13 @@
     
     <definition name="videos" extends="baseLayout">
         <put-attribute name="title" value="Quản trị các video bài giảng" />
+        <put-attribute name="content" value="/WEB-INF/pages/videos.jsp" />
+    </definition> 
+    
+    <definition name="video" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các video bài giảng" />
         <put-attribute name="content" value="/WEB-INF/pages/video.jsp" />
     </definition> 
+    
     
 </tiles-definitions>
