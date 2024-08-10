@@ -13,7 +13,7 @@
 
 <section>
     <div>
-        <h1 class="text-center text-primary mt-1">UPDATE USER'S INFORMATION</h1>
+        <h1 class="text-center text-primary mt-1">111UPDATE USER'S INFORMATION</h1>
         <c:url value="/users" var="action" />
 
         <form:form method="post" enctype="multipart/form-data" action="${action}" 
@@ -60,8 +60,5 @@
                 </button>
             </div>
         </form:form>
-
-
-
     </div>
 </section>

@@ -1,71 +1,61 @@
 <%-- 
     Document   : lesson
-    Created on : Aug 10, 2024, 11:04:54 AM
+    Created on : Aug 10, 2024, 8:54:08 PM
     Author     : Admin
 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <section>
-    <h1 class="text-center text-primary mt-1">QUẢN LÝ BÀI HỌC</h1>
-     <div >
-        <div class="d-flex mt-3" style="justify-content: space-between">
-            <div style="display: flex;
-                 justify-content: flex-end;
-                 margin-right: 7%;">
-                <a class="btn mt-2" href="<c:url value="/lessonAU" />"
-                   style="color: #468585;
-                   background-color: #D8EFD3;
-                   border-color: #D8EFD3;
-                   font-weight: bold;" >
-                    Add lesson
-                </a>
-            </div>   
-        </div>
-
-    </div>
     <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Created date</th>
-                    <th>Description</th>
-                    <th>Course</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${lessons}" var="c" >
-                    <tr id="lesson${c.id}">
-                        <td style="width: 5%">
-                            ${c.id}
-                        </td>
-                        <td style="width: 25%; font-weight: bold">
-                            ${c.name}
-                        </td>
-                        <td>
-                            <fmt:formatDate value="${c.createdDate}" pattern="dd/MM/yyyy" />
-                        </td>
+        <h1 class="text-center text-primary mt-1">QUẢN LÝ BÀI HỌC</h1>
 
-                        <td style="width: 25%">${c.description}</td>
-                        <td>
-                            ${c.courseId.name} 
-                        </td>
-                        <td>
-                            <c:url value="/lesson/${c.id}" var="u" />
-                            <a href="${u}" class="btn" style="background-color: #B762C1">&#128221;</a>
+        <c:url value="/lessons" var="action" />
 
-                            <%--<c:url value="/api/courses/${c.id}" var="endpoint" />--%>
-                            <button id="btnDelete" onClick="deleteCourse('${endpoint}', ${c.id})" 
-                                    class="btn btn-danger">&#128465;</button>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+        <form:form method="post" enctype="multipart/form-data" action="${action}" 
+                   modelAttribute="lesson">
+            <div class="mb-3 mt-3">
+                <label for="name" class="form-label label-input">Lesson name:</label>
+                <form:input path="name" type="text" class="form-control form-input" id="name" placeholder="type lesson name..." name="name" />
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="description" class="form-label label-input">Lesson description:</label>
+                <form:input path="description" type="text" class="form-control form-input"  id="description" placeholder="type description..." name="description" />
+            </div>
 
-    </div>     
+            <div class="mb-3 mt-3">
+                <label for="courseId" class="form-label label-input">Course: </label>
+                <form:select id="courseId" class="form-select form-input" path="courseId" >
+                    <c:forEach items="${courses}" var="c">
+                        <c:choose>
+                            <c:when test="${c.id == lesson.courseId.id}">
+                                <option value="${c.id}" selected>${c.name}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${c.id}">${c.name}</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </form:select>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <form:hidden path="id" />
+                <button class="btn btn-success" type="submit">
+                    <c:choose>
+                        <c:when test="${lesson.id != null}">
+                            Update lesson
+                        </c:when>
+                        <c:otherwise>
+                            Add lesson
+                        </c:otherwise>
+                    </c:choose>
+                </button>
+            </div>
+        </form:form>
+    </div>
+</div>
 </section>

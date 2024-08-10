@@ -11,6 +11,7 @@ import com.htt.formatters.CourseFormatter;
 import com.htt.formatters.LessonFormatter;
 import com.htt.formatters.TagFormatter;
 import com.htt.formatters.TeacherFormatter;
+import com.htt.formatters.UserFormatter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -82,6 +83,7 @@ public class WebAppContextConfigs implements WebMvcConfigurer{
         registry.addFormatter(new TagFormatter());
         registry.addFormatter(new CourseFormatter());
         registry.addFormatter(new LessonFormatter());
+        registry.addFormatter(new UserFormatter());
     }
 
     @Override

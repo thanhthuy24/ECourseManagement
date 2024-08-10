@@ -1,58 +1,81 @@
 <%-- 
     Document   : teachers
-    Created on : Aug 5, 2024, 5:04:19 PM
+    Created on : Aug 10, 2024, 8:02:46 PM
     Author     : Admin
 --%>
 
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
 
 <section>
-    <div>
-        <h1 class="text-center text-primary mt-1">UPDATE USER'S INFORMATION</h1>
-        <c:url value="/teachers" var="action" />
+    <div >
 
-        <form:form method="post" enctype="multipart/form-data" action="${action}" 
-                   modelAttribute="user">
-            <div class="d-flex">
-                <div class="mb-3 mt-3" style="margin: 5px">
-                    <label for="firstName" class="form-label">First name: </label>
-                    <form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="type position..." name="firstName" />
-                </div>
-                <div class="mb-3 mt-3" style="margin: 5px">
-                    <label for="lastName" class="form-label">Last name: </label>
-                    <form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="type description..." name="lastName" />
-                </div>
-                <div class="mb-3 mt-3" style="margin: 5px">
-                    <label for="email" class="form-label">Email: </label>
-                    <form:input path="email" type="email" class="form-control" id="email" placeholder="type description..." name="email" />
-                </div>
-                <div class="mb-3 mt-3">
-                    <label for="phoneNumber" class="form-label label-input">Phone number: </label>
-                    <form:input path="phoneNumber" type="text" class="form-control form-input" id="phoneNumber" name="phoneNumber" />
-                </div>
+        <h1 class="text-center text-primary mt-1">QUẢN LÝ GIÁO VIÊN</h1>
+        <div >
+            <div class="d-flex mt-3" style="justify-content: space-between">
+                <div style="display: flex;
+                     justify-content: flex-end;
+                     margin-right: 7%;">
+                    <a class="btn mt-2" href="<c:url value="/teacherCreate" />"
+                       style="color: #468585;
+                       background-color: #D8EFD3;
+                       border-color: #D8EFD3;
+                       font-weight: bold;" >
+                        Add teacher
+                    </a>
+                </div>   
             </div>
-            <div class="mb-3 mt-3">
-                <label for="file" class="form-label label-input">Avatar:</label>
-                <form:input path="file" type="file" accept="*" 
-                            class="form-control form-input" id="file" name="file" />
-                <c:if test="${user.avatar != null}">
-                    <img class="mt-3" src="${user.avatar}" alt="${user.avatar}" width="120px" />
-                </c:if>
-            </div>
-            <div class="mb-3 mt-3">
-                <form:hidden path="id" />
-                <form:hidden path="avatar" />
-                <button class="btn btn-success" type="submit">
-                    Update information
-                </button>
-            </div>
-        </form:form>
 
+        </div>
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Join date</th>
+                    <th>Position</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${teachers}" var="c" >
+                    <tr id="teacher${c.id}">
+                        <td>
+                            <img class="rounded-circle" src="${c.userId.avatar}" alt="Card image" style="width:40px;" />
+                            ${c.userId.firstName} ${c.userId.lastName} 
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${c.userId.createdDate}" pattern="dd/MM/yyyy" />
+                        </td>
+                        <td>${c.position}</td>
+                        <td style="width: 28%">${c.description}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${c.userId.isActive}">
+                                    <button class="btn btn-success">Còn hoạt động</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button class="btn btn-danger">Ngưng hoạt động</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
 
-    </div>
+                        <td>
+                            <c:url value="/teachers/${c.id}" var="u" />
+                            <a href="${u}" class="btn" style="background-color: #B762C1">&#128221;</a>
+
+                            <c:url value="/api/teachers/${c.id}" var="endpoint" />
+                            <button onClick="deleteTeacher('${endpoint}', ${c.id})" 
+                                    class="btn btn-danger">&#128465;</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
 </section>
+

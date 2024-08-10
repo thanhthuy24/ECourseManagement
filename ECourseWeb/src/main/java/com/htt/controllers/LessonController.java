@@ -7,7 +7,6 @@ package com.htt.controllers;
 import com.htt.pojo.Lesson;
 import com.htt.service.CourseService;
 import com.htt.service.LessonService;
-import com.htt.service.VideoService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,9 +28,6 @@ public class LessonController {
     private LessonService lessonSer;
 
     @Autowired
-    private VideoService videoSer;
-
-    @Autowired
     private CourseService courseSer;
 
     @ModelAttribute
@@ -41,81 +37,31 @@ public class LessonController {
 
     @GetMapping("/lessons")
     public String viewLessons(Model model) {
-        model.addAttribute("lesson", new Lesson());
+        model.addAttribute("lessons", this.lessonSer.getLessons());
 
-        return "lesson";
+        return "lessons";
     }
 
     @GetMapping("/lesson")
-    public String viewLesson(Model model) {
-        model.addAttribute("lessons", this.lessonSer.getLessons());
+    public String lessonCreate(Model model) {
         model.addAttribute("lesson", new Lesson());
         return "lesson";
     }
 
-    @GetMapping("/lessonAU")
-    public String LessonAUView(Model model) {
-        model.addAttribute("lesson", new Lesson());
-//        model.addAttribute("lesson", this.lessonSer.getLessons());
-        return "lessonAU";
-    }
-
-    @PostMapping("/lessonAU")
-    public String createView1(Model model, @ModelAttribute(value = "lesson") @Valid Lesson c,
-            BindingResult rs) {
-        if (rs.hasErrors()) {
-            return "lessonAU";
-        }
-        this.lessonSer.addOrUpdate(c);
-
-        return "lesson";
-    }
-
-    @GetMapping("/lesson/{lessonId}")
+    @GetMapping("/lessons/{lessonId}")
     public String LessonView(Model model, @PathVariable(value = "lessonId") int id) {
         model.addAttribute("lesson", this.lessonSer.getLessonById(id));
-        return "lessonAU";
-    }
-
-    @PostMapping("/lesson/{lessonId}")
-    public String createView(@PathVariable("lessonId") int id,
-            @ModelAttribute @Valid Lesson lesson, BindingResult rs, Model model) {
-        if (rs.hasErrors()) {
-            return "lessonAU";
-        }
-        this.lessonSer.addOrUpdate(lesson);
         return "lesson";
     }
 
-//    -------------------------------------------------------------------------------------
-    @GetMapping("/lessonsManagement")
-    public String LessonsManagementView(Model model) {
-        model.addAttribute("lessons", this.lessonSer.getLessons());
-        return "lessonsManagement";
-    }
-
-    @GetMapping("/lessonsManagement/{lessonId}")
-    public String LessonIdManagementView(Model model, @PathVariable(value = "lessonId") int id) {
-        model.addAttribute("lesson", this.lessonSer.getLessonById(id));
-
-        return "lessonsManagementCreate";
-    }
-
-    @GetMapping("/lessonsManagementCreate")
-    public String createLessonView(Model model) {
-        model.addAttribute("lesson", new Lesson());
-
-        return "lessonsManagementCreate";
-    }
-
-    @PostMapping("/lessonsManagementCreate")
-    public String createLessonPost(Model model, @ModelAttribute(value = "lesson") @Valid Lesson c,
+    @PostMapping("/lessons")
+    public String createView(Model model, @ModelAttribute Lesson lesson,
             BindingResult rs) {
         if (rs.hasErrors()) {
-            return "lessonsManagementCreate";
+            
+            return "lesson";
         }
-        this.lessonSer.addOrUpdate(c);
-
-        return "lessonsManagement";
+        this.lessonSer.addOrUpdate(lesson);
+        return "lessons";
     }
 }

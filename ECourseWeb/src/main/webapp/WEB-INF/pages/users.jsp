@@ -47,7 +47,7 @@
                 <c:forEach items="${users}" var="c" >
                     <tr id="user${c.id}">
                         <td>
-                            <img class="rounded-circle" src="${c.avatar}" alt="Card image" style="width:40px;" />
+                            <img src="${c.avatar}" alt="Card image" style="width:40px;" />
                             ${c.firstName} ${c.lastName} 
                         </td>
                         <td>${c.username}</td>

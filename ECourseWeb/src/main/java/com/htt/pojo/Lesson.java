@@ -63,13 +63,11 @@ public class Lesson implements Serializable {
     @Column(name = "isActive")
     private Boolean isActive;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "createdDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "updatedDate")
+    @Column(name = "updatedDate", insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 

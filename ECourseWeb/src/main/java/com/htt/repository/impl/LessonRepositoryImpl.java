@@ -82,11 +82,10 @@ public class LessonRepositoryImpl implements LessonRepository{
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
-            c.setUpdatedDate(new Date());
         } else {
             s.save(c); //chen
         }
-        c.setIsActive(Boolean.TRUE);
+        c.setIsActive(true);
     }
 
     @Override
