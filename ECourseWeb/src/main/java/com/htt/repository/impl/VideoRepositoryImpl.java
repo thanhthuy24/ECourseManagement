@@ -93,7 +93,7 @@ public class VideoRepositoryImpl implements VideoRepository {
         if (c.getId() != null) {
             s.update(c);
         } else {
-            s.save(c); //chen
+            s.save(c);
         }
     }
     

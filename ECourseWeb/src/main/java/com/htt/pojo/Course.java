@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -66,7 +68,7 @@ public class Course implements Serializable {
     @Column(name = "isActive")
     private Boolean isActive;
 //    @NotNull
-    @Column(name = "createdDate")
+    @Column(name = "createdDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(name = "updatedDate")
@@ -115,6 +117,16 @@ public class Course implements Serializable {
 
     @Transient
     private MultipartFile file;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = new Date();
+    }
 
     public Course() {
     }

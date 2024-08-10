@@ -1,8 +1,9 @@
 <%-- 
-    Document   : teachers
-    Created on : Aug 5, 2024, 5:04:19 PM
+    Document   : user
+    Created on : Aug 10, 2024, 4:39:37 PM
     Author     : Admin
 --%>
+
 
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,11 +14,15 @@
 <section>
     <div>
         <h1 class="text-center text-primary mt-1">UPDATE USER'S INFORMATION</h1>
-        <c:url value="/teachers" var="action" />
+        <c:url value="/users" var="action" />
 
         <form:form method="post" enctype="multipart/form-data" action="${action}" 
                    modelAttribute="user">
             <div class="d-flex">
+                <div class="mb-3 mt-3">
+                <label for="username" class="form-label label-input">Username:</label>
+                <form:input path="username" type="text" class="form-control form-input" id="username" name="username" />
+            </div>
                 <div class="mb-3 mt-3" style="margin: 5px">
                     <label for="firstName" class="form-label">First name: </label>
                     <form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="type position..." name="firstName" />
@@ -25,6 +30,10 @@
                 <div class="mb-3 mt-3" style="margin: 5px">
                     <label for="lastName" class="form-label">Last name: </label>
                     <form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="type description..." name="lastName" />
+                </div>
+                <div class="mb-3 mt-3" style="margin: 5px">
+                    <label for="role" class="form-label">ROLE: </label>
+                    <form:input path="role" type="text" class="form-control" id="role" name="role" />
                 </div>
                 <div class="mb-3 mt-3" style="margin: 5px">
                     <label for="email" class="form-label">Email: </label>

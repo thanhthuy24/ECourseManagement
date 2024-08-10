@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -77,7 +79,7 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "password")
     private String password;
-    @Column(name = "createdDate")
+    @Column(name = "createdDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Column(name = "isActive")
@@ -111,6 +113,12 @@ public class User implements Serializable {
     
     @Transient
     private MultipartFile file;
+    
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = new Date();
+    }
+
 
     public User() {
     }

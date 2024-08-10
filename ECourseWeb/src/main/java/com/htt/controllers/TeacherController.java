@@ -53,15 +53,12 @@ public class TeacherController {
     
     @PostMapping("/teachers")
     public String create(Model model,
-            @ModelAttribute(value = "teacher") @Valid Teacher teacher,
-            BindingResult teacherResult,
             @ModelAttribute(value = "user") @Valid User user,
             BindingResult userResult) {
 
-        if (teacherResult.hasErrors() || userResult.hasErrors()) {
+        if (userResult.hasErrors()) {
             return "teachers";
         }
-        this.teacherSer.addOrUpdate(teacher);
         this.userSer.addOrUpdate(user);
         return "redirect:/";
     }

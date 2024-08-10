@@ -67,7 +67,7 @@
                     <div>
                         <c:url value="/" var="action" />
                         <form  action="${action}" class="d-flex justify-content-end mb-3 mt-3 container">
-                            <!-- Removed inline style and used Bootstrap classes -->
+                            
                             <div class="d-flex">
                                 <input
                                     style="width: 200px; height: 43px"

@@ -11,7 +11,7 @@
 <section>
     <div>
         <h1 class="text-center text-primary mt-1">QUẢN LÝ VIDEO KHÓA HỌC</h1>
-       <c:url value="/videos" var="action"/>
+       <c:url value="/videos/${videoId}" var="action"/>
         <form:form method="post" enctype="multipart/form-data" 
                    style="margin-left: 20%" action="${action}" modelAttribute="video">
             <div class="mb-3 mt-3">
@@ -24,15 +24,15 @@
 
                 <form:input path="file" type="file" accept="*" 
                             class="form-control form-input" id="file" name="file" />
-                <c:if test="${video.description != ''}">
+                <c:if test="${video.description != null}">
+                    <img class="mt-3" src="${video.description}" alt="${video.description}" width="120px" />
                     <video width="640" height="360" controls>
                         <source src="${video.description}" type="video/mp4">
-                        Trình duyệt của bạn không hỗ trợ thẻ video.
                     </video>
                 </c:if>
             </div>
 
-<!--            <div class="mb-3 mt-3">
+            <div class="mb-3 mt-3">
                 <label for="browser" class="form-label label-input">Lesson: </label>
                 <form:select class="form-select form-input" path="lessonId" >
                     <c:forEach items="${lessons}" var="c">
@@ -46,7 +46,8 @@
                         </c:choose>
                     </c:forEach>
                 </form:select>
-            </div>-->
+            </div>
+                
             <div class="mb-3 mt-3">
                 <label for="courseId" class="form-label label-input">Course: </label>
                 <form:select id="courseId" class="form-select form-input" path="courseId" >

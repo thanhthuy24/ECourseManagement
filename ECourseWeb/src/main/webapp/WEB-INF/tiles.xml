@@ -6,7 +6,7 @@
     <definition name="baseLayout" template="/WEB-INF/layout/base.jsp" >
         <!--Điền thông tin "name" bằng giá trị value khai báo ở dưới-->
         <!--"name" được thay thế ở tiles:insertAttribute-->
-         <put-attribute name="left-side" value="/WEB-INF/layout/sidebar.jsp"/>
+        <put-attribute name="left-side" value="/WEB-INF/layout/sidebar.jsp"/>
         <put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
         <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
         <put-attribute name="content" value="..." />
@@ -32,10 +32,20 @@
         <put-attribute name="content" value="/WEB-INF/pages/teachers.jsp" />
     </definition>  
     
-    <definition name="lessons" extends="baseLayout">
+<!--    <definition name="lessons" extends="baseLayout">
         <put-attribute name="title" value="Quản trị các bài học" />
         <put-attribute name="content" value="/WEB-INF/pages/lessons.jsp" />
     </definition> 
+    
+    <definition name="lesson" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các bài học" />
+        <put-attribute name="content" value="/WEB-INF/pages/lesson.jsp" />
+    </definition> 
+    
+    <definition name="lessonAU" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các bài học" />
+        <put-attribute name="content" value="/WEB-INF/pages/lessonAU.jsp" />
+    </definition> -->
     
     <definition name="videos" extends="baseLayout">
         <put-attribute name="title" value="Quản trị các video bài giảng" />
@@ -45,6 +55,26 @@
     <definition name="video" extends="baseLayout">
         <put-attribute name="title" value="Quản trị các video bài giảng" />
         <put-attribute name="content" value="/WEB-INF/pages/video.jsp" />
+    </definition> 
+    
+    <definition name="lessonsManagement" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các bài học" />
+        <put-attribute name="content" value="/WEB-INF/pages/lessonsManagement.jsp" />
+    </definition> 
+    
+    <definition name="lessonsManagementCreate" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các bài học" />
+        <put-attribute name="content" value="/WEB-INF/pages/createLesson.jsp" />
+    </definition> 
+    
+    <definition name="users" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các người dùng hệ thống" />
+        <put-attribute name="content" value="/WEB-INF/pages/users.jsp" />
+    </definition> 
+    
+     <definition name="user" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các người dùng hệ thống" />
+        <put-attribute name="content" value="/WEB-INF/pages/user.jsp" />
     </definition> 
     
     

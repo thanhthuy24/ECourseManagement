@@ -39,12 +39,11 @@ public class UserRepositoryImpl implements UserRepository {
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
-            c.setIsActive(true);
         } else {
             s.save(c); //chen
             c.setCreatedDate(new Date());
-            c.setIsActive(true);
         }
+            c.setIsActive(true);
     }
 
     @Override

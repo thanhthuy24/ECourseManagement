@@ -87,10 +87,6 @@
                 <form:input path="file" type="file" accept="*" 
                             class="form-control form-input" id="file" name="file" />
                 <c:if test="${course.image != null}">
-                    <video width="640" height="360" controls>
-                        <source src="${course.image}" type="video/mp4">
-                        Trình duyệt của bạn không hỗ trợ thẻ video.
-                    </video>
                     <img class="mt-3" src="${course.image}" alt="${course.image}" width="120px" />
                 </c:if>
             </div>

@@ -94,17 +94,12 @@ public class CourseRepositoryImpl implements CourseRepository {
     @Override
     public void addOrUpdate(Course c) {
         Session s = this.factory.getObject().getCurrentSession();
-//        Date d = c.getCreatedDate();
-        
         if (c.getId() != null) {
             s.update(c);
-            c.setUpdatedDate(new Date());
         } else {
-            s.save(c); //chen
-            c.setCreatedDate(new Date());
+            s.save(c);
         }
         c.setIsActive(true);
-//        c.setCreatedDate(d);
     }
 
     @Override

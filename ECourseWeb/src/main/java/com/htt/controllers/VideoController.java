@@ -64,10 +64,11 @@ public class VideoController {
     }
 
     @PostMapping("/videos/{videoId}")
-    public String updateVideo(@PathVariable("videoId") int id, @ModelAttribute @Valid Video video, BindingResult rs, Model model) {
+    public String updateVideo(@PathVariable("videoId") int id, 
+            @ModelAttribute @Valid Video video, 
+            BindingResult rs, Model model) {
         if (rs.hasErrors()) {
-//            model.addAttribute("video", video);
-            return "redirect:/";
+            return "video";
         }
         this.videoSer.addOrUpdate(video);
         return "redirect:/videos";

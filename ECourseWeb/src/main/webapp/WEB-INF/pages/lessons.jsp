@@ -73,65 +73,8 @@
 
 <section>
     <h1 class="text-center text-primary mt-1">QUẢN LÝ BÀI HỌC</h1>
-    <c:forEach items="${lessons}" var="lesson">
-
-        <div id="lessonWrapper${lesson.id}">
-            <div class="card">
-                <div class="card-header">
-                    <a style="font-weight: bold" class="btn" data-toggle="#lessonContent${lesson.id}">
-                        ${lesson.name}
-                    </a>
-                </div>
-                <div id="lessonContent${lesson.id}" class="collapse" data-bs-parent="#lessonWrapper${lesson.id}">
-                    <div class="card-body">
-                        ${lesson.description}
-                    </div>
-
-                    <div>
-                        <p style="font-weight: bold" class="card-body">Video bài giảng</p>
-                    </div>    
-                    <div style="display: flex;
-                         justify-content: flex-end;
-                         margin-right: 7%;">
-                        <a class="btn mt-2" href="<c:url value="/videosCreate" />"
-                           style="color: #468585;
-                           background-color: #D8EFD3;
-                           border-color: #D8EFD3;
-                           font-weight: bold;" >
-                            Thêm video
-                        </a>
-                    </div>   
-
-                </div>
-
-            </div>
-        </div>
-        <!--        <div style="display: flex;
-                     margin-right: 7%;">
-        <%--<c:url value="/videos/" var="u">--%>
-        <%--<c:param name="lessonId" value="${lesson.id}" />--%>
-        <%--</c:url>--%>
-        <a class="btn mt-2 " href="${u}"
-           style="color: #468585;
-           background-color: #D8EFD3;
-           border-color: #D8EFD3;
-           font-weight: bold;
-           margin: 14px;" >
-            Xem video bài giảng
-        </a>
-    </div>   -->
-    </c:forEach>
-    <!--    <div style="display: flex;
-             justify-content: flex-end;
-             margin-right: 7%;">
-            <a class="btn mt-2" href="<c:url value="/videos" />"
-               style="color: #468585;
-               background-color: #D8EFD3;
-               border-color: #D8EFD3;
-               font-weight: bold;" >
-                Thêm khóa học
-            </a>
-        </div>   -->
+    
+    
 </section>
 
 <style>
@@ -153,6 +96,7 @@
         color: #333;
     }
 </style>
+
 <script>
     // Hàm để ẩn/hiện phần tử
     function toggleContent(targetId) {

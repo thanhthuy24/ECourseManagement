@@ -7,6 +7,8 @@ package com.htt.configs;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.htt.formatters.CategoryFormatter;
+import com.htt.formatters.CourseFormatter;
+import com.htt.formatters.LessonFormatter;
 import com.htt.formatters.TagFormatter;
 import com.htt.formatters.TeacherFormatter;
 import org.springframework.context.MessageSource;
@@ -78,6 +80,8 @@ public class WebAppContextConfigs implements WebMvcConfigurer{
         registry.addFormatter(new CategoryFormatter());
         registry.addFormatter(new TeacherFormatter());
         registry.addFormatter(new TagFormatter());
+        registry.addFormatter(new CourseFormatter());
+        registry.addFormatter(new LessonFormatter());
     }
 
     @Override

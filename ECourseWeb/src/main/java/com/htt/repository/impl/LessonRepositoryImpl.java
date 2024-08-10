@@ -6,6 +6,7 @@ package com.htt.repository.impl;
 import com.htt.pojo.Lesson;
 import com.htt.repository.LessonRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Query;
@@ -81,9 +82,11 @@ public class LessonRepositoryImpl implements LessonRepository{
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
+            c.setUpdatedDate(new Date());
         } else {
             s.save(c); //chen
         }
+        c.setIsActive(Boolean.TRUE);
     }
 
     @Override

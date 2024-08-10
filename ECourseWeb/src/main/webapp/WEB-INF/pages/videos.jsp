@@ -10,20 +10,17 @@
 <section>
     <div >
         <div class="d-flex mt-3" style="justify-content: space-between">
-            <div class="d-flex">
-                <input
-                    style="width: 200px; height: 43px"
-                    type="text"
-                    class="form-control me-2"
-                    id="q"s
-                    placeholder="Tên video"
-                    name="q"
-                    />
-                <div>
-                    <input type="submit" class="btn btn-success" value="Tìm" />
-                </div>
-            </div>
-            </form>
+            <div style="display: flex;
+                 justify-content: flex-end;
+                 margin-right: 7%;">
+                <a class="btn mt-2" href="<c:url value="/videosCreate" />"
+                   style="color: #468585;
+                   background-color: #D8EFD3;
+                   border-color: #D8EFD3;
+                   font-weight: bold;" >
+                    Thêm video
+                </a>
+            </div>   
         </div>
 
     </div>
@@ -73,7 +70,7 @@
                             <a href="${u}" class="btn" style="background-color: #B762C1">&#128221;</a>
 
                             <c:url value="/api/videos/${c.id}" var="endpoint" />
-                            <button id="btnDelete"
+                            <button id="btnDelete" onclick="deleteVideo('${endpoint}', ${c.id})" 
                                     class="btn btn-danger">&#128465;</button>
                         </td>
                     </tr>
