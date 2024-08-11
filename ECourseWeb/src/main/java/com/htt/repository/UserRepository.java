@@ -12,7 +12,17 @@ import java.util.List;
  * @author Admin
  */
 public interface UserRepository {
+
     List<User> getUsers();
+
+    User getUserByUsername(String username);
+
     void addOrUpdate(User c);
+
     User getUserById(Long id);
+
+    boolean authUser(String username, String password);
+
+    User addUser(User user);
+
 }
