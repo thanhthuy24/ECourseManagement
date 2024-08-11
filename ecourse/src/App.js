@@ -1,13 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./layouts/Header";
-import Home from "./components/Home";
+// import Home from "./components/Home";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Teacher from "./components/teachers/Teacher";
+import TeacherDetail from "./components/teachers/TeacherDetail";
 
 const App = () => {
     return (
         <BrowserRouter>
             <Header />
             <Routes>
-                <Route path="/" element={<Home />} />
+                {/* <Route path="/" element={<Home />} /> */}
+                <Route path="/" element={<Teacher />} />
+                <Route path="/teachers/:id" element={<TeacherDetail />} />
             </Routes>
         </BrowserRouter>
     );

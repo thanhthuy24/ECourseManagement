@@ -9,6 +9,7 @@ import com.htt.dto.UserDTO;
 import com.htt.pojo.Teacher;
 import com.htt.service.CourseService;
 import com.htt.service.TeacherService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +43,10 @@ public class ApiTeacherController {
     }
 
     @GetMapping("/teachers")
-    public ResponseEntity<List<Teacher>> list(@RequestParam Map<String, String> params) {
-        List<Teacher> teachers = this.teacherSer.getTeachers(params);
-
-        return new ResponseEntity<>(teachers, HttpStatus.OK);
+    public ResponseEntity<List<TeacherDTO>> list() {
+        List<Teacher> teachers = this.teacherSer.getTeachers();
+        List<TeacherDTO> teacherDTO = convertToDTO1(teachers);
+        return new ResponseEntity<>(teacherDTO, HttpStatus.OK);
     }
 
     @GetMapping("/teachers/{teacherId}")
@@ -70,5 +71,26 @@ public class ApiTeacherController {
         teacherDTO.setUser(userDTO);
 
         return teacherDTO;
+    }
+    
+    private List<TeacherDTO> convertToDTO1(List<Teacher> teachers) {
+        List<TeacherDTO> teacherDTOList = new ArrayList<>();
+        for(Teacher t : teachers) {
+            TeacherDTO teacherDTO = new TeacherDTO();
+            teacherDTO.setId(t.getId());
+            teacherDTO.setPosition(t.getPosition());
+            teacherDTO.setDescription(t.getDescription());
+            
+             UserDTO userDTO = new UserDTO();
+            userDTO.setId(t.getUserId().getId());
+            userDTO.setUsername(t.getUserId().getUsername());
+            userDTO.setAvatar(t.getUserId().getAvatar());
+            
+            teacherDTO.setUser(userDTO);
+            
+            teacherDTOList.add(teacherDTO);
+        }
+        
+        return teacherDTOList;
     }
 }
