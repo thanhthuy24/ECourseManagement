@@ -45,4 +45,11 @@ public class ApiCourseController {
         
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
+    
+    @GetMapping("/courses/{courseId}")
+    public ResponseEntity<Course> course(@PathVariable(value = "courseId") int id) {
+        Course courses  = this.courseSer.getCourseById(id);
+        
+        return new ResponseEntity<>(courses, HttpStatus.OK);
+    }
 }

@@ -40,7 +40,7 @@ public class TeacherRepositoryImpl implements TeacherRepository {
 
         CriteriaQuery<Teacher> c = b.createQuery(Teacher.class);
 
-        Root root = c.from(Lesson.class);
+        Root root = c.from(Teacher.class);
         c.select(root);
 
         if (params != null) {
@@ -48,7 +48,7 @@ public class TeacherRepositoryImpl implements TeacherRepository {
 
             String kw = params.get("q");
             if (kw != null && !kw.isEmpty()) {
-                Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
+                Predicate p1 = b.like(root.get("position"), String.format("%%%s%%", kw));
                 predicates.add(p1);
             }
 

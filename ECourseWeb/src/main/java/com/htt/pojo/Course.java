@@ -87,35 +87,39 @@ public class Course implements Serializable {
     private String image;
 
     @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Lesson> lessonSet;
 
     @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Video> videoSet;
 
     @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Certification> certificationSet;
 
     @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Enrollment> enrollmentSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Category categoryId;
     @JoinColumn(name = "tag_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Tag tagId;
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Teacher teacherId;
 
     @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Receipt> receiptSet;
 
     @Transient
+    @JsonIgnore
     private MultipartFile file;
 
     @PrePersist

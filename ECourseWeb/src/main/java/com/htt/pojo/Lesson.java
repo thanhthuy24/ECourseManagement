@@ -72,19 +72,20 @@ public class Lesson implements Serializable {
     private Date updatedDate;
 
     @OneToMany(mappedBy = "lessionId")
-//    @JsonIgnore
+    @JsonIgnore
     private Set<Assignment> assignmentSet;
-//    @JsonIgnore
     @OneToMany(mappedBy = "lessonId")
+    @JsonIgnore
     private Set<Document> documentSet;
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Course courseId;
 
     @OneToMany(mappedBy = "lessonId")
     @JsonIgnore
     private Set<Video> videoSet;
-    
+
     @PrePersist
     protected void onCreate() {
         this.createdDate = new Date();

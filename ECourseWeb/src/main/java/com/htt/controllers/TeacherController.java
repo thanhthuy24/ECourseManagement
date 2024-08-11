@@ -41,7 +41,7 @@ public class TeacherController {
     public String teacherView(Model model) {
         model.addAttribute("teacher", new Teacher());
         return "teachers";
-    }
+    } 
 
 //    chỉnh sửa thông tin teacher
     @GetMapping("/teachers/{teacherId}")

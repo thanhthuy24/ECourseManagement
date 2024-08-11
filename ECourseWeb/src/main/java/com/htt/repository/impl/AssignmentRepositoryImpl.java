@@ -39,7 +39,7 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
 
         CriteriaQuery<Assignment> c = b.createQuery(Assignment.class);
 
-        Root root = c.from(Lesson.class);
+        Root root = c.from(Assignment.class);
         c.select(root);
 
         if (params != null) {

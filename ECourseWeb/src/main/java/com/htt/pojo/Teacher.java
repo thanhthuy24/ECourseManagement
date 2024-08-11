@@ -4,6 +4,7 @@
  */
 package com.htt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -53,8 +54,10 @@ public class Teacher implements Serializable {
     private String description;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private User userId;
     @OneToMany(mappedBy = "teacherId")
+    @JsonIgnore
     private Set<Course> courseSet;
 
     public Teacher() {
@@ -92,7 +95,7 @@ public class Teacher implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     public User getUserId() {
         return userId;
     }
@@ -134,5 +137,5 @@ public class Teacher implements Serializable {
     public String toString() {
         return "com.htt.pojo.Teacher[ id=" + id + " ]";
     }
-    
+
 }

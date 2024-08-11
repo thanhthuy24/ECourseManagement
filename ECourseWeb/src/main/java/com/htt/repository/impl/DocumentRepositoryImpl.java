@@ -39,7 +39,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
         CriteriaQuery<Document> c = b.createQuery(Document.class);
 
-        Root root = c.from(Lesson.class);
+        Root root = c.from(Document.class);
         c.select(root);
 
         if (params != null) {
