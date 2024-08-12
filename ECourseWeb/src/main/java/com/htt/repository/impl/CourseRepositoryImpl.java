@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CourseRepositoryImpl implements CourseRepository {
 
-    private static final int PAGE_SIZE = 5;
+    private static final int PAGE_SIZE = 10;
 
     @Autowired
     private LocalSessionFactoryBean factory;

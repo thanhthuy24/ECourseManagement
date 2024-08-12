@@ -10,11 +10,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
     const [categories, setCategories] = useState([]);
+    const [kw, setKw] = useState("");
+    const nav = useNavigate();
 
     const loadCates = async () => {
         let res = await APIs.get(endpoints['categories']);
@@ -25,6 +27,11 @@ const Header = () => {
         loadCates();
     }, [])
 
+    const submit = (e) => {
+        e.preventDefault();
+        nav(`/?q=${kw}`);
+    }
+
     return (
         <>
             <Navbar expand="lg" className="bg-body-tertiary backgroudColor">
@@ -33,15 +40,21 @@ const Header = () => {
                     <Link to="/" className='nav-link font-size-header' >ECouse Academy</Link>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
-                        <Form className="d-flex mx-auto">
+                        <Form className="d-flex mx-auto" onSubmit={submit}>
                             <Form.Control
                                 type="search"
                                 placeholder="Search"
                                 className="me-2 input-search-header"
                                 aria-label="Search"
+                                value={kw}
+                                onChange={e => setKw(e.target.value)}
                                 style={{ width: '500px'}}
                             />
-                            <Button variant="outline-success " className="button-color font-size-header">Search</Button>
+                            <Button 
+                                variant="outline-success " 
+                                className="button-color font-size-header"
+                                type='submit'
+                            >Search</Button>
                         </Form>
                         <Nav
                             className="ms-auto my-2 my-lg-0"
@@ -66,7 +79,10 @@ const Header = () => {
             <Navbar className="backgroudColor margin" fill variant="tabs"> 
                 <Container>
                 {categories.map(c => 
-                        <Link key={c.id} to="/" className='nav-link font-size-header'> {c.name} </Link>
+                    {
+                        const url = `/?cateId=${c.id}`;    
+                        return <Link key={c.id} to={url} className='nav-link font-size-header'> {c.name} </Link>
+                    }
                     )}
                 </Container>
             </Navbar>

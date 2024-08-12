@@ -4,8 +4,12 @@
  */
 package com.htt.controllers;
 
+import com.htt.dto.CourseDTO;
+import com.htt.dto.TeacherDTO;
+import com.htt.dto.UserDTO;
 import com.htt.pojo.Course;
 import com.htt.service.CourseService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
@@ -40,10 +44,10 @@ public class ApiCourseController {
     }
     
     @GetMapping("/courses")
-    public ResponseEntity<List<Course>> list(@RequestParam Map<String, String> params) {
+    public ResponseEntity<List<CourseDTO>> list(@RequestParam Map<String, String> params) {
         List<Course> courses = this.courseSer.getCourses(params);
-        
-        return new ResponseEntity<>(courses, HttpStatus.OK);
+         List<CourseDTO> coursesDTO = convertToDTO(courses);
+        return new ResponseEntity<>(coursesDTO, HttpStatus.OK);
     }
     
     @GetMapping("/courses/{courseId}")
@@ -52,4 +56,40 @@ public class ApiCourseController {
         
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
+    
+    private List<CourseDTO> convertToDTO(List<Course> courses) {
+        List<CourseDTO> courseDTOList = new ArrayList<>();
+        for (Course t : courses) {
+            CourseDTO courseDTO = new CourseDTO();
+            courseDTO.setId(t.getId());
+            courseDTO.setCreatedDate(t.getCreatedDate());
+            courseDTO.setDescription(t.getDescription());
+            courseDTO.setDiscount(t.getDiscount());
+            courseDTO.setImage(t.getImage());
+            courseDTO.setIsActive(t.getIsActive());
+            courseDTO.setName(t.getName());
+            courseDTO.setUpdatedDate(t.getUpdatedDate());
+
+            TeacherDTO teacherDTO = new TeacherDTO();
+            teacherDTO.setId(t.getTeacherId().getId());
+            teacherDTO.setPosition(t.getTeacherId().getPosition());
+            teacherDTO.setDescription(t.getTeacherId().getDescription());
+
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(t.getTeacherId().getUserId().getId());
+            userDTO.setUsername(t.getTeacherId().getUserId().getUsername());
+            userDTO.setAvatar(t.getTeacherId().getUserId().getAvatar());
+            userDTO.setEmail(t.getTeacherId().getUserId().getEmail());
+            userDTO.setPhoneNumber(t.getTeacherId().getUserId().getPhoneNumber());
+            
+            teacherDTO.setUser(userDTO);
+            
+            courseDTO.setTeacher(teacherDTO);
+
+            courseDTOList.add(courseDTO);
+        }
+
+        return courseDTOList;
+    }
+    
 }

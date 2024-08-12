@@ -56,6 +56,7 @@ public class Teacher implements Serializable {
     @ManyToOne
     @JsonIgnore
     private User userId;
+    
     @OneToMany(mappedBy = "teacherId")
     @JsonIgnore
     private Set<Course> courseSet;
