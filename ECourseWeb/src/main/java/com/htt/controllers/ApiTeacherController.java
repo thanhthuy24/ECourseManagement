@@ -66,31 +66,33 @@ public class ApiTeacherController {
         userDTO.setId(teacher.getUserId().getId());
         userDTO.setUsername(teacher.getUserId().getUsername());
         userDTO.setAvatar(teacher.getUserId().getAvatar());
-        // Bỏ qua các thuộc tính không cần thiết
+        userDTO.setEmail(teacher.getUserId().getEmail());
+        userDTO.setPhoneNumber(teacher.getUserId().getPhoneNumber());
 
         teacherDTO.setUser(userDTO);
 
         return teacherDTO;
     }
-    
+
     private List<TeacherDTO> convertToDTO1(List<Teacher> teachers) {
         List<TeacherDTO> teacherDTOList = new ArrayList<>();
-        for(Teacher t : teachers) {
+        for (Teacher t : teachers) {
             TeacherDTO teacherDTO = new TeacherDTO();
             teacherDTO.setId(t.getId());
             teacherDTO.setPosition(t.getPosition());
             teacherDTO.setDescription(t.getDescription());
-            
-             UserDTO userDTO = new UserDTO();
+
+            UserDTO userDTO = new UserDTO();
             userDTO.setId(t.getUserId().getId());
             userDTO.setUsername(t.getUserId().getUsername());
             userDTO.setAvatar(t.getUserId().getAvatar());
-            
+            userDTO.setEmail(t.getUserId().getEmail());
+            userDTO.setPhoneNumber(t.getUserId().getPhoneNumber());
             teacherDTO.setUser(userDTO);
-            
+
             teacherDTOList.add(teacherDTO);
         }
-        
+
         return teacherDTOList;
     }
 }

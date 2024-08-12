@@ -1,0 +1,39 @@
+.image {
+    width: 300px;
+}
+
+.margin {
+    margin-top: 20px;
+}
+
+.font-teacher-username {
+    font-size: 30px !important;
+}
+
+.font-teacher-description {
+    font-size: 20px !important;
+}
+
+.border-description {
+    border: 1px dashed #7286D3;
+    padding: 20px;
+    background-color: #E5E0FF;
+    border-radius: 30px;
+}
+
+col h3 {
+    margin: 30px;
+}
+
+.button-contact {
+    background-color: #FFF2F2;
+    color: black;
+    border-color: #FFF2F2;
+    margin: 5px;
+    padding: 10px;
+}
+
+.button-contact:hover {
+    background-color: #7286D3;
+    color: white;
+}
