@@ -1,0 +1,32 @@
+.image {
+    width: 500px;
+}
+
+.margin {
+    margin: 10px
+}
+
+.text-sign-in {
+    font-size: 40px !important;
+    font-weight: bold;
+    text-align: center;
+}
+
+.button-sign-gg-fb {
+    justify-content: space-evenly;
+    margin: 10px;
+    
+}
+
+div button {
+    margin: 10px;
+    background-color: white !important;
+    color: black !important;
+    border-color: black !important;
+}
+
+button:hover,.button-login {
+    background-color: #B1AFFF !important;
+    border: none !important;
+    color: white !important;
+}

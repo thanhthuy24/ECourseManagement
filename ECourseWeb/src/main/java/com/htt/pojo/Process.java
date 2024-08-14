@@ -16,10 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,13 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Admin
  */
 @Entity
-@Table(name = "enrollment")
+@Table(name = "process")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Enrollment.findAll", query = "SELECT e FROM Enrollment e"),
-    @NamedQuery(name = "Enrollment.findById", query = "SELECT e FROM Enrollment e WHERE e.id = :id"),
-    @NamedQuery(name = "Enrollment.findByProgress", query = "SELECT e FROM Enrollment e WHERE e.enrollmentDate = :enrollmentDate")})
-public class Enrollment implements Serializable {
+    @NamedQuery(name = "Process.findAll", query = "SELECT p FROM Process p"),
+    @NamedQuery(name = "Process.findById", query = "SELECT p FROM Process p WHERE p.id = :id"),
+    @NamedQuery(name = "Process.findByStatus", query = "SELECT p FROM Process p WHERE p.status = :status"),
+    @NamedQuery(name = "Process.findByCompletionPercentage", query = "SELECT p FROM Process p WHERE p.completionPercentage = :completionPercentage"),
+    @NamedQuery(name = "Process.findByUpdatedDate", query = "SELECT p FROM Process p WHERE p.updatedDate = :updatedDate")})
+public class Process implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,25 +43,29 @@ public class Enrollment implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "enrollmentDate", updatable = false)
+    @Size(max = 100)
+    @Column(name = "status")
+    private String status;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "completion_percentage")
+    private Float completionPercentage;
+    @Column(name = "updatedDate")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date enrollmentDate;
+    private Date updatedDate;
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @ManyToOne
     private Course courseId;
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
+    @ManyToOne
+    private Lesson lessonId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;
 
-    @PrePersist
-    protected void onCreate() {
-        this.enrollmentDate = new Date();
+    public Process() {
     }
 
-    public Enrollment() {
-    }
-
-    public Enrollment(Integer id) {
+    public Process(Integer id) {
         this.id = id;
     }
 
@@ -71,12 +77,44 @@ public class Enrollment implements Serializable {
         this.id = id;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Float getCompletionPercentage() {
+        return completionPercentage;
+    }
+
+    public void setCompletionPercentage(Float completionPercentage) {
+        this.completionPercentage = completionPercentage;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
     public Course getCourseId() {
         return courseId;
     }
 
     public void setCourseId(Course courseId) {
         this.courseId = courseId;
+    }
+
+    public Lesson getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(Lesson lessonId) {
+        this.lessonId = lessonId;
     }
 
     public User getUserId() {
@@ -97,10 +135,10 @@ public class Enrollment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Enrollment)) {
+        if (!(object instanceof Process)) {
             return false;
         }
-        Enrollment other = (Enrollment) object;
+        Process other = (Process) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -109,21 +147,7 @@ public class Enrollment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.htt.pojo.Enrollment[ id=" + id + " ]";
+        return "com.htt.pojo.Process[ id=" + id + " ]";
     }
-
-    /**
-     * @return the enrollmentDate
-     */
-    public Date getEnrollmentDate() {
-        return enrollmentDate;
-    }
-
-    /**
-     * @param enrollmentDate the enrollmentDate to set
-     */
-    public void setEnrollmentDate(Date enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
-
+    
 }

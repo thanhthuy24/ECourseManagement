@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Teacher from "./components/teachers/Teacher";
 import TeacherDetail from "./components/teachers/TeacherDetail";
 import Courses from "./components/courses/Courses";
+import Login from "./components/login/Login";
 
 const App = () => {
     return (
@@ -12,6 +13,7 @@ const App = () => {
             <Header />
             <Routes>
                 <Route path="/" element={<Courses />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/teachers" element={<Teacher />} />
                 <Route path="/teachers/:id" element={<TeacherDetail />} />
             </Routes>

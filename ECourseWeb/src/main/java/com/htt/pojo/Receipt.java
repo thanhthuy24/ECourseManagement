@@ -6,6 +6,7 @@ package com.htt.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,12 +17,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,6 +40,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Receipt.findByTotal", query = "SELECT r FROM Receipt r WHERE r.total = :total"),
     @NamedQuery(name = "Receipt.findByCreatedDate", query = "SELECT r FROM Receipt r WHERE r.createdDate = :createdDate")})
 public class Receipt implements Serializable {
+
+    @OneToMany(mappedBy = "receiptId")
+    private Set<RecepitDetail> recepitDetailSet;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -136,6 +145,23 @@ public class Receipt implements Serializable {
     @Override
     public String toString() {
         return "com.htt.pojo.Receipt[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Set<RecepitDetail> getRecepitDetailSet() {
+        return recepitDetailSet;
+    }
+
+    public void setRecepitDetailSet(Set<RecepitDetail> recepitDetailSet) {
+        this.recepitDetailSet = recepitDetailSet;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
     
 }

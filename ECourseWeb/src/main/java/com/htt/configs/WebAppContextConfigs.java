@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
@@ -37,8 +38,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {
     "com.htt.controllers",
     "com.htt.repository",
-    "com.htt.service"
+    "com.htt.service",
+    "com.htt.components"
 })
+@Order(1)
 public class WebAppContextConfigs implements WebMvcConfigurer{
 
     @Override

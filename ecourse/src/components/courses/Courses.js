@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import APIs, { endpoints } from "../../configs/APIs";
 import { format } from 'date-fns';
 
@@ -46,6 +46,10 @@ const Courses = () => {
         setPage(page + 1);
     }
 
+    const handleCardClick = (id) => {
+        Navigate(`/courses/${id}`);
+    };
+
     return (
         <>
             <div className="container">
@@ -64,7 +68,7 @@ const Courses = () => {
                             </Card.Text>
                         </Card.Body>
                         <Card.Footer 
-                               
+                               onClick={() => handleCardClick(t.id)} 
                                 className="d-flex" 
                                 style={{ justifyContent: "space-around" }}>
                             <Link to="/" className="nav-link button-color font-size-header design-button">More details</Link>

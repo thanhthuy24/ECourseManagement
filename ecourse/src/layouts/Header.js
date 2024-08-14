@@ -67,9 +67,9 @@ const Header = () => {
                             <Link to="/" className='nav-link margin'>
                                 <FontAwesomeIcon icon={faHeart} size="2x" color="#8EA7E9"/>
                             </Link>
-                            <Link to="/" className='nav-link margin font-size-header'>
-                                Username
-                                </Link>
+                            <Link to="/login" className='nav-link margin font-size-header'>
+                                Login
+                            </Link>
                         </Nav>
                     </Navbar.Collapse>
                     

@@ -51,6 +51,9 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Course.findByImage", query = "SELECT c FROM Course c WHERE c.image = :image")})
 public class Course implements Serializable {
 
+    @OneToMany(mappedBy = "courseId")
+    private Set<RecepitDetail> recepitDetailSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -323,6 +326,15 @@ public class Course implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    @XmlTransient
+    public Set<RecepitDetail> getRecepitDetailSet() {
+        return recepitDetailSet;
+    }
+
+    public void setRecepitDetailSet(Set<RecepitDetail> recepitDetailSet) {
+        this.recepitDetailSet = recepitDetailSet;
     }
 
 }

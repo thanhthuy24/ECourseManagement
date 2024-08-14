@@ -46,6 +46,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Lesson.findByUpdatedDate", query = "SELECT l FROM Lesson l WHERE l.updatedDate = :updatedDate")})
 public class Lesson implements Serializable {
 
+    @OneToMany(mappedBy = "lessonId")
+    private Set<Process> processSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -216,6 +219,15 @@ public class Lesson implements Serializable {
     @Override
     public String toString() {
         return "com.htt.pojo.Lesson[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Set<Process> getProcessSet() {
+        return processSet;
+    }
+
+    public void setProcessSet(Set<Process> processSet) {
+        this.processSet = processSet;
     }
 
 }

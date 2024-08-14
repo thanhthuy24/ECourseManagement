@@ -33,16 +33,6 @@ const TeacherDetail = () => {
         });
     };
 
-    // const handleCopyPhone = () => {
-    //     const textToCopy = teacher.user?.phoneNumber || '';
-    //     navigator.clipboard.writeText(textToCopy).then(() => {
-    //         setShow(true);
-    //         setTimeout(() => setShow(false), 1500);
-    //     }).catch(err => {
-    //         console.error('Sao chép thất bại', err);
-    //     });
-    // };
-
     return (
         <>
             <div className="container">

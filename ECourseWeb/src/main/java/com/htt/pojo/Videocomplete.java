@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,13 +26,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Admin
  */
 @Entity
-@Table(name = "enrollment")
+@Table(name = "videocomplete")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Enrollment.findAll", query = "SELECT e FROM Enrollment e"),
-    @NamedQuery(name = "Enrollment.findById", query = "SELECT e FROM Enrollment e WHERE e.id = :id"),
-    @NamedQuery(name = "Enrollment.findByProgress", query = "SELECT e FROM Enrollment e WHERE e.enrollmentDate = :enrollmentDate")})
-public class Enrollment implements Serializable {
+    @NamedQuery(name = "Videocomplete.findAll", query = "SELECT v FROM Videocomplete v"),
+    @NamedQuery(name = "Videocomplete.findById", query = "SELECT v FROM Videocomplete v WHERE v.id = :id"),
+    @NamedQuery(name = "Videocomplete.findByCompletedDate", query = "SELECT v FROM Videocomplete v WHERE v.completedDate = :completedDate")})
+public class Videocomplete implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,25 +40,20 @@ public class Enrollment implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "enrollmentDate", updatable = false)
+    @Column(name = "completedDate")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date enrollmentDate;
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
-    @ManyToOne
-    private Course courseId;
+    private Date completedDate;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;
+    @JoinColumn(name = "video_id", referencedColumnName = "id")
+    @ManyToOne
+    private Video videoId;
 
-    @PrePersist
-    protected void onCreate() {
-        this.enrollmentDate = new Date();
+    public Videocomplete() {
     }
 
-    public Enrollment() {
-    }
-
-    public Enrollment(Integer id) {
+    public Videocomplete(Integer id) {
         this.id = id;
     }
 
@@ -71,12 +65,12 @@ public class Enrollment implements Serializable {
         this.id = id;
     }
 
-    public Course getCourseId() {
-        return courseId;
+    public Date getCompletedDate() {
+        return completedDate;
     }
 
-    public void setCourseId(Course courseId) {
-        this.courseId = courseId;
+    public void setCompletedDate(Date completedDate) {
+        this.completedDate = completedDate;
     }
 
     public User getUserId() {
@@ -85,6 +79,14 @@ public class Enrollment implements Serializable {
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    public Video getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(Video videoId) {
+        this.videoId = videoId;
     }
 
     @Override
@@ -97,10 +99,10 @@ public class Enrollment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Enrollment)) {
+        if (!(object instanceof Videocomplete)) {
             return false;
         }
-        Enrollment other = (Enrollment) object;
+        Videocomplete other = (Videocomplete) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -109,21 +111,7 @@ public class Enrollment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.htt.pojo.Enrollment[ id=" + id + " ]";
+        return "com.htt.pojo.Videocomplete[ id=" + id + " ]";
     }
-
-    /**
-     * @return the enrollmentDate
-     */
-    public Date getEnrollmentDate() {
-        return enrollmentDate;
-    }
-
-    /**
-     * @param enrollmentDate the enrollmentDate to set
-     */
-    public void setEnrollmentDate(Date enrollmentDate) {
-        this.enrollmentDate = enrollmentDate;
-    }
-
+    
 }
