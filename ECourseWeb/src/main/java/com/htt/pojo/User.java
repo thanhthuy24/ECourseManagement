@@ -50,10 +50,6 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByPhoneNumber", query = "SELECT u FROM User u WHERE u.phoneNumber = :phoneNumber")})
 public class User implements Serializable {
-
-    @OneToMany(mappedBy = "userId")
-    private Set<Receipt> receiptSet;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,8 +76,10 @@ public class User implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "lastName")
     private String lastName;
-    @Size(max = 50)
+//    @Size(max = 50)
+    
     @Column(name = "password")
+//    @Size(min = 0, max = 50, message = "Password must be between 0 and 50 characters")
     private String password;
     @Column(name = "createdDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -103,20 +101,28 @@ public class User implements Serializable {
     @Column(name = "phoneNumber")
     private String phoneNumber;
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Answerchoice> answerchoiceSet;
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Certification> certificationSet;
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Enrollment> enrollmentSet;
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Score> scoreSet;
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Teacher> teacherSet;
     @OneToMany(mappedBy = "userId")
-    private Set<Essay> essaySet;
-
-    @Transient
     @JsonIgnore
+    private Set<Essay> essaySet;
+    @OneToMany(mappedBy = "userId")
+    @JsonIgnore
+    private Set<Receipt> receiptSet;
+    
+    @Transient
     private MultipartFile file;
 
     @PrePersist

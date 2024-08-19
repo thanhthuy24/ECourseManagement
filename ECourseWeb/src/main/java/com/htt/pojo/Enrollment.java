@@ -32,7 +32,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Enrollment.findAll", query = "SELECT e FROM Enrollment e"),
     @NamedQuery(name = "Enrollment.findById", query = "SELECT e FROM Enrollment e WHERE e.id = :id"),
-    @NamedQuery(name = "Enrollment.findByProgress", query = "SELECT e FROM Enrollment e WHERE e.enrollmentDate = :enrollmentDate")})
+    @NamedQuery(name = "Enrollment.findByProgress", query = "SELECT e FROM Enrollment e WHERE e.enrollmentDate = :enrollmentDate"),
+    @NamedQuery(name = "Enrollment.findByUserId", 
+            query = "SELECT e.courseId FROM Enrollment e WHERE e.userId.id = :userId")
+
+})
+    
 public class Enrollment implements Serializable {
 
     private static final long serialVersionUID = 1L;

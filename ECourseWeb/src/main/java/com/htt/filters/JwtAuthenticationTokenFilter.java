@@ -53,10 +53,10 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
                     boolean accountNonExpired = true;
                     boolean credentialsNonExpired = true;
                     boolean accountNonLocked = true;
-                    
+
                     Set<GrantedAuthority> authorities = new HashSet<>();
                     authorities.add(new SimpleGrantedAuthority(user.getRole()));
-                    
+
                     UserDetails userDetail = new org.springframework.security.core.userdetails.User(username, user.getPassword(), enabled, accountNonExpired,
                             credentialsNonExpired, accountNonLocked, authorities);
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail,
@@ -68,6 +68,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
         } catch (ParseException ex) {
             Logger.getLogger(JwtAuthenticationTokenFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         chain.doFilter(request, response);
     }
 }

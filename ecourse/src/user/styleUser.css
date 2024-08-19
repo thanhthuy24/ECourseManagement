@@ -1,0 +1,15 @@
+.image {
+    width: 300px;
+}
+
+.form-label {
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+.button-logout {
+    background-color: red !important;
+    color: white !important;
+    border-color: red !important;
+    margin-top: 25%;
+}

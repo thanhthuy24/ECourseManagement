@@ -15,11 +15,11 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  * @author Admin
  */
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
-  
-  @Override
-  public void commence(HttpServletRequest request, HttpServletResponse response,
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException {
-    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-    response.getWriter().write("Unauthorized");
-  }
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("Unauthorized");
+    }
 }

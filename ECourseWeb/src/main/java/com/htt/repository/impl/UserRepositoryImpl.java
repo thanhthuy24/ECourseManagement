@@ -63,22 +63,29 @@ public class UserRepositoryImpl implements UserRepository {
         q.setParameter("username", username);
 
         return (User) q.getSingleResult();
-
     }
 
     @Override
     public boolean authUser(String username, String password) {
-        User  u = this.getUserByUsername(username);
-        
+        User u = this.getUserByUsername(username);
+
         return this.passEncoder.matches(password, u.getPassword());
     }
-    
+
     @Override
     public User addUser(User u) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(u);
-        
+
         return u;
     }
-    
+
+    @Override
+    public User findByIdWithEnrollments(Long userId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        String hql = "SELECT u FROM User u LEFT JOIN FETCH u.enrollments WHERE u.id = :userId";
+        org.hibernate.query.Query<User> query = session.createQuery(hql, User.class);
+        query.setParameter("userId", userId);
+        return query.uniqueResult();
+    }
 }

@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Admin
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/categories")
 @CrossOrigin
 public class ApiCategoryController {
 
     @Autowired
     private CategoryService cateSer;
 
-    @GetMapping("/categories")
+    @GetMapping("")
     public ResponseEntity<List<Category>> list() {
         List<Category> categories = this.cateSer.getCates();
         return new ResponseEntity<>(categories, HttpStatus.OK);

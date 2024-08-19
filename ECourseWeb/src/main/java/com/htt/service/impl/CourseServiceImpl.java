@@ -9,6 +9,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.htt.pojo.Course;
 import com.htt.pojo.Teacher;
 import com.htt.repository.CourseRepository;
+import com.htt.repository.EnrollmentRepository;
 import com.htt.service.CourseService;
 import java.io.IOException;
 import java.util.List;

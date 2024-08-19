@@ -5,6 +5,7 @@
 package com.htt.controllers;
 
 import com.htt.dto.CourseDTO;
+import com.htt.dto.TagDTO;
 import com.htt.dto.TeacherDTO;
 import com.htt.dto.UserDTO;
 import com.htt.pojo.Course;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 
 /**
  *
@@ -65,6 +65,7 @@ public class ApiCourseController {
             courseDTO.setCreatedDate(t.getCreatedDate());
             courseDTO.setDescription(t.getDescription());
             courseDTO.setDiscount(t.getDiscount());
+            courseDTO.setPrice(t.getPrice());
             courseDTO.setImage(t.getImage());
             courseDTO.setIsActive(t.getIsActive());
             courseDTO.setName(t.getName());
@@ -92,4 +93,5 @@ public class ApiCourseController {
         return courseDTOList;
     }
     
+
 }

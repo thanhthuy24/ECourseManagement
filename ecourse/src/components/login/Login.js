@@ -3,10 +3,16 @@ import './styleLogin.css';
 import loginImage from './login.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { useState } from "react";
-import APIs, { endpoints } from "../../configs/APIs";
+import { useContext, useState } from "react";
+import APIs, { authAPIs, endpoints } from "../../configs/APIs";
+import cookie from "react-cookies";
+import { MyDispatchContext, MyUserContext } from "../../App";
+import { Navigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const Login = () => {
+    const user = useContext(MyUserContext);
+    const dispatch = useContext(MyDispatchContext);
 
     const [userName, setUserName] = useState();
     const [passWord, setPassWord] = useState();
@@ -19,7 +25,19 @@ const Login = () => {
                 "username": userName,
                 "password": passWord
             });
-            console.info(res.data);
+        cookie.save("token", res.data);
+
+        let user = await authAPIs().get(endpoints['current-user']);
+        cookie.save("user", user.data);
+    
+        dispatch({
+            "type": "login",
+            "payload": user.data
+        })
+    }
+
+    if(user != null){
+        return <Navigate to="/" />
     }
 
     return(
@@ -33,14 +51,14 @@ const Login = () => {
                         <p className="text-sign-in margin" >Sign in</p>
                         <p style={{textAlign: "center"}}>Welcome back! You've been missed!</p>
                         <div className="d-flex button-sign-gg-fb">
-                        <Button>
-                            <FontAwesomeIcon style={{marginRight: "10px"}} icon={faGoogle} />
-                            Sign in with Google
-                        </Button>
-                        <Button>
-                        <FontAwesomeIcon style={{marginRight: "10px"}}  icon={faFacebook} />
-                            Sign in with FaceBook
-                        </Button>
+                            <Button>
+                                <FontAwesomeIcon style={{marginRight: "10px"}} icon={faGoogle} />
+                                Sign in with Google
+                            </Button>
+                            <Button>
+                            <FontAwesomeIcon style={{marginRight: "10px"}}  icon={faFacebook} />
+                                Sign in with FaceBook
+                            </Button>
                         </div>
                         <Form onSubmit={loadLogin} method="post"> 
                             <Form.Group className="mb-3" controlId="controliInputUsername">
@@ -51,7 +69,14 @@ const Login = () => {
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control type="password" placeholder="Password" value={passWord} onChange={e => setPassWord(e.target.value)}/>
                             </Form.Group>
-                            <Button type="submit" className="button-login">Sign in</Button>
+                            <Link to="/" className="nav-link" style={{textAlign: "right", color: "red"}}>Forget password?</Link>
+                            <Button type="submit" className="button-login button-sign-gg-fb">Sign in</Button>
+                            
+                            <div className="d-flex" style={{justifyContent: "center", margin: "5px"}}>
+                                <p style={{margin: "3px"}}>Don't have an account yet? </p>
+                                <Link to="/register" className="nav-link" style={{color: "blue", fontWeight: "bold", margin: "3px"}}>Sign up</Link>
+                            </div>
+                            
                         </Form>
                     </Col>
                 </Row>

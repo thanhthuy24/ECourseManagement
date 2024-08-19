@@ -4,7 +4,6 @@
  */
 package com.htt.configs;
 
-import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.htt.formatters.CategoryFormatter;
 import com.htt.formatters.CourseFormatter;

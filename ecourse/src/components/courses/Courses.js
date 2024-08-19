@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
-import { Link, Navigate, useSearchParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import APIs, { endpoints } from "../../configs/APIs";
 import { format } from 'date-fns';
+import cookie from "react-cookies";
+import { MyCartContext } from "../../App";
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [q] = useSearchParams(); 
     const [page, setPage] = useState(1);
+    const nav = useNavigate();
+    const [, dispatch] = useContext(MyCartContext);
 
     const loadCourses = async () => {
         try {
@@ -42,14 +46,33 @@ const Courses = () => {
         loadCourses();
     }, [q, page])
 
-    const loadMore = () => {
-        setPage(page + 1);
-    }
-
     const handleCardClick = (id) => {
-        Navigate(`/courses/${id}`);
+        nav(`/courses/${id}`);
     };
 
+    const addToCart = (p) => {
+        let cart = cookie.load("cart") || null;
+        if (cart === null)
+            cart = {};
+    
+        if (p.id in cart) {
+            cart[p.id]["quantity"]++;
+        } else {
+            cart[p.id] = {
+                "id": p.id,
+                "name": p.name,
+                "price": p.price,
+                "quantity": 1
+            }
+        }
+    
+        cookie.save("cart", cart);
+        console.info(cart);
+    
+        dispatch({
+            "type": "update"
+        })
+      }
     return (
         <>
             <div className="container">
@@ -66,14 +89,17 @@ const Courses = () => {
                             <Card.Text className="flex-grow-1">
                             {t.description}
                             </Card.Text>
+                            
                         </Card.Body>
                         <Card.Footer 
-                               onClick={() => handleCardClick(t.id)} 
+                                
                                 className="d-flex" 
                                 style={{ justifyContent: "space-around" }}>
-                            <Link to="/" className="nav-link button-color font-size-header design-button">More details</Link>
+                            <Button onClick={() => handleCardClick(t.id)} className="nav-link button-color font-size-header design-button">More details</Button>
+                            <Button onClick={() => addToCart(t)} className="nav-link button-color font-size-header design-button">Add to card</Button>
                         </Card.Footer>
                         </Card>
+                       
                     </Col>
                     ))}
                 </Row>

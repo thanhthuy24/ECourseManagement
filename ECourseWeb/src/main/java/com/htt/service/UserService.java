@@ -4,6 +4,7 @@
  */
 package com.htt.service;
 
+import com.htt.dto.UserDTO;
 import com.htt.pojo.User;
 import java.util.List;
 import java.util.Map;
@@ -21,4 +22,5 @@ public interface UserService extends UserDetailsService {
     User getUserById(Long id);
     boolean authUser(String username, String password);
     User addUser(Map<String, String> params, MultipartFile avatar);
+    UserDTO getUserWithEnrollments(Long userId);
 }

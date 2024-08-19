@@ -24,7 +24,6 @@ const TeacherDetail = () => {
     }, [id]);
 
     const handleCopy = (text, setShow) => {
-        // const textToCopy = teacher.user?.email || '';
         navigator.clipboard.writeText(text || '').then(() => {
             setShow(true);
             setTimeout(() => setShow(false), 1500);

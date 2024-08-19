@@ -1,6 +1,6 @@
 import './styleHeader.css';
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import APIs, { endpoints } from "../configs/APIs";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -11,12 +11,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from 'react-router-dom';
+import { MyCartContext, MyUserContext } from '../App';
+import { Badge, Image } from 'react-bootstrap';
 
 
 const Header = () => {
+    const user = useContext(MyUserContext);
+
     const [categories, setCategories] = useState([]);
     const [kw, setKw] = useState("");
     const nav = useNavigate();
+    const [cartCounter, ] = useContext(MyCartContext);
 
     const loadCates = async () => {
         let res = await APIs.get(endpoints['categories']);
@@ -61,15 +66,24 @@ const Header = () => {
                             style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
-                            <Link to="/" className='nav-link margin'>
+                            <Link to="/cart" className='nav-link margin'>
                                 <FontAwesomeIcon icon={faCartShopping} size="2x" color="#8EA7E9"/>
+                                <Badge style={{marginLeft: "5px"}} className="bg bg-danger">{cartCounter}</Badge>
                             </Link>
-                            <Link to="/" className='nav-link margin'>
+                            <Link to="/mycourses" className='nav-link margin'>
                                 <FontAwesomeIcon icon={faHeart} size="2x" color="#8EA7E9"/>
                             </Link>
-                            <Link to="/login" className='nav-link margin font-size-header'>
-                                Login
-                            </Link>
+                            {user === null ? <>
+                                <Link to="/login" className='nav-link margin font-size-header'>
+                                   Login
+                                </Link>
+                            </>: 
+                            <>
+                                <Link to="/user" className='nav-link margin font-size-header'>
+                                    <Image src={user.avatar} rounded style={{width: "30px"}}/> {user.username}
+                                </Link>
+                            </>}
+                            
                         </Nav>
                     </Navbar.Collapse>
                     

@@ -6,6 +6,9 @@ package com.htt.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.htt.dto.CourseDTO;
+import com.htt.dto.EnrollmentDTO;
+import com.htt.dto.UserDTO;
 import com.htt.pojo.User;
 import com.htt.repository.UserRepository;
 import com.htt.service.UserService;
@@ -16,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -81,7 +85,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(u.getRole()));
+        authorities.add(new SimpleGrantedAuthority(u.getRole())); 
         return new org.springframework.security.core.userdetails.User(
                 u.getUsername(), u.getPassword(), authorities);
     }
@@ -96,8 +100,8 @@ public class UserServiceImpl implements UserService {
         User u = new User();
         u.setFirstName(params.get("firstName"));
         u.setLastName(params.get("lastName"));
-        u.setPhoneNumber(params.get("phoneNumber"));
-        u.setEmail(params.get("email"));
+        u.setPhoneNumber(params.getOrDefault("phoneNumber", "9999999999"));
+        u.setEmail(params.getOrDefault("email", "a@gmail.com"));
         u.setUsername(params.get("username"));
         u.setPassword(this.passEncoder.encode(params.get("password")));
         u.setRole("ROLE_USER");
@@ -115,4 +119,31 @@ public class UserServiceImpl implements UserService {
         return u;
     }
 
+    @Override
+    public UserDTO getUserWithEnrollments(Long userId) {
+        User user = userRepo.findByIdWithEnrollments(userId);
+     
+        // Convert User entity to UserDTO
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setEmail(user.getEmail());
+
+        // Convert list of Enrollments to list of EnrollmentDTOs
+        List<EnrollmentDTO> enrollmentDTOs = user.getEnrollmentSet().stream().map(enrollment -> {
+            EnrollmentDTO enrollmentDTO = new EnrollmentDTO();
+            enrollmentDTO.setEnrollmentDate(enrollment.getEnrollmentDate());
+
+            // Convert Course to CourseDTO
+            CourseDTO courseDTO = new CourseDTO();
+            courseDTO.setName(enrollment.getCourseId().getName());
+            enrollmentDTO.setCourse(courseDTO);
+
+            return enrollmentDTO;
+        }).collect(Collectors.toList());
+
+        userDTO.setEnrollments(enrollmentDTOs);
+
+        return userDTO;  
+    }
 }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="de734e91-1ec5-4b11-a08c-76a15b09ed0f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/components/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/components/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/configs/JwtSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/configs/JwtSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/configs/SpringSecurityConfigs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/configs/SpringSecurityConfigs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/configs/WebAppContextConfigs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/configs/WebAppContextConfigs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/controllers/ApiCourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/controllers/ApiCourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/controllers/ApiUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/controllers/ApiUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/dto/CourseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/dto/CourseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/dto/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/filters/CustomAccessDeniedHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/filters/CustomAccessDeniedHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/filters/JwtAuthenticationTokenFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/filters/JwtAuthenticationTokenFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/filters/RestAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/filters/RestAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/pojo/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/pojo/Course.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/pojo/Enrollment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/pojo/Enrollment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/pojo/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/pojo/Tag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/pojo/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/pojo/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/repository/impl/UserRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/repository/impl/UserRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/service/impl/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/service/impl/CourseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/htt/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/htt/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/components/courses/CourseDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/components/courses/CourseDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/components/courses/Courses.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/components/courses/Courses.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/components/login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/components/login/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/components/login/styleLogin.css" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/components/login/styleLogin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/components/teachers/TeacherDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/components/teachers/TeacherDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/configs/APIs.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/configs/APIs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/src/layouts/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/src/layouts/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ecourse/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ecourse/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2kprrqqOcbVbtUnOxRXzJN6lRCQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/WorkSpace/ECourseManagement/ECourseWeb"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="de734e91-1ec5-4b11-a08c-76a15b09ed0f" name="Changes" comment="" />
+      <created>1723991560230</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1723991560230</updated>
+    </task>
+    <servers />
+  </component>
+</project>

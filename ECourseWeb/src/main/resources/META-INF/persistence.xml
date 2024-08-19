@@ -19,7 +19,7 @@
     <class>com.htt.pojo.Certification</class>
     <class>com.htt.pojo.Choice</class>
     <class>com.htt.pojo.Question</class>
-    <class>com.htt.pojo.RecepitDetail</class>
+    <class>com.htt.pojo.ReceiptDetail</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ecoursedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

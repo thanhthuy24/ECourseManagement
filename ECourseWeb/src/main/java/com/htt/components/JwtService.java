@@ -37,7 +37,7 @@ public class JwtService {
             builder.expirationTime(new Date(System.currentTimeMillis() + EXPIRE_TIME));
             
             JWTClaimsSet claimsSet = builder.build();
-            SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.ES256), claimsSet);
+            SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
             
             signedJWT.sign(signer);
             token = signedJWT.serialize();
