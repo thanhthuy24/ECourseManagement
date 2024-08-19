@@ -5,6 +5,9 @@ import APIs, { endpoints } from "../../configs/APIs";
 import { format } from 'date-fns';
 import cookie from "react-cookies";
 import { MyCartContext } from "../../App";
+import { ToastContainer, toast } from 'react-toastify';
+
+  import 'react-toastify/dist/ReactToastify.css';
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
@@ -55,28 +58,28 @@ const Courses = () => {
         if (cart === null)
             cart = {};
     
-        if (p.id in cart) {
-            cart[p.id]["quantity"]++;
-        } else {
+        if (!(p.id in cart)) {
             cart[p.id] = {
                 "id": p.id,
                 "name": p.name,
                 "price": p.price,
                 "quantity": 1
-            }
-        }
-    
-        cookie.save("cart", cart);
-        console.info(cart);
-    
-        dispatch({
-            "type": "update"
-        })
+            };
+            cookie.save("cart", cart);
+            dispatch({
+                "type": "update"
+            })
+            toast.success("Product added to cart!");
+        } else {
+            toast.error("Product is already in the cart and cannot be added again.");
+        }  
+        
       }
     return (
         <>
             <div className="container">
                 <Row>
+                <ToastContainer />
                     {courses.map(t => (
                     <Col key={t.id} className="mb-4 d-flex" md={3} xs={12}>
                         <Card className="w-100" style={{ height: '550px' }} >

@@ -4,17 +4,13 @@
  */
 package com.htt.service;
 
-import com.htt.pojo.Cart;
-import com.htt.pojo.Receipt;
+import com.htt.pojo.ReceiptDetail;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public interface ReceiptService {
-
-    void addReceipt(List<Cart> carts);
-
-    List<Receipt> getReceiptsByUserId(Long userId);
+public interface ReceiptDetailService {
+    List<ReceiptDetail> getByReceiptId(Long receiptId);
 }

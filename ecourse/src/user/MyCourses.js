@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const MyCourses = () => {
     const [courses, setCourses] = useState([]);
-
+    
     
 
     return (

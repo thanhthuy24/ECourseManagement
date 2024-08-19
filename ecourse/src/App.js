@@ -15,6 +15,7 @@ import CourseDetail from "./components/courses/CourseDetail";
 import cookie from "react-cookies";
 import MyCartReducer from "./reducers/MyCartReducer";
 import Cart from "./components/cart/Cart";
+// import { ToastContainer } from "react-bootstrap";
 
 export const MyUserContext = createContext();
 export const MyDispatchContext = createContext();
@@ -42,6 +43,7 @@ const App = () => {
                 <MyDispatchContext.Provider value={dispatch}>
                     <MyCartContext.Provider value={[cartCounter, cartDispatch]}>
                         <Header />
+                        
                         <Routes>
                             <Route path="/" element={<Courses />} />
                             <Route path="/courses/:id" element={<CourseDetail />} />

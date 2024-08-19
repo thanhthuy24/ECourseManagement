@@ -5,6 +5,7 @@
 package com.htt.service.impl;
 
 import com.htt.pojo.Cart;
+import com.htt.pojo.Receipt;
 import com.htt.repository.ReceiptRepository;
 import com.htt.service.ReceiptService;
 import java.util.List;
@@ -25,5 +26,11 @@ public class ReceiptServiceImpl implements ReceiptService {
     public void addReceipt(List<Cart> carts) {
         this.receiptRepo.addReceipt(carts);
     }
+
+    @Override
+    public List<Receipt> getReceiptsByUserId(Long userId) {
+        return this.receiptRepo.getReceiptsByUserId(userId);
+    }        
+        
 
 }

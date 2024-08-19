@@ -44,13 +44,9 @@ import lombok.*;
 @NamedQueries({
     @NamedQuery(name = "Receipt.findAll", query = "SELECT r FROM Receipt r"),
     @NamedQuery(name = "Receipt.findById", query = "SELECT r FROM Receipt r WHERE r.id = :id"),
-    
     @NamedQuery(name = "Receipt.findByTotal", query = "SELECT r FROM Receipt r WHERE r.total = :total"),
     @NamedQuery(name = "Receipt.findByCreatedDate", query = "SELECT r FROM Receipt r WHERE r.createdDate = :createdDate")})
 public class Receipt implements Serializable {
-
-//    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "receiptId")
-//    private Set<ReceiptDetail> recepitDetailSet;
     
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
@@ -61,7 +57,7 @@ public class Receipt implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "total")
     private float total;

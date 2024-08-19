@@ -12,8 +12,13 @@ import com.htt.repository.ReceiptRepository;
 import com.htt.repository.UserRepository;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
@@ -33,7 +38,7 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
     private CourseRepository courseRepo;
     @Autowired
     private LocalSessionFactoryBean factory;
-
+    
     @Override
     public void addReceipt(List<Cart> carts) {
         if (carts != null) {
@@ -43,9 +48,9 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
                     SecurityContextHolder.getContext().getAuthentication().getName()));
             receipt.setCreatedDate(new Date());
 
-           float totalPrice = (float) carts.stream()
-                .mapToDouble(c -> c.getPrice() * c.getQuantity())
-                .sum();
+            float totalPrice = (float) carts.stream()
+                    .mapToDouble(c -> c.getPrice() * c.getQuantity())
+                    .sum();
             receipt.setTotal(totalPrice);
 
             s.save(receipt);
@@ -60,5 +65,15 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
             }
         }
     }
+    
+    @Override
+    public List<Receipt> getReceiptsByUserId(Long userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+            String hql = "FROM Receipt WHERE userId.id = :userId";
+            return s.createQuery(hql, Receipt.class)
+                          .setParameter("userId", userId)
+                          .list();
+    }
+
 
 }

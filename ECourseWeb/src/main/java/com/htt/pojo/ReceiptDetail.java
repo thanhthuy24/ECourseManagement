@@ -50,7 +50,7 @@ public class ReceiptDetail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "quantity")
     private int quantity;
     @Column(name = "price")

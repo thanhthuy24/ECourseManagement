@@ -64,6 +64,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Course implements Serializable {
 
     @OneToMany(mappedBy = "courseId")
+    @JsonIgnore
     private Set<ReceiptDetail> recepitDetailSet;
 
     private static final long serialVersionUID = 1L;
