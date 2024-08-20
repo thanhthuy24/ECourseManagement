@@ -15,6 +15,8 @@ import CourseDetail from "./components/courses/CourseDetail";
 import cookie from "react-cookies";
 import MyCartReducer from "./reducers/MyCartReducer";
 import Cart from "./components/cart/Cart";
+import UserCourseDetail from "./user/UserCourseDetail";
+import Lessons from "./lessons/Lessons";
 // import { ToastContainer } from "react-bootstrap";
 
 export const MyUserContext = createContext();
@@ -52,8 +54,10 @@ const App = () => {
                             <Route path="/teachers/:id" element={<TeacherDetail />} />
                             <Route path="/register" element={<Register />}/>
                             <Route path="/user" element={<UserInfor />}/>
-                            <Route path="/mycourses" element={<MyCourses />}/>
                             <Route path="/cart" element={<Cart />}/>
+                            <Route path="/my-receipts" element={<MyCourses />}/>
+                            <Route path="/receipt/:id" element={<UserCourseDetail />}/>
+                            <Route path="/lessons/:courseId" element={<Lessons />}/>
                         </Routes>
                     </MyCartContext.Provider>
                 </MyDispatchContext.Provider>

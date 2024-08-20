@@ -38,7 +38,7 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
     private CourseRepository courseRepo;
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Override
     public void addReceipt(List<Cart> carts) {
         if (carts != null) {
@@ -65,15 +65,23 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
             }
         }
     }
-    
+
     @Override
     public List<Receipt> getReceiptsByUserId(Long userId) {
         Session s = this.factory.getObject().getCurrentSession();
-            String hql = "FROM Receipt WHERE userId.id = :userId";
-            return s.createQuery(hql, Receipt.class)
-                          .setParameter("userId", userId)
-                          .list();
+        String hql = "FROM Receipt WHERE userId.id = :userId";
+        return s.createQuery(hql, Receipt.class)
+                .setParameter("userId", userId)
+                .list();
     }
 
-
+    @Override
+    public Long countByUserId(Long userId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        // Sử dụng `user_id` như trong câu lệnh SQL
+        String sql = "SELECT COUNT(*) FROM Receipt WHERE userId.id = :userId";
+        return ((Number) session.createNativeQuery(sql)
+                .setParameter(1, userId) // Tham số thứ nhất trong câu lệnh SQL
+                .getSingleResult()).longValue();
+    }
 }

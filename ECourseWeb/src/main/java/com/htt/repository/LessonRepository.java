@@ -18,4 +18,5 @@ public interface LessonRepository {
     void addOrUpdate(Lesson c);
     Lesson getLessonById(int id);
     void deleteLesson(int id);
+    List<Lesson> getLessonsByCourseId(Long courseId);
 }

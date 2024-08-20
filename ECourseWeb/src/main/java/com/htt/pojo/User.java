@@ -27,6 +27,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -35,6 +41,12 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Entity
 @Table(name = "user")
+@Getter
+@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -100,241 +112,35 @@ public class User implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "phoneNumber")
     private String phoneNumber;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<Answerchoice> answerchoiceSet;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<Certification> certificationSet;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<Enrollment> enrollmentSet;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<Score> scoreSet;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<Teacher> teacherSet;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<Essay> essaySet;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<Receipt> receiptSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Answerchoice> answerchoiceSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Certification> certificationSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Enrollment> enrollmentSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Score> scoreSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Teacher> teacherSet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Essay> essaySet;
+//    @OneToMany(mappedBy = "userId")
+//    @JsonIgnore
+//    private Set<Receipt> receiptSet;
     
     @Transient
+    @JsonIgnore
     private MultipartFile file;
 
     @PrePersist
     protected void onCreate() {
         this.createdDate = new Date();
-    }
-
-    public User() {
-    }
-
-    public User(Long id) {
-        this.id = id;
-    }
-
-    public User(Long id, String username, String role, String firstName, String lastName, String email, String phoneNumber) {
-        this.id = id;
-        this.username = username;
-        this.role = role;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    @XmlTransient
-    public Set<Answerchoice> getAnswerchoiceSet() {
-        return answerchoiceSet;
-    }
-
-    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
-        this.answerchoiceSet = answerchoiceSet;
-    }
-
-    @XmlTransient
-    public Set<Certification> getCertificationSet() {
-        return certificationSet;
-    }
-
-    public void setCertificationSet(Set<Certification> certificationSet) {
-        this.certificationSet = certificationSet;
-    }
-
-    @XmlTransient
-    public Set<Enrollment> getEnrollmentSet() {
-        return enrollmentSet;
-    }
-
-    public void setEnrollmentSet(Set<Enrollment> enrollmentSet) {
-        this.enrollmentSet = enrollmentSet;
-    }
-
-    @XmlTransient
-    public Set<Score> getScoreSet() {
-        return scoreSet;
-    }
-
-    public void setScoreSet(Set<Score> scoreSet) {
-        this.scoreSet = scoreSet;
-    }
-
-    @XmlTransient
-    public Set<Teacher> getTeacherSet() {
-        return teacherSet;
-    }
-
-    public void setTeacherSet(Set<Teacher> teacherSet) {
-        this.teacherSet = teacherSet;
-    }
-
-    @XmlTransient
-    public Set<Essay> getEssaySet() {
-        return essaySet;
-    }
-
-    public void setEssaySet(Set<Essay> essaySet) {
-        this.essaySet = essaySet;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
-            return false;
-        }
-        User other = (User) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.htt.pojo.User[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the file
-     */
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
-    @XmlTransient
-    public Set<Receipt> getReceiptSet() {
-        return receiptSet;
-    }
-
-    public void setReceiptSet(Set<Receipt> receiptSet) {
-        this.receiptSet = receiptSet;
     }
 
 }

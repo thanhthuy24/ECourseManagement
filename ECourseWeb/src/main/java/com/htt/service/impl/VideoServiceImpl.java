@@ -56,13 +56,17 @@ public class VideoServiceImpl implements VideoService {
     }
     
     @Override
-    public Video getVideoById(int id) {
+    public Video getVideoById(Long id) {
         return this.videoRepo.getVideoById(id);
     }
 
     @Override
-    public void deleteVideo(int id) {
+    public void deleteVideo(Long id) {
         this.videoRepo.deleteVideo(id);
     }
 
+    @Override
+    public List<Video> getVideoByLessonId(Long id) {
+        return this.videoRepo.getVideoByLessonId(id);
+    }
 }

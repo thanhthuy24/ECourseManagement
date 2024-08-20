@@ -28,6 +28,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -35,6 +41,12 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "lesson")
+@Getter
+@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Lesson.findAll", query = "SELECT l FROM Lesson l"),
@@ -47,6 +59,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Lesson implements Serializable {
 
     @OneToMany(mappedBy = "lessonId")
+    @JsonIgnore
     private Set<Process> processSet;
 
     private static final long serialVersionUID = 1L;
@@ -54,7 +67,7 @@ public class Lesson implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -82,7 +95,7 @@ public class Lesson implements Serializable {
     private Set<Document> documentSet;
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private Course courseId;
 
     @OneToMany(mappedBy = "lessonId")
@@ -97,137 +110,6 @@ public class Lesson implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         this.updatedDate = new Date();
-    }
-
-    public Lesson() {
-    }
-
-    public Lesson(Integer id) {
-        this.id = id;
-    }
-
-    public Lesson(Integer id, String name, Date createdDate, Date updatedDate) {
-        this.id = id;
-        this.name = name;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    @XmlTransient
-    public Set<Assignment> getAssignmentSet() {
-        return assignmentSet;
-    }
-
-    public void setAssignmentSet(Set<Assignment> assignmentSet) {
-        this.assignmentSet = assignmentSet;
-    }
-
-    @XmlTransient
-    public Set<Document> getDocumentSet() {
-        return documentSet;
-    }
-
-    public void setDocumentSet(Set<Document> documentSet) {
-        this.documentSet = documentSet;
-    }
-
-    public Course getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Course courseId) {
-        this.courseId = courseId;
-    }
-
-    @XmlTransient
-    public Set<Video> getVideoSet() {
-        return videoSet;
-    }
-
-    public void setVideoSet(Set<Video> videoSet) {
-        this.videoSet = videoSet;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Lesson)) {
-            return false;
-        }
-        Lesson other = (Lesson) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.htt.pojo.Lesson[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Set<Process> getProcessSet() {
-        return processSet;
-    }
-
-    public void setProcessSet(Set<Process> processSet) {
-        this.processSet = processSet;
     }
 
 }

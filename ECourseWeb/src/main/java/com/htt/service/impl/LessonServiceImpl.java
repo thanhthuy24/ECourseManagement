@@ -46,5 +46,9 @@ public class LessonServiceImpl implements LessonService{
     public List<Lesson> getLessons() {
         return this.lessonRepo.getLessons();
     }
-    
+
+    @Override
+    public List<Lesson> getLessonsByCourseId(Long courseId) {
+        return this.lessonRepo.getLessonsByCourseId(courseId);
+    }   
 }

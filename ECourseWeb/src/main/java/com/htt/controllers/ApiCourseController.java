@@ -39,7 +39,7 @@ public class ApiCourseController {
     
     @DeleteMapping("/courses/{courseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable(value = "courseId") int id){
+    public void delete(@PathVariable(value = "courseId") Long id){
         this.courseSer.deleteCourse(id);
     }
     
@@ -51,10 +51,30 @@ public class ApiCourseController {
     }
     
     @GetMapping("/courses/{courseId}")
-    public ResponseEntity<Course> course(@PathVariable(value = "courseId") int id) {
+    public ResponseEntity<CourseDTO> course(@PathVariable(value = "courseId") Long id) {
         Course courses  = this.courseSer.getCourseById(id);
+        CourseDTO courseDTO = convertToDTO(courses);
+        return new ResponseEntity<>(courseDTO, HttpStatus.OK);
+    }
+    
+    private CourseDTO convertToDTO(Course t) {
+        CourseDTO courseDTO = new CourseDTO();
+        courseDTO.setId(t.getId());
+        courseDTO.setCreatedDate(t.getCreatedDate());
+        courseDTO.setDescription(t.getDescription());
+        courseDTO.setDiscount(t.getDiscount());
+        courseDTO.setPrice(t.getPrice());
+        courseDTO.setImage(t.getImage());
+        courseDTO.setIsActive(t.getIsActive());
+        courseDTO.setName(t.getName());
+        courseDTO.setUpdatedDate(t.getUpdatedDate());
         
-        return new ResponseEntity<>(courses, HttpStatus.OK);
+        TagDTO tagDTO = new TagDTO();
+        tagDTO.setName(t.getTagId().getName());
+        
+        courseDTO.setTag(tagDTO);
+
+        return courseDTO;
     }
     
     private List<CourseDTO> convertToDTO(List<Course> courses) {

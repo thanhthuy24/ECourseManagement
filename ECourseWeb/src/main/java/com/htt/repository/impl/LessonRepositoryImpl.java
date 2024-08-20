@@ -108,4 +108,13 @@ public class LessonRepositoryImpl implements LessonRepository{
         return q.getResultList();
     }
     
+    @Override
+    public List<Lesson> getLessonsByCourseId(Long courseId) {
+        Session s = this.factory.getObject().getCurrentSession();
+            String hql = "FROM Lesson WHERE courseId.id = :courseId";
+            return s.createQuery(hql, Lesson.class)
+                          .setParameter("courseId", courseId)
+                          .list();
+    }
+    
 }

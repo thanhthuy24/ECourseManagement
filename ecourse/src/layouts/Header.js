@@ -70,7 +70,7 @@ const Header = () => {
                                 <FontAwesomeIcon icon={faCartShopping} size="2x" color="#8EA7E9"/>
                                 <Badge style={{marginLeft: "5px"}} className="bg bg-danger">{cartCounter}</Badge>
                             </Link>
-                            <Link to="/mycourses" className='nav-link margin'>
+                            <Link to="/my-receipts" className='nav-link margin'>
                                 <FontAwesomeIcon icon={faHeart} size="2x" color="#8EA7E9"/>
                             </Link>
                             {user === null ? <>

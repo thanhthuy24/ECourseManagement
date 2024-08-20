@@ -31,6 +31,11 @@ public class ReceiptServiceImpl implements ReceiptService {
     public List<Receipt> getReceiptsByUserId(Long userId) {
         return this.receiptRepo.getReceiptsByUserId(userId);
     }        
+
+    @Override
+    public Long countByUserId(Long userId) {
+        return this.receiptRepo.countByUserId(userId);
+    }
         
 
 }

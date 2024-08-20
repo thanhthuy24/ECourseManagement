@@ -33,7 +33,7 @@ public class CourseController {
     }
 
     @GetMapping("/courses/{courseId}")
-    public String courseView(Model model, @PathVariable(value = "courseId") int id) {
+    public String courseView(Model model, @PathVariable(value = "courseId") Long id) {
         model.addAttribute("course", this.courseSer.getCourseById(id));
         return "course";
     }

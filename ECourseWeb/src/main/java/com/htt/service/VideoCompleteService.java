@@ -4,18 +4,14 @@
  */
 package com.htt.service;
 
-import com.htt.pojo.Cart;
-import com.htt.pojo.Receipt;
-import java.util.List;
+import com.htt.dto.VideoCompleteDTO;
+import com.htt.pojo.Videocomplete;
 
 /**
  *
  * @author Admin
  */
-public interface ReceiptService {
+public interface VideoCompleteService {
 
-    void addReceipt(List<Cart> carts);
-
-    List<Receipt> getReceiptsByUserId(Long userId);
-    Long countByUserId(Long userId);
+    Videocomplete addVideos(Videocomplete videoComplete);
 }

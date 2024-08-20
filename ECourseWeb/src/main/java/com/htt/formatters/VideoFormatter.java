@@ -24,7 +24,7 @@ public class VideoFormatter implements Formatter<Video>{
     @Override
     public Video parse(String videoId, Locale locale) throws ParseException {
         Video c = new Video();
-        c.setId(Integer.parseInt(videoId));
+        c.setId(Long.parseLong(videoId));
 
         return c;
     }

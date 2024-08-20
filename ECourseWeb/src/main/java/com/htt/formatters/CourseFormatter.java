@@ -23,7 +23,7 @@ public class CourseFormatter implements Formatter<Course>{
     @Override
     public Course parse(String courseId, Locale locale) throws ParseException {
         Course c = new Course();
-        c.setId(Integer.parseInt(courseId));
+        c.setId(Long.parseLong(courseId));
         
         return c;
     }

@@ -10,7 +10,7 @@ const CourseDetail = () => {
     const loadCourse = async () => {
         let res = await APIs.get(endpoints['course'](id));
         setCourse(res.data);
-        console.log(res.data);
+        // console.log(res.data);
     }
 
     useEffect(() => {

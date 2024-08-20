@@ -37,12 +37,18 @@ public class ApiReceiptController {
     public void pay(@RequestBody List<Cart> carts) {
         this.receiptService.addReceipt(carts);
     }
-    
-     @GetMapping("/receipts/user/{userId}")
-     public ResponseEntity<?> getReceiptByUserId(
-        @PathVariable("userId") Long userId){
-         
-         return ResponseEntity.ok(receiptService.getReceiptsByUserId(userId));
-     }
 
+    @GetMapping("/receipts/user/{userId}")
+    public ResponseEntity<?> getReceiptByUserId(
+            @PathVariable("userId") Long userId) {
+
+        return ResponseEntity.ok(receiptService.getReceiptsByUserId(userId));
+    }
+
+    @GetMapping("/receipts/count/{userId}")
+    public ResponseEntity<?> countReceipt(
+            @PathVariable("userId") Long userId) {
+        Long count = receiptService.countByUserId(userId);
+        return ResponseEntity.ok("hii");
+    }
 }

@@ -11,7 +11,6 @@ const UserInfor = () => {
 
     const handleLogout = () => {
         dispatch({ type: 'logout' });
-        // Redirect to home page after logout
         nav('/');
       };
 

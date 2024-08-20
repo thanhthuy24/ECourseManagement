@@ -130,19 +130,19 @@ public class UserServiceImpl implements UserService {
         userDTO.setEmail(user.getEmail());
 
         // Convert list of Enrollments to list of EnrollmentDTOs
-        List<EnrollmentDTO> enrollmentDTOs = user.getEnrollmentSet().stream().map(enrollment -> {
-            EnrollmentDTO enrollmentDTO = new EnrollmentDTO();
-            enrollmentDTO.setEnrollmentDate(enrollment.getEnrollmentDate());
-
-            // Convert Course to CourseDTO
-            CourseDTO courseDTO = new CourseDTO();
-            courseDTO.setName(enrollment.getCourseId().getName());
-            enrollmentDTO.setCourse(courseDTO);
-
-            return enrollmentDTO;
-        }).collect(Collectors.toList());
-
-        userDTO.setEnrollments(enrollmentDTOs);
+//        List<EnrollmentDTO> enrollmentDTOs = user.getEnrollmentSet().stream().map(enrollment -> {
+//            EnrollmentDTO enrollmentDTO = new EnrollmentDTO();
+//            enrollmentDTO.setEnrollmentDate(enrollment.getEnrollmentDate());
+//
+//            // Convert Course to CourseDTO
+//            CourseDTO courseDTO = new CourseDTO();
+//            courseDTO.setName(enrollment.getCourseId().getName());
+//            enrollmentDTO.setCourse(courseDTO);
+//
+//            return enrollmentDTO;
+//        }).collect(Collectors.toList());
+//
+//        userDTO.setEnrollments(enrollmentDTOs);
 
         return userDTO;  
     }

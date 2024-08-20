@@ -16,6 +16,7 @@ const Courses = () => {
     const nav = useNavigate();
     const [, dispatch] = useContext(MyCartContext);
 
+
     const loadCourses = async () => {
         try {
             let url = `${endpoints['courses']}?page=${page}`;

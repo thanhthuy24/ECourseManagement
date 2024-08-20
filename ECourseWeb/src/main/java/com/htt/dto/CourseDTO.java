@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class CourseDTO {
 
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private Boolean isActive;

@@ -47,7 +47,7 @@ public class VideoController {
     }
 
     @GetMapping("/videos/{videoId}")
-    public String videoUpdate(Model model, @PathVariable(value = "videoId") int id) {
+    public String videoUpdate(Model model, @PathVariable(value = "videoId") Long id) {
         model.addAttribute("video", this.videoSer.getVideoById(id));
         return "video";
     }

@@ -15,4 +15,5 @@ import java.util.List;
 public interface ReceiptRepository {
     void addReceipt(List<Cart> carts);
     List<Receipt> getReceiptsByUserId(Long userId);
+    Long countByUserId(Long userId);
 }

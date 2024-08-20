@@ -30,11 +30,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {
     "com.htt.controllers",
     "com.htt.repository",
-    "com.htt.service", 
+    "com.htt.service",
     "com.htt.components"})
 @Order(1)
 public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
         JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
@@ -69,10 +69,23 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-//                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/api/receipts/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/api/receipt/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/api/lessons/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')").and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+        http.formLogin()
+                .loginPage("/login") // Cung cấp trang đăng nhập tùy chỉnh
+                .permitAll(); // Cho phép tất cả người dùng truy cập trang đăng nhập
+
+        // Cấu hình các lỗi truy cập và xử lý ngoại lệ
+        http.exceptionHandling()
+                .accessDeniedPage("/403") // Trang lỗi 403 nếu người dùng không có quyền
+                .authenticationEntryPoint(restServicesEntryPoint()) // Xử lý lỗi khi chưa đăng nhập
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Không duy trì trạng thái phiên
+
     }
 }

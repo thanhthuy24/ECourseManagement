@@ -19,9 +19,9 @@ public interface VideoService {
 
     void addOrUpdate(Video c);
 
-//    List<Video> getVideoByLessonId(int id);
+    List<Video> getVideoByLessonId(Long id);
     
-    Video getVideoById(int id);
+    Video getVideoById(Long id);
 
-    void deleteVideo(int id);
+    void deleteVideo(Long id);
 } 

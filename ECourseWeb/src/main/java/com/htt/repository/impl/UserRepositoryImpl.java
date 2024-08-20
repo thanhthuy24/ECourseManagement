@@ -76,7 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User addUser(User u) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(u);
-
+        u.setIsActive(true);
         return u;
     }
 

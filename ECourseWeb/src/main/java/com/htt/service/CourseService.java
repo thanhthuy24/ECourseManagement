@@ -18,6 +18,6 @@ public interface CourseService {
     List<Course> getCourses();
     void addOrUpdate(Course c);
     void addTeacher(Teacher c);
-    Course getCourseById(int id);
-    void deleteCourse(int id);
+    Course getCourseById(Long id);
+    void deleteCourse(Long id);
 }

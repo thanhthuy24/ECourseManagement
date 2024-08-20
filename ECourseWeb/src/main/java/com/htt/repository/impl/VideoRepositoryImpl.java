@@ -54,7 +54,7 @@ public class VideoRepositoryImpl implements VideoRepository {
                 Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
                 predicates.add(p1);
             }
-            
+
             String lessonId = params.get("lessonId");
             if (lessonId != null && !lessonId.isEmpty()) {
                 Predicate p4 = b.equal(root.get("lessonId"), Integer.parseInt(lessonId));
@@ -96,18 +96,27 @@ public class VideoRepositoryImpl implements VideoRepository {
             s.save(c);
         }
     }
-    
+
     @Override
-    public Video getVideoById(int id) {
+    public Video getVideoById(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Video.class, id);
     }
 
     @Override
-    public void deleteVideo(int id) {
+    public void deleteVideo(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         Video c = this.getVideoById(id);
         s.delete(c);
+    }
+
+    @Override
+    public List<Video> getVideoByLessonId(Long lessonId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String hql = "FROM Video WHERE lessonId.id = :lessonId";
+        return s.createQuery(hql, Video.class)
+                .setParameter("lessonId", lessonId)
+                .list();
     }
 
 }

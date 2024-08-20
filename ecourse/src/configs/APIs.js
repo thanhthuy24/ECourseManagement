@@ -13,7 +13,13 @@ export const endpoints = {
     'current-user': '/current-user',
     'register': '/users',
     'update-user': '/update-user',
-    'pay': '/pay'
+    'pay': '/pay',
+    'my-receipts': (userId) => `receipts/user/${userId}`,
+    'my-courses': (receiptId) => `receipt/${receiptId}`,
+    'lessons': (coursesId) => `lessons/${coursesId}`,
+    'videos': '/videos'
+    // 'videos': (lessonId) => `videos/${lessonId}`
+
 }
 
 export const authAPIs = () => {
