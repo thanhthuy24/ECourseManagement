@@ -4,16 +4,10 @@
  */
 package com.htt.service;
 
-import com.htt.dto.VideoCompleteDTO;
-import com.htt.pojo.Videocomplete;
-import java.util.List;
-
 /**
  *
  * @author Admin
  */
-public interface VideoCompleteService {
-
-    void addVideos(Long userId, Long videoId);
-    List<Videocomplete> getVideosCompleted(Long userId);
+public interface ProgressService {
+    float calculateCourseProgress(Long userId, Long courseId);
 }

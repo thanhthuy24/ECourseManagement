@@ -12,6 +12,7 @@ import com.htt.repository.UserRepository;
 import com.htt.repository.VideoCompleteRepository;
 import com.htt.repository.VideoRepository;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -29,48 +30,31 @@ public class VideoCompleteRepositoryImpl implements VideoCompleteRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Autowired
     private UserRepository userRepo;
-    
+
     @Autowired
     private VideoRepository videoRepo;
 
-   @Override
-public Videocomplete addVideos(Videocomplete v) {
-    Session s = this.factory.getObject().getCurrentSession();
-    Videocomplete videoComplete = new Videocomplete();
+    @Override
+    public void addVideos(Long userId, Long videoId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Videocomplete newVideoComplete = new Videocomplete();
+        newVideoComplete.setUserId(this.userRepo.getUserById(userId));
+        newVideoComplete.setVideoId(this.videoRepo.getVideoById(videoId));
+        newVideoComplete.setCompletedDate(new Date());
 
-    // Lấy User hiện tại từ SecurityContextHolder
-       User currentUser = this.userRepo.getUserByUsername(
-            SecurityContextHolder.getContext().getAuthentication().getName());
-    
-    if (currentUser == null) {
-        // Xử lý khi không tìm thấy User hiện tại
-        throw new RuntimeException("User not found");
+        s.save(newVideoComplete);
     }
 
-    // Gán UserId cho videoComplete
-    videoComplete.setUserId(currentUser);
-
-    // Gán ngày hoàn thành cho videoComplete
-    videoComplete.setCompletedDate(new Date());
-
-    // Lấy Video từ videoRepo
-    Video video = this.videoRepo.getVideoById(v.getVideoId().getId());
-    
-    if (video == null) {
-        // Xử lý khi không tìm thấy Video
-        throw new RuntimeException("Video not found");
+    @Override
+    public List<Videocomplete> getVideosCompleted(Long userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String hql = "FROM Videocomplete WHERE userId.id = :userId"; // Sửa tên tham số trong HQL
+        return s.createQuery(hql, Videocomplete.class)
+                .setParameter("userId", userId) // Sửa tên tham số trong setParameter
+            .list();
     }
-
-    // Gán VideoId cho videoComplete
-    videoComplete.setVideoId(video);
-
-    // Lưu videoComplete vào cơ sở dữ liệu
-    s.save(videoComplete);
-
-    return videoComplete;
-}
 
 }

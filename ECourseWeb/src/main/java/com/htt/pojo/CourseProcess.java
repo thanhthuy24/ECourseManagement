@@ -16,11 +16,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -28,14 +35,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "process")
+//@Getter
+//@Setter
+//@Data
+//@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Process.findAll", query = "SELECT p FROM Process p"),
-    @NamedQuery(name = "Process.findById", query = "SELECT p FROM Process p WHERE p.id = :id"),
-    @NamedQuery(name = "Process.findByStatus", query = "SELECT p FROM Process p WHERE p.status = :status"),
-    @NamedQuery(name = "Process.findByCompletionPercentage", query = "SELECT p FROM Process p WHERE p.completionPercentage = :completionPercentage"),
-    @NamedQuery(name = "Process.findByUpdatedDate", query = "SELECT p FROM Process p WHERE p.updatedDate = :updatedDate")})
-public class Process implements Serializable {
+    @NamedQuery(name = "CourseProcess.findAll", query = "SELECT p FROM CourseProcess p"),
+    @NamedQuery(name = "CourseProcess.findById", query = "SELECT p FROM CourseProcess p WHERE p.id = :id"),
+    @NamedQuery(name = "CourseProcess.findByStatus", query = "SELECT p FROM CourseProcess p WHERE p.status = :status"),
+    @NamedQuery(name = "CourseProcess.findByCompletionPercentage", query = "SELECT p FROM CourseProcess p WHERE p.completionPercentage = :completionPercentage"),
+    @NamedQuery(name = "CourseProcess.findByUpdatedDate", query = "SELECT p FROM CourseProcess p WHERE p.updatedDate = :updatedDate")})
+public class CourseProcess implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,7 +59,6 @@ public class Process implements Serializable {
     @Size(max = 100)
     @Column(name = "status")
     private String status;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "completion_percentage")
     private Float completionPercentage;
     @Column(name = "updatedDate")
@@ -55,99 +67,96 @@ public class Process implements Serializable {
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @ManyToOne
     private Course courseId;
-    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
-    @ManyToOne
-    private Lesson lessonId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;
-
-    public Process() {
+    
+    @PreUpdate
+    protected void onUpdate() {
+        this.setUpdatedDate(new Date());
     }
 
-    public Process(Integer id) {
-        this.id = id;
-    }
-
+    /**
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * @return the status
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * @param status the status to set
+     */
     public void setStatus(String status) {
         this.status = status;
     }
 
+    /**
+     * @return the completionPercentage
+     */
     public Float getCompletionPercentage() {
         return completionPercentage;
     }
 
+    /**
+     * @param completionPercentage the completionPercentage to set
+     */
     public void setCompletionPercentage(Float completionPercentage) {
         this.completionPercentage = completionPercentage;
     }
 
+    /**
+     * @return the updatedDate
+     */
     public Date getUpdatedDate() {
         return updatedDate;
     }
 
+    /**
+     * @param updatedDate the updatedDate to set
+     */
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
 
+    /**
+     * @return the courseId
+     */
     public Course getCourseId() {
         return courseId;
     }
 
+    /**
+     * @param courseId the courseId to set
+     */
     public void setCourseId(Course courseId) {
         this.courseId = courseId;
     }
 
-    public Lesson getLessonId() {
-        return lessonId;
-    }
-
-    public void setLessonId(Lesson lessonId) {
-        this.lessonId = lessonId;
-    }
-
+    /**
+     * @return the userId
+     */
     public User getUserId() {
         return userId;
     }
 
+    /**
+     * @param userId the userId to set
+     */
     public void setUserId(User userId) {
         this.userId = userId;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Process)) {
-            return false;
-        }
-        Process other = (Process) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.htt.pojo.Process[ id=" + id + " ]";
-    }
-    
 }

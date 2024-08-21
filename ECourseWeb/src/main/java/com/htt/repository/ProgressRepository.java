@@ -4,15 +4,10 @@
  */
 package com.htt.repository;
 
-import com.htt.dto.VideoCompleteDTO;
-import com.htt.pojo.Videocomplete;
-import java.util.List;
-
 /**
  *
  * @author Admin
  */
-public interface VideoCompleteRepository {
-    void addVideos(Long userId, Long videoId);
-    List<Videocomplete> getVideosCompleted(Long userId);
+public interface ProgressRepository {
+    float calculateCourseProgress(Long userId, Long courseId);
 }

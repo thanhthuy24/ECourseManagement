@@ -58,10 +58,6 @@ import lombok.Setter;
     @NamedQuery(name = "Lesson.findByUpdatedDate", query = "SELECT l FROM Lesson l WHERE l.updatedDate = :updatedDate")})
 public class Lesson implements Serializable {
 
-    @OneToMany(mappedBy = "lessonId")
-    @JsonIgnore
-    private Set<Process> processSet;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

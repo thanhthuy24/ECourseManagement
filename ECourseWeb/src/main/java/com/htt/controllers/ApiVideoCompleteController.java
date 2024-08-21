@@ -15,10 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,82 +37,41 @@ public class ApiVideoCompleteController {
 
     @Autowired
     private VideoCompleteService videoCompleteSer;
-    
+
+//    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/addVideoComplete")
     @ResponseStatus(HttpStatus.CREATED)
-    public void pay(@RequestBody Videocomplete videoComplete) {
-        this.videoCompleteSer.addVideos(videoComplete);
+    public void addVideoComplete(
+            @RequestParam Long userId,
+            @RequestParam Long videoId
+    ) {
+        this.videoCompleteSer.addVideos(userId, videoId);
     }
 
-//    @PostMapping("/addVideo")
-//    public ResponseEntity<?> addVideo(
-//            @ModelAttribute Videocomplete videoComplete,
-//            BindingResult rs
-//    ) {
-//        Videocomplete video = this.videoCompleteSer.addVideos(videoComplete);
-//        VideoCompleteDTO videoCompleteDTO = convertToDTO(video);
-//        return ResponseEntity.ok(videoCompleteDTO);
-//
-//    }
-//    public ResponseEntity<?> addVideo(
-//            @ModelAttribute Videocomplete videoComplete,
-//            BindingResult rs
-//    ) {
-//        // Kiểm tra BindingResult trước khi thực hiện thao tác
-//        if (rs.hasErrors()) {
-//            return ResponseEntity.badRequest().body(rs.getAllErrors());
-//        }
-//
-//        // Đảm bảo videoComplete có userId và videoId hợp lệ
-//        if (videoComplete.getUserId() == null || videoComplete.getVideoId() == null) {
-//            return ResponseEntity.badRequest().body("User or Video cannot be null");
-//        }
-//
-//        Videocomplete video = this.videoCompleteSer.addVideos(videoComplete);
-//        VideoCompleteDTO videoCompleteDTO = convertToDTO(video);
-//        return ResponseEntity.ok(videoCompleteDTO);
-//    }
-//
-////    private VideoCompleteDTO convertToDTO(Videocomplete t) {
-////        VideoCompleteDTO videoCompleteDTO = new VideoCompleteDTO();
-////        videoCompleteDTO.setCompletedDate(t.getCompletedDate());
-////
-////        UserDTO userDTO = new UserDTO();
-////        userDTO.setId(t.getUserId().getId());
-////        
-////        VideoDTO videoDTO = new VideoDTO();
-////        videoDTO.setId(t.getVideoId().getId());
-////
-////        videoCompleteDTO.setUser(userDTO);
-////        videoCompleteDTO.setVideo(videoDTO);
-////
-////        return videoCompleteDTO;
-////    }
-//    private VideoCompleteDTO convertToDTO(Videocomplete t) {
-//        VideoCompleteDTO videoCompleteDTO = new VideoCompleteDTO();
-//        videoCompleteDTO.setCompletedDate(t.getCompletedDate());
-//
-//        // Kiểm tra UserId có phải là null không
-//        if (t.getUserId() != null) {
-//            UserDTO userDTO = new UserDTO();
-//            userDTO.setId(t.getUserId().getId());
-//            videoCompleteDTO.setUser(userDTO);
-//        } else {
-//            // Xử lý khi UserId là null, nếu cần
-//            videoCompleteDTO.setUser(null);
-//        }
-//
-//        // Kiểm tra VideoId có phải là null không
-//        if (t.getVideoId() != null) {
-//            VideoDTO videoDTO = new VideoDTO();
-//            videoDTO.setId(t.getVideoId().getId());
-//            videoCompleteDTO.setVideo(videoDTO);
-//        } else {
-//            // Xử lý khi VideoId là null, nếu cần
-//            videoCompleteDTO.setVideo(null);
-//        }
-//
-//        return videoCompleteDTO;
-//    }
+    @GetMapping("/videosCompleted/{userId}")
+    public ResponseEntity<?> getVideosCompleteds(
+//            @RequestParam Long userId
+            @PathVariable("userId") Long userId
+    ) {
+        try {
+            List<Videocomplete> videosCompleted = videoCompleteSer.getVideosCompleted(userId);
+            return ResponseEntity.ok(videosCompleted);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    @GetMapping("/videosCompleted")
+    public ResponseEntity<?> getVideosCompleted(
+            @RequestParam Long userId
+//            @PathVariable("userId") Long userId
+    ) {
+        try {
+            List<Videocomplete> videosCompleted = videoCompleteSer.getVideosCompleted(userId);
+            return ResponseEntity.ok(videosCompleted);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }

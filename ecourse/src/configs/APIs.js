@@ -17,7 +17,9 @@ export const endpoints = {
     'my-receipts': (userId) => `receipts/user/${userId}`,
     'my-courses': (receiptId) => `receipt/${receiptId}`,
     'lessons': (coursesId) => `lessons/${coursesId}`,
-    'videos': '/videos'
+    'videos': '/videos',
+    'addCompleted': '/addVideoComplete',
+    'videosCompleted': '/videosCompleted'
     // 'videos': (lessonId) => `videos/${lessonId}`
 
 }
