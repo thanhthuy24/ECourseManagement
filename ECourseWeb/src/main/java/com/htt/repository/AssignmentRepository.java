@@ -13,8 +13,9 @@ import java.util.Map;
  * @author Admin
  */
 public interface AssignmentRepository {
-    List<Assignment> getAssignment(Map<String, String> params);
+    List<Assignment> getAssignments();
     void addOrUpdate(Assignment c);
-    Assignment getAssignmentById(int id);
-    void deleteAssignment(int id);
+    Assignment getAssignmentByLessonId(Long lessonId);
+    Assignment getAssignmentById(Long id);
+    void deleteAssignment(Long id);
 }

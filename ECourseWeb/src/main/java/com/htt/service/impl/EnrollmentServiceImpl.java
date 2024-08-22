@@ -9,6 +9,7 @@ import com.htt.pojo.Enrollment;
 import com.htt.repository.EnrollmentRepository;
 import com.htt.service.EnrollmentService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,20 +24,17 @@ public class EnrollmentServiceImpl implements EnrollmentService{
     private EnrollmentRepository enrollRepo;
 
     @Override
-    public List<Enrollment> getAllEnrollments() {
-        return this.enrollRepo.getAllEnrollments();
+    public List<Enrollment> getAllEnrollments(Long userId, Long courseId) {
+        return this.enrollRepo.getAllEnrollments(userId, courseId);
     }
 
     @Override
     public List<Enrollment> getEnrollmentByUserId(Long id) {
         return this.enrollRepo.getEnrollmentByUserId(id);
     }
-    
-//    @Autowired
-//    private EnrollmentRepository enrollmentRepository;
 
-//    public List<Course> getCoursesForLoggedInUser(Long userId) {
-//        return enrollRepo.getCoursesByUserId(userId);
-//    }
-    
+    @Override
+    public Long countByCourseId(Long courseId) {
+        return this.enrollRepo.countByCourseId(courseId);
+    }
 }

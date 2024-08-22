@@ -38,46 +38,13 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Enrollment> getEnrollments(Map<String, String> params) {
+    public List<Enrollment> getAllEnrollments(Long userId, Long courseId) {
         Session s = this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-
-        CriteriaQuery<Enrollment> c = b.createQuery(Enrollment.class);
-
-        Root root = c.from(Enrollment.class);
-        c.select(root);
-
-        if (params != null) {
-            List<Predicate> predicates = new ArrayList<>();
-            String userId = params.get("userId");
-            if (userId != null && !userId.isEmpty()) {
-                Predicate p4 = b.equal(root.get("userId"), Integer.parseInt(userId));
-                predicates.add(p4);
-            }
-
-            c.where(predicates.toArray(Predicate[]::new));
-        }
-
-        Query query = s.createQuery(c);
-
-        if (params != null) {
-            String page = params.get("page");
-            if (page != null && !page.isEmpty()) {
-                int p = Integer.parseInt(page);
-                int start = (p - 1) * PAGE_SIZE;
-
-                query.setFirstResult(start);
-                query.setMaxResults(PAGE_SIZE);
-            }
-        }
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Enrollment> getAllEnrollments() {
-        Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Enrollment");
-        return q.getResultList();
+        String hql = "FROM Enrollment WHERE userId.id = :userId AND courseId.id = :courseId";
+        return s.createQuery(hql, Enrollment.class)
+                .setParameter("userId", userId)
+                .setParameter("courseId", courseId)
+                .list();
     }
 
     @Override
@@ -88,5 +55,16 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
         return q.getResultList();
     }
+    
+    @Override
+    public Long countByCourseId(Long courseId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        // Sử dụng `user_id` như trong câu lệnh SQL
+        String sql = "SELECT COUNT(*) FROM enrollment WHERE course_id = :courseId";
+        return ((Number) session.createNativeQuery(sql)
+                .setParameter("courseId", courseId) // Tham số thứ nhất trong câu lệnh SQL
+                .getSingleResult()).longValue();
+    }
+    
     
 }

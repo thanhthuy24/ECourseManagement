@@ -8,3 +8,10 @@
     background-color: antiquewhite;
 }
 
+.card-body-watched {
+    background-color: #d4edda; /* Màu nền cho video đã xem */
+}
+
+.card-body-not-watched {
+    background-color: #f8d7da; /* Màu nền cho video chưa xem */
+}

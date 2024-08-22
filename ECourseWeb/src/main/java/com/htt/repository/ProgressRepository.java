@@ -4,10 +4,13 @@
  */
 package com.htt.repository;
 
+import com.htt.pojo.CourseProcess;
+
 /**
  *
  * @author Admin
  */
 public interface ProgressRepository {
     float calculateCourseProgress(Long userId, Long courseId);
+    CourseProcess getProcess(Long userId, Long courseId);
 }

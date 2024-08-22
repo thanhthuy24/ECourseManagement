@@ -8,7 +8,6 @@ import com.htt.pojo.Assignment;
 import com.htt.repository.AssignmentRepository;
 import com.htt.service.AssignmentService;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +16,10 @@ import org.springframework.stereotype.Service;
  * @author Admin
  */
 @Service
-public class AssignmentServiceImpl implements AssignmentService{
-    
+public class AssignmentServiceImpl implements AssignmentService {
+
     @Autowired
     private AssignmentRepository assignmentRepo;
-
-    @Override
-    public List<Assignment> getAssignment(Map<String, String> params) {
-        return this.assignmentRepo.getAssignment(params);
-    }
 
     @Override
     public void addOrUpdate(Assignment c) {
@@ -33,13 +27,23 @@ public class AssignmentServiceImpl implements AssignmentService{
     }
 
     @Override
-    public Assignment getAssignmentById(int id) {
+    public Assignment getAssignmentByLessonId(Long lessonId) {
+        return this.assignmentRepo.getAssignmentById(lessonId);
+    }
+
+    @Override
+    public Assignment getAssignmentById(Long id) {
         return this.assignmentRepo.getAssignmentById(id);
     }
 
     @Override
-    public void deleteAssignment(int id) {
-         this.assignmentRepo.deleteAssignment(id);
+    public void deleteAssignment(Long id) {
+        this.assignmentRepo.deleteAssignment(id);
     }
-    
+
+    @Override
+    public List<Assignment> getAssignments() {
+        return this.assignmentRepo.getAssignments();
+    }
+
 }

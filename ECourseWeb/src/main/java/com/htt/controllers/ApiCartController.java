@@ -4,13 +4,14 @@
  */
 package com.htt.controllers;
 
-import com.htt.service.ProgressService;
+import com.htt.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,16 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
-public class ApiCourseProcessController {
+public class ApiCartController {
     
-    @Autowired
-    private ProgressService progressSer;
-    
-    @GetMapping("/course/{courseId}/user/{userId}")
-     public float getCourseProgress(
-             @PathVariable Long userId, 
-             @PathVariable Long courseId) {
-        return progressSer.calculateCourseProgress(userId, courseId);
-    }
-     
+//    @Autowired
+//    private CartService cartSer;
+//    
+//    @DeleteMapping("/cart/{cartId}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void delete(@PathVariable(value = "cartId") Long id){
+//        this.cartSer.deleteCartById(id);
+//    }
 }

@@ -33,33 +33,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Document> getDocuments(Map<String, String> params) {
-        Session s = this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-
-        CriteriaQuery<Document> c = b.createQuery(Document.class);
-
-        Root root = c.from(Document.class);
-        c.select(root);
-
-        if (params != null) {
-            List<Predicate> predicates = new ArrayList<>();
-
-            String kw = params.get("q");
-            if (kw != null && !kw.isEmpty()) {
-                Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
-                predicates.add(p1);
-            }
-
-            c.where(predicates.toArray(Predicate[]::new));
-        }
-
-        Query query = s.createQuery(c);
-
-        return query.getResultList();
-    }
-
-    @Override
     public void addOrUpdate(Document c) {
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
@@ -70,13 +43,23 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public Document getDocumentById(int id) {
+    public Document getDocumentByLessonId(Long lessonId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String documentQuery = "FROM Document p WHERE p.lessonId.id = :lessonId";
+        Document ducument = (Document) s.createQuery(documentQuery)
+                .setParameter("lessonId", lessonId)
+                .uniqueResult();
+        return ducument;
+    }
+    
+    @Override
+    public Document getDocumentById(Long id){
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Document.class, id);
     }
 
     @Override
-    public void deleteDocument(int id) {
+    public void deleteDocument(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         Document c = this.getDocumentById(id);
         s.delete(c);

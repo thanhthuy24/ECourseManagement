@@ -64,7 +64,6 @@ public class ApiVideoCompleteController {
     @GetMapping("/videosCompleted")
     public ResponseEntity<?> getVideosCompleted(
             @RequestParam Long userId
-//            @PathVariable("userId") Long userId
     ) {
         try {
             List<Videocomplete> videosCompleted = videoCompleteSer.getVideosCompleted(userId);
@@ -73,5 +72,4 @@ public class ApiVideoCompleteController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 }

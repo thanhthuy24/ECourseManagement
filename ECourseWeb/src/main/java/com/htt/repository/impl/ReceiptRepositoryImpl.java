@@ -5,9 +5,11 @@
 package com.htt.repository.impl;
 
 import com.htt.pojo.Cart;
+import com.htt.pojo.Enrollment;
 import com.htt.pojo.Receipt;
 import com.htt.pojo.ReceiptDetail;
 import com.htt.repository.CourseRepository;
+import com.htt.repository.EnrollmentRepository;
 import com.htt.repository.ReceiptRepository;
 import com.htt.repository.UserRepository;
 import java.util.Date;
@@ -38,14 +40,31 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
     private CourseRepository courseRepo;
     @Autowired
     private LocalSessionFactoryBean factory;
+    
+    @Autowired
+    private EnrollmentRepository enrollmentRepo;
 
     @Override
     public void addReceipt(List<Cart> carts) {
         if (carts != null) {
             Session s = this.factory.getObject().getCurrentSession();
+            
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Long userId = this.userRepo.getUserByUsername(username).getId();
+            
+            for (Cart cart : carts) {
+            Long courseId = cart.getId();
+
+            // Kiểm tra sự tồn tại của Enrollment
+            List<Enrollment> enrollments = enrollmentRepo.getAllEnrollments(userId, courseId);
+
+            if (!enrollments.isEmpty()) {
+                throw new IllegalArgumentException("User is not enrolled in course: " + courseId);
+                }
+            }
+            
             Receipt receipt = new Receipt();
-            receipt.setUserId(this.userRepo.getUserByUsername(
-                    SecurityContextHolder.getContext().getAuthentication().getName()));
+            receipt.setUserId(this.userRepo.getUserByUsername(username));
             receipt.setCreatedDate(new Date());
 
             float totalPrice = (float) carts.stream()
@@ -61,8 +80,17 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
                 d.setQuantity(c.getQuantity());
                 d.setCourseId(courseRepo.getCourseById(c.getId()));
                 d.setReceiptId(receipt);
+                
+                Enrollment enrollment = new Enrollment();
+                enrollment.setEnrollmentDate(new Date());
+                enrollment.setUserId(this.userRepo.getUserByUsername(username));
+                enrollment.setCourseId(courseRepo.getCourseById(c.getId()));
+                
                 s.save(d);
+                s.save(enrollment);
             }
+            
+            
         }
     }
 

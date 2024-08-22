@@ -16,6 +16,7 @@
         <a href="<c:url value='/teachers' />" class="list-group-item">Teachers</a>
         <a href="<c:url value='/videos' />" class="list-group-item">Videos</a>
         <a href="<c:url value='/lessons' />" class="list-group-item">Lessons</a>
+         <a href="<c:url value='/assignments' />" class="list-group-item">Assignments</a>
         <a href="<c:url value='/users' />" class="list-group-item">Users</a>
 
         <div class="list-group list-a">

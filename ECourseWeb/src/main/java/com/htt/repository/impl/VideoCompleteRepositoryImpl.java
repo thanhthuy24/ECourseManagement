@@ -14,6 +14,7 @@ import com.htt.repository.VideoRepository;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,17 +41,28 @@ public class VideoCompleteRepositoryImpl implements VideoCompleteRepository {
     @Override
     public void addVideos(Long userId, Long videoId) {
         Session s = this.factory.getObject().getCurrentSession();
-        Videocomplete newVideoComplete = new Videocomplete();
-        newVideoComplete.setUserId(this.userRepo.getUserById(userId));
-        newVideoComplete.setVideoId(this.videoRepo.getVideoById(videoId));
-        newVideoComplete.setCompletedDate(new Date());
 
-        s.save(newVideoComplete);
+        String hql = "FROM Videocomplete WHERE userId = :userId AND videoId= :videoId";
+        Query query = s.createQuery(hql);
+        query.setParameter("userId", this.userRepo.getUserById(userId));
+        query.setParameter("videoId", this.videoRepo.getVideoById(videoId));
+
+        List<Videocomplete> results = query.list();
+
+        if (results.isEmpty()) {
+            Videocomplete newVideoComplete = new Videocomplete();
+            newVideoComplete.setUserId(this.userRepo.getUserById(userId));
+            newVideoComplete.setVideoId(this.videoRepo.getVideoById(videoId));
+            newVideoComplete.setCompletedDate(new Date());
+
+            s.save(newVideoComplete);
+        }
+
     }
 
     @Override
     public List<Videocomplete> getVideosCompleted(Long userId) {
-        Session s = this.factory.getObject().getCurrentSession();
+          Session s = this.factory.getObject().getCurrentSession();
         String hql = "FROM Videocomplete WHERE userId.id = :userId"; // Sửa tên tham số trong HQL
         return s.createQuery(hql, Videocomplete.class)
                 .setParameter("userId", userId) // Sửa tên tham số trong setParameter

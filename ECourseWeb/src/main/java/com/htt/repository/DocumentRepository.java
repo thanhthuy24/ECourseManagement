@@ -13,8 +13,8 @@ import java.util.Map;
  * @author Admin
  */
 public interface DocumentRepository {
-    List<Document> getDocuments(Map<String, String> params);
     void addOrUpdate(Document c);
-    Document getDocumentById(int id);
-    void deleteDocument(int id);
+    Document getDocumentByLessonId(Long lessonId);
+    Document getDocumentById(Long id);
+    void deleteDocument(Long id);
 }

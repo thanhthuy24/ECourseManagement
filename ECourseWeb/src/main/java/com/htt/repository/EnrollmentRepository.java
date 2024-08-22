@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Admin
  */
 public interface EnrollmentRepository {
-    List<Enrollment> getAllEnrollments();
+    List<Enrollment> getAllEnrollments(Long userId, Long courseId);
     List<Enrollment> getEnrollmentByUserId(Long id);
-    public List<Enrollment> getEnrollments(Map<String, String> params);
+    Long countByCourseId(Long courseId);
 }

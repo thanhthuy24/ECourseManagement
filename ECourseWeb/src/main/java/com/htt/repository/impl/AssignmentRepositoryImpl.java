@@ -33,53 +33,43 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Assignment> getAssignment(Map<String, String> params) {
-        Session s = this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-
-        CriteriaQuery<Assignment> c = b.createQuery(Assignment.class);
-
-        Root root = c.from(Assignment.class);
-        c.select(root);
-
-        if (params != null) {
-            List<Predicate> predicates = new ArrayList<>();
-
-            String kw = params.get("q");
-            if (kw != null && !kw.isEmpty()) {
-                Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
-                predicates.add(p1);
-            }
-
-            c.where(predicates.toArray(Predicate[]::new));
-        }
-
-        Query query = s.createQuery(c);
-
-        return query.getResultList();
-    }
-
-    @Override
     public void addOrUpdate(Assignment c) {
         Session s = this.factory.getObject().getCurrentSession();
         if (c.getId() != null) {
             s.update(c);
         } else {
             s.save(c); //chen
+            
         }
+    }
+    
+    @Override
+    public Assignment getAssignmentByLessonId(Long lessonId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String assignQuery = "FROM Assignment p WHERE p.lessonId.id = :lessonId";
+        Assignment assignment = (Assignment) s.createQuery(assignQuery)
+                .setParameter("lessonId", lessonId)
+                .uniqueResult();
+        return assignment;
     }
 
     @Override
-    public Assignment getAssignmentById(int id) {
+    public Assignment getAssignmentById(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Assignment.class, id);
     }
 
     @Override
-    public void deleteAssignment(int id) {
+    public void deleteAssignment(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         Assignment c = this.getAssignmentById(id);
         s.delete(c);
     }
 
+    @Override
+    public List<Assignment> getAssignments() {
+        Session s = this.factory.getObject().getCurrentSession();
+         Query q = s.createQuery("From Assignment");
+        return q.getResultList();
+    }
 }

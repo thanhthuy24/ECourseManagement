@@ -70,4 +70,15 @@ public class ProgressRepositoryImpl implements ProgressRepository {
         return progress;
     }
 
+    @Override
+    public CourseProcess getProcess(Long userId, Long courseId) {
+        Session s = factory.getObject().getCurrentSession();
+        String processQuery = "FROM CourseProcess p WHERE p.userId.id = :userId AND p.courseId.id = :courseId";
+        CourseProcess courseProcess = (CourseProcess) s.createQuery(processQuery)
+                .setParameter("userId", userId)
+                .setParameter("courseId", courseId)
+                .uniqueResult();
+        return courseProcess;
+    }
+
 }

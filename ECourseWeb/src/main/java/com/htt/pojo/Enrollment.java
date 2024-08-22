@@ -45,7 +45,7 @@ public class Enrollment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "enrollmentDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date enrollmentDate;
@@ -64,15 +64,15 @@ public class Enrollment implements Serializable {
     public Enrollment() {
     }
 
-    public Enrollment(Integer id) {
+    public Enrollment(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -4,16 +4,16 @@
  */
 package com.htt.service;
 
-import com.htt.pojo.Course;
 import com.htt.pojo.Enrollment;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author Admin
  */
 public interface EnrollmentService {
-    List<Enrollment> getAllEnrollments();
-    public List<Enrollment> getEnrollmentByUserId(Long id);
-//    public List<Course> getCoursesForLoggedInUser(Long userId);
+    List<Enrollment> getAllEnrollments(Long userId, Long courseId);
+    List<Enrollment> getEnrollmentByUserId(Long id);
+    Long countByCourseId(Long courseId);
 }

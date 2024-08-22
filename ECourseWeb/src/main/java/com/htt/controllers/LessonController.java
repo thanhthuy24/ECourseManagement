@@ -55,7 +55,9 @@ public class LessonController {
     }
 
     @PostMapping("/lessons")
-    public String createView(Model model, @ModelAttribute Lesson lesson,
+    public String createView(
+            Model model, 
+            @ModelAttribute Lesson lesson,
             BindingResult rs) {
         if (rs.hasErrors()) {
             

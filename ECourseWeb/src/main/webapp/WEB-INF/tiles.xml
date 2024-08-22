@@ -62,5 +62,13 @@
         <put-attribute name="content" value="/WEB-INF/pages/user.jsp" />
     </definition> 
     
+    <definition name="assignments" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các bài tập hệ thống" />
+        <put-attribute name="content" value="/WEB-INF/pages/assignments.jsp" />
+    </definition> 
+    <definition name="assignment" extends="baseLayout">
+        <put-attribute name="title" value="Quản trị các bài tập hệ thống" />
+        <put-attribute name="content" value="/WEB-INF/pages/assignment.jsp" />
+    </definition> 
     
 </tiles-definitions>

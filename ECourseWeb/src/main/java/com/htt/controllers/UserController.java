@@ -55,4 +55,16 @@ public class UserController {
         return "redirect:/";
     }
 
+//    @PostMapping("/delete/user/{userId}")
+//    public String deleteUser(
+//            Model model,
+//            @PathVariable(value = "userId") Long id,
+//            BindingResult result) {
+//        if (result.hasErrors()) {
+//            return "user";
+//        }
+//        this.userSer.deleteUser(id);
+//        return "users";
+//    }
+
 }

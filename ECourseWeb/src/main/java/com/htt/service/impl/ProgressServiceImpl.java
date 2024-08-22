@@ -4,6 +4,7 @@
  */
 package com.htt.service.impl;
 
+import com.htt.pojo.CourseProcess;
 import com.htt.repository.ProgressRepository;
 import com.htt.service.ProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class ProgressServiceImpl implements ProgressService{
     public float calculateCourseProgress(Long userId, Long courseId) {
         return this.progressRepo.calculateCourseProgress(userId, courseId);
     }
-    
+
+    @Override
+    public CourseProcess getProcess(Long userId, Long courseId) {
+        return this.progressRepo.getProcess(userId, courseId);
+    }
 }

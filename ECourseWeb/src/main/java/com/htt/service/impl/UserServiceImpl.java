@@ -146,4 +146,9 @@ public class UserServiceImpl implements UserService {
 
         return userDTO;  
     }
+
+    @Override
+    public void deleteUser(Long id) {
+        this.userRepo.deleteUser(id);
+    }
 }

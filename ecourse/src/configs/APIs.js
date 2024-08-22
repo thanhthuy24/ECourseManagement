@@ -19,7 +19,9 @@ export const endpoints = {
     'lessons': (coursesId) => `lessons/${coursesId}`,
     'videos': '/videos',
     'addCompleted': '/addVideoComplete',
-    'videosCompleted': '/videosCompleted'
+    'videosCompleted': (userId) => `/videosCompleted/${userId}`,
+    'progress': (courseId, userId) => `/course/${courseId}/user/${userId}`,
+    'delete-cart': (cartId) => `cart/${cartId}`
     // 'videos': (lessonId) => `videos/${lessonId}`
 
 }

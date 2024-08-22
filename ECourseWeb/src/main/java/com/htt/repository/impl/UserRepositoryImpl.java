@@ -46,8 +46,9 @@ public class UserRepositoryImpl implements UserRepository {
         } else {
             s.save(c); //chen
             c.setCreatedDate(new Date());
+            c.setIsActive(true);
         }
-        c.setIsActive(true);
+        
     }
 
     @Override
@@ -87,5 +88,13 @@ public class UserRepositoryImpl implements UserRepository {
         org.hibernate.query.Query<User> query = session.createQuery(hql, User.class);
         query.setParameter("userId", userId);
         return query.uniqueResult();
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        User user = this.getUserById(id);
+
+        user.setIsActive(false);
     }
 }

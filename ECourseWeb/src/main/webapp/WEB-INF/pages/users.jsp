@@ -40,6 +40,7 @@
                     <th>Email</th>
                     <th>Phone number</th>
                     <th>Role</th>
+                    <th>Active</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -59,14 +60,20 @@
                         <td>
                             ${c.role}
                         </td>
-
+                        <td>
+                            <c:choose>
+                                <c:when test="${c.isActive}">
+                                   <span style="color: green;">Đang hoạt động</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span style="color: red;">Không hoạt động</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>
                             <c:url value="/users/${c.id}" var="u" />
                             <a href="${u}" class="btn" style="background-color: #B762C1">&#128221;</a>
 
-                            <c:url value="/api/teachers/${c.id}" var="endpoint" />
-                            <button onClick="deleteTeacher('${endpoint}', ${c.id})" 
-                                    class="btn btn-danger">&#128465;</button>
                         </td>
                     </tr>
                 </c:forEach>

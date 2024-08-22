@@ -61,11 +61,9 @@ public class Videocomplete implements Serializable {
     private Date completedDate;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private User userId;
     @JoinColumn(name = "video_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private Video videoId;
 
     @PrePersist

@@ -24,6 +24,9 @@ public interface UserRepository {
     boolean authUser(String username, String password);
 
     User addUser(User user);
-     User findByIdWithEnrollments(Long userId);
+
+    User findByIdWithEnrollments(Long userId);
+    
+    void deleteUser(Long id);
 
 }
