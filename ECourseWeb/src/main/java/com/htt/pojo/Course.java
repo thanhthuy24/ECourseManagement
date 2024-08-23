@@ -101,21 +101,21 @@ public class Course implements Serializable {
     @Column(name = "image")
     private String image;
 
-    @OneToMany(mappedBy = "courseId")
-    @JsonIgnore
-    private Set<Lesson> lessonSet;
-
-    @OneToMany(mappedBy = "courseId")
-    @JsonIgnore
-    private Set<Video> videoSet;
-
-    @OneToMany(mappedBy = "courseId")
-    @JsonIgnore
-    private Set<Certification> certificationSet;
-
-    @OneToMany(mappedBy = "courseId")
-    @JsonIgnore
-    private Set<Enrollment> enrollmentSet;
+//    @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
+//    private Set<Lesson> lessonSet;
+//
+//    @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
+//    private Set<Video> videoSet;
+//
+//    @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
+//    private Set<Certification> certificationSet;
+//
+//    @OneToMany(mappedBy = "courseId")
+//    @JsonIgnore
+//    private Set<Enrollment> enrollmentSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
     @JsonIgnore

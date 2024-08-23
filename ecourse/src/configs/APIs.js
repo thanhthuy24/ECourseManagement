@@ -21,7 +21,10 @@ export const endpoints = {
     'addCompleted': '/addVideoComplete',
     'videosCompleted': (userId) => `/videosCompleted/${userId}`,
     'progress': (courseId, userId) => `/course/${courseId}/user/${userId}`,
-    'delete-cart': (cartId) => `cart/${cartId}`
+    'delete-cart': (cartId) => `cart/${cartId}`,
+
+    'courses-by-teacher': (teacherId) => `/courses/teacher/${teacherId}`,
+    'assignment-by-course': (courseId) => `/lecturer/assignments/courses/${courseId}`
     // 'videos': (lessonId) => `videos/${lessonId}`
 
 }

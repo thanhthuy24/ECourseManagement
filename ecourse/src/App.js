@@ -17,6 +17,9 @@ import MyCartReducer from "./reducers/MyCartReducer";
 import Cart from "./components/cart/Cart";
 import UserCourseDetail from "./user/UserCourseDetail";
 import Lessons from "./lessons/Lessons";
+import TeacherHeader from "./layouts/HeaderTeacher";
+import HomeTeacher from "./components/teachers/HomeTeacher";
+import Assignments from "./components/assignments/Assignments";
 // import { ToastContainer } from "react-bootstrap";
 
 export const MyUserContext = createContext();
@@ -39,26 +42,40 @@ const App = () => {
     const [user, dispatch] = useReducer(MyUserReducer, cookie.load("user") || null);
     const [cartCounter, cartDispatch] = useReducer(MyCartReducer, count());
 
+    const isTeacher = user?.role === 'ROLE_TEACHER';
+
     return (
         <BrowserRouter>
             <MyUserContext.Provider value={user}>
                 <MyDispatchContext.Provider value={dispatch}>
                     <MyCartContext.Provider value={[cartCounter, cartDispatch]}>
-                        <Header />
+                        {isTeacher ? 
+                        <>
+                            <TeacherHeader/>
+                            <Routes>
+                                <Route path='/' element={<HomeTeacher />} />
+                                <Route path='/lecturer/assignments/courses/:courseId' element={<Assignments />} />
+                            </Routes>
+                        </> : 
+                        <>
+                            <Header />
+                            <Routes>
+                                <Route path="/" element={<Courses />} />
+                                <Route path="/courses/:id" element={<CourseDetail />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/teachers" element={<Teacher />} />
+                                <Route path="/teachers/:id" element={<TeacherDetail />} />
+                                <Route path="/register" element={<Register />}/>
+                                <Route path="/user" element={<UserInfor />}/>
+                                <Route path="/cart" element={<Cart />}/>
+                                <Route path="/my-receipts" element={<MyCourses />}/>
+                                <Route path="/receipt/:id" element={<UserCourseDetail />}/>
+                                <Route path="/lessons/:courseId" element={<Lessons />}/>
+                            </Routes>
+                        </>
+                        }
                         
-                        <Routes>
-                            <Route path="/" element={<Courses />} />
-                            <Route path="/courses/:id" element={<CourseDetail />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/teachers" element={<Teacher />} />
-                            <Route path="/teachers/:id" element={<TeacherDetail />} />
-                            <Route path="/register" element={<Register />}/>
-                            <Route path="/user" element={<UserInfor />}/>
-                            <Route path="/cart" element={<Cart />}/>
-                            <Route path="/my-receipts" element={<MyCourses />}/>
-                            <Route path="/receipt/:id" element={<UserCourseDetail />}/>
-                            <Route path="/lessons/:courseId" element={<Lessons />}/>
-                        </Routes>
+                        
                     </MyCartContext.Provider>
                 </MyDispatchContext.Provider>
             </MyUserContext.Provider>

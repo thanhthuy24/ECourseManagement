@@ -55,6 +55,8 @@ public class ApiTeacherController {
         TeacherDTO teacherDTO = convertToDTO(teacher);
         return new ResponseEntity<>(teacherDTO, HttpStatus.OK);
     }
+    
+//    @Get
 
     private TeacherDTO convertToDTO(Teacher teacher) {
         TeacherDTO teacherDTO = new TeacherDTO();

@@ -15,7 +15,8 @@ import java.util.Map;
 public interface AssignmentRepository {
     List<Assignment> getAssignments();
     void addOrUpdate(Assignment c);
-    Assignment getAssignmentByLessonId(Long lessonId);
+    List<Assignment> getAssignmentByCourseId(Long courseId);
+    List<Assignment> getAssignmentByLessonId(Long lessonId);
     Assignment getAssignmentById(Long id);
     void deleteAssignment(Long id);
 }

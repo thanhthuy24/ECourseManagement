@@ -62,8 +62,8 @@
                     <c:url value="/assignments/${c.id}" var="u" />
                     <a href="${u}" class="btn" style="background-color: #B762C1">&#128221;</a>
 
-                    <c:url value="/api/lessons/${c.id}" var="endpoint" />
-                    <button id="btnDelete" onclick="deleteLesson('${endpoint}', ${c.id})" 
+                    <c:url value="/api/assignments/${c.id}" var="endpoint" />
+                    <button id="btnDelete" onclick="deleteAssignment('${endpoint}', ${c.id})" 
                             class="btn btn-danger">&#128465;</button>
                         </td>
                 </tr>

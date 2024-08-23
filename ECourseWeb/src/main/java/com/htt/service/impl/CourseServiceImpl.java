@@ -70,5 +70,10 @@ public class CourseServiceImpl implements CourseService{
     public List<Course> getCourses() {
         return this.courseRepo.getCourses();
     }
+
+    @Override
+    public List<Course> getCoursesByTeacherId(Long teacherId) {
+        return this.courseRepo.getCoursesByTeacherId(teacherId);
+    }
     
 }

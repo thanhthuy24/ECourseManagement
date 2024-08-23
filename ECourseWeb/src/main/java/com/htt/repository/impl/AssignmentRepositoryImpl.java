@@ -44,13 +44,12 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
     }
     
     @Override
-    public Assignment getAssignmentByLessonId(Long lessonId) {
+    public List<Assignment> getAssignmentByLessonId(Long lessonId) {
         Session s = this.factory.getObject().getCurrentSession();
         String assignQuery = "FROM Assignment p WHERE p.lessonId.id = :lessonId";
-        Assignment assignment = (Assignment) s.createQuery(assignQuery)
+        return s.createQuery(assignQuery)
                 .setParameter("lessonId", lessonId)
-                .uniqueResult();
-        return assignment;
+                .list();
     }
 
     @Override
@@ -71,5 +70,14 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
         Session s = this.factory.getObject().getCurrentSession();
          Query q = s.createQuery("From Assignment");
         return q.getResultList();
+    }
+
+    @Override
+    public List<Assignment> getAssignmentByCourseId(Long courseId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String assignQuery = "FROM Assignment p WHERE p.courseId.id = :courseId";
+        return s.createQuery(assignQuery)
+                .setParameter("courseId", courseId)
+                .list();
     }
 }

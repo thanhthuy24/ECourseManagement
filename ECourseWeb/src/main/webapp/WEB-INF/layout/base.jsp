@@ -22,6 +22,7 @@
         <script src="<c:url value="/js/courseDelete.js" />"></script>
         <script src="<c:url value="/js/videoDelete.js" />"></script>
         <script src="<c:url value="/js/deleteLesson.js" />"></script>
+        <script src="<c:url value="/js/assignmentDelete.js" />"></script>
         <style>
             .menu {
                 padding: 20px;

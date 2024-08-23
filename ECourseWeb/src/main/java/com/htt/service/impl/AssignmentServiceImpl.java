@@ -27,8 +27,8 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Assignment getAssignmentByLessonId(Long lessonId) {
-        return this.assignmentRepo.getAssignmentById(lessonId);
+    public List<Assignment> getAssignmentByLessonId(Long lessonId) {
+        return this.assignmentRepo.getAssignmentByLessonId(lessonId);
     }
 
     @Override
@@ -44,6 +44,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public List<Assignment> getAssignments() {
         return this.assignmentRepo.getAssignments();
+    }
+
+    @Override
+    public List<Assignment> getAssignmentByCourseId(Long courseId) {
+        return this.assignmentRepo.getAssignmentByCourseId(courseId);
     }
 
 }

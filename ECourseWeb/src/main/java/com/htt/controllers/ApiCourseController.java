@@ -57,6 +57,13 @@ public class ApiCourseController {
         return new ResponseEntity<>(courseDTO, HttpStatus.OK);
     }
     
+    @GetMapping("/courses/teacher/{teacherId}")
+    public ResponseEntity<?> listCourseByTeacher(
+            @PathVariable(value = "teacherId") Long id
+    ){
+        return ResponseEntity.ok(courseSer.getCoursesByTeacherId(id));
+    }
+    
     private CourseDTO convertToDTO(Course t) {
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setId(t.getId());

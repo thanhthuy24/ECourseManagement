@@ -130,5 +130,14 @@ public class CourseRepositoryImpl implements CourseRepository {
         return q.getResultList();
     }
 
+    @Override
+    public List<Course> getCoursesByTeacherId(Long teacherId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String hql = "FROM Course WHERE teacherId.id = :teacherId";
+        return s.createQuery(hql, Course.class)
+                .setParameter("teacherId", teacherId)
+                .list();
+    }
+
 
 }

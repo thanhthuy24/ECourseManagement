@@ -79,9 +79,14 @@ public class Assignment implements Serializable {
     @Column(name = "dueDate")
     @Temporal(TemporalType.DATE)
     private Date dueDate;
+    
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     @ManyToOne
     private Lesson lessonId;
+    
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @ManyToOne
+    private Course courseId;
     
     @PrePersist
     protected void onCreate() {
