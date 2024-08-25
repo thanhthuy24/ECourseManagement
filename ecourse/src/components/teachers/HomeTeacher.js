@@ -11,7 +11,6 @@ const HomeTeacher = () => {
 
     const [teacherLogin, setTeacherLogin] = useState(null);
     const nav = useNavigate();
-    // const [selectedCourseId, setSelectedCourseId] = useState('');
 
     const user = useContext(MyUserContext);
 
@@ -27,7 +26,6 @@ const HomeTeacher = () => {
 
     useEffect(() => {
         loadTeachers();
-        // loadCoursesByTeacherId();
     }, []);
 
     useEffect(() => {
@@ -49,26 +47,8 @@ const HomeTeacher = () => {
 
     return (
         <>
-            <h1>{teacherLogin?.id} --- {user.id}</h1>
-            {teacherLogin ? (
-                <>
-                    <h2>Teacher ID: {teacherLogin.id}</h2>
-                    <h3>Courses:</h3>
-                    {courses.length > 0 ? (
-                        courses.map(course => (
-                            <div key={course.id}>
-                                <h4>{course.name}</h4>
-                            </div>
-                        ))
-                    ) : (
-                        <h4>No courses available</h4>
-                    )}
-                </>
-            ) : (
-                <h2>Teacher not found</h2>
-            )}
-
-            <div className="container">
+            <div className="container mt-5">
+                <h1 className="font-size-bold">Các khóa học đang đảm nhiệm:</h1>
                 <Row>
                 {/* <ToastContainer /> */}
                     {courses.map(t => (

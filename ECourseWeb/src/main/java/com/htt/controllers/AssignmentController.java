@@ -6,6 +6,7 @@ package com.htt.controllers;
 
 import com.htt.pojo.Assignment;
 import com.htt.service.AssignmentService;
+import com.htt.service.CourseService;
 import com.htt.service.LessonService;
 import com.htt.service.TagService;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,9 @@ public class AssignmentController {
 
     @Autowired
     private LessonService lessonSer;
+    
+    @Autowired
+    private CourseService courseSer;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -50,6 +54,7 @@ public class AssignmentController {
     public void commAttrs(Model model) {
         model.addAttribute("tags", this.tagSer.getTags());
         model.addAttribute("lessons", this.lessonSer.getLessons());
+        model.addAttribute("courses", this.courseSer.getCourses());
     }
 
     @GetMapping("/assignments")

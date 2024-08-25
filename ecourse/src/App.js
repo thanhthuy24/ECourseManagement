@@ -20,7 +20,12 @@ import Lessons from "./lessons/Lessons";
 import TeacherHeader from "./layouts/HeaderTeacher";
 import HomeTeacher from "./components/teachers/HomeTeacher";
 import Assignments from "./components/assignments/Assignments";
+import AssignmentUpdate from "./components/assignments/AssignmentUpdate";
+import Questions from "./components/questions/Questions";
+import AddQuestion from "./components/questions/AddQuestion";
+import AddQuestionByCourseId from "./components/questions/AddQuestionByCourseId";
 // import { ToastContainer } from "react-bootstrap";
+// import './styleAssignments.css';
 
 export const MyUserContext = createContext();
 export const MyDispatchContext = createContext();
@@ -55,6 +60,10 @@ const App = () => {
                             <Routes>
                                 <Route path='/' element={<HomeTeacher />} />
                                 <Route path='/lecturer/assignments/courses/:courseId' element={<Assignments />} />
+                                <Route path='/lecturer/assignment/:assignmentId' element={<AssignmentUpdate />} />
+                                <Route path='/questions/assignment/:assignmentId' element={<Questions />} />
+                                {/* <Route path='/questions' element={<AddQuestion />} /> */}
+                                <Route path='/questions/course/:courseId' element={<AddQuestionByCourseId />} />
                             </Routes>
                         </> : 
                         <>

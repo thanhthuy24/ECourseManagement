@@ -16,7 +16,10 @@ export const endpoints = {
     'pay': '/pay',
     'my-receipts': (userId) => `receipts/user/${userId}`,
     'my-courses': (receiptId) => `receipt/${receiptId}`,
+
     'lessons': (coursesId) => `lessons/${coursesId}`,
+    'get-all-lessons': '/lesson',
+
     'videos': '/videos',
     'addCompleted': '/addVideoComplete',
     'videosCompleted': (userId) => `/videosCompleted/${userId}`,
@@ -24,7 +27,14 @@ export const endpoints = {
     'delete-cart': (cartId) => `cart/${cartId}`,
 
     'courses-by-teacher': (teacherId) => `/courses/teacher/${teacherId}`,
-    'assignment-by-course': (courseId) => `/lecturer/assignments/courses/${courseId}`
+    'assignment-by-course': (courseId) => `/lecturer/assignments/courses/${courseId}`,
+    // 'get-form-assignment': ,
+    'assignment': (assignmentId) => `/lecturer/assignment/${assignmentId}`,
+    'questions': (assignmentId) => `/questions/assignment/${assignmentId}`,
+    'add-question': '/questions',
+    'add-question-2': (courseId) => `/questions/course/${courseId}`,
+
+    'tags': '/tags',
     // 'videos': (lessonId) => `videos/${lessonId}`
 
 }

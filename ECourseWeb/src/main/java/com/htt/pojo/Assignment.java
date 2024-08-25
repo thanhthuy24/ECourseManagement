@@ -95,7 +95,7 @@ public class Assignment implements Serializable {
     
     @PreUpdate
     protected void onUpdate() {
-        this.dueDate = new Date();
+        
     }
     
 //    @PreUpdate

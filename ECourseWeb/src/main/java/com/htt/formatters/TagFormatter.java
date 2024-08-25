@@ -23,7 +23,7 @@ public class TagFormatter implements Formatter<Tag> {
     @Override
     public Tag parse(String tagId, Locale locale) throws ParseException {
         Tag c = new Tag();
-        c.setId(Integer.parseInt(tagId));
+        c.setId(Long.parseLong(tagId));
 
         return c;
     }

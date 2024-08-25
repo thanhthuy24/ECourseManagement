@@ -47,4 +47,9 @@ public class ApiLessonController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    
+    @GetMapping("/lesson")
+    public ResponseEntity<?> listLesson(){
+        return ResponseEntity.ok(lessonSer.getLessons());
+    }
 }

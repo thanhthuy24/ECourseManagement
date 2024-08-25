@@ -60,6 +60,22 @@
                     </c:forEach>
                 </form:select>
             </div>
+            
+            <div class="mb-3 mt-3">
+                <label for="courseId" class="form-label label-input">Course: </label>
+                <form:select id="courseId" class="form-select form-input" path="courseId" >
+                    <c:forEach items="${courses}" var="c">
+                        <c:choose>
+                            <c:when test="${c.id == assignment.courseId.id}">
+                                <option value="${c.id}" selected>${c.name}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${c.id}">${c.name}</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </form:select>
+            </div>
 
             <div class="mb-3 mt-3">
                 <form:hidden path="id" />
