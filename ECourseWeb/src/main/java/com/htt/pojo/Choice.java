@@ -56,17 +56,14 @@ public class Choice implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "content")
     private String content;
     @Column(name = "isCorrect")
     private Boolean isCorrect;
     
-    @OneToMany(mappedBy = "choiceId")
-    @JsonIgnore
-    private Set<Answerchoice> answerchoiceSet;
+//    @OneToMany(mappedBy = "choiceId")
+//    @JsonIgnore
+//    private Set<Answerchoice> answerchoiceSet;
     
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @ManyToOne
