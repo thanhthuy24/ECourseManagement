@@ -30,4 +30,9 @@ public class QuestionServiceImpl implements QuestionService{
     public List<Question> getQuestionsByAssignmentId(Long assignmentId) {
         return this.quesRepo.getQuestionsByAssignmentId(assignmentId);
     }
+
+    @Override
+    public Question getQuestionById(Long id) {
+        return this.quesRepo.getQuestionById(id);
+    }
 }

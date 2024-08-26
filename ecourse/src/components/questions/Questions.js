@@ -5,8 +5,9 @@ import { Button, Card } from "react-bootstrap";
 
 const Questions = () => {
     const { assignmentId } = useParams();
-    const { courseId } = useParams();
     const [questions, setQuestions] = useState([]);
+    const [choices, setChoices] = useState({});
+
     const nav = useNavigate();
 
     const loadQuestions = async () => {
@@ -14,9 +15,15 @@ const Questions = () => {
         setQuestions(res.data);
     }
 
-    const handleAddQuestion = () => {
-        const url = endpoints['add-question'];
-        nav(url);
+    const loadChoices = async(questionId) => {
+        let res = await authAPIs().get(endpoints['choices'](questionId));
+        setChoices(prev => ({ ...prev, [questionId]: res.data }));
+    }
+
+    const handleAddChoice = (questionId) => {
+        const url = endpoints['add-choice'];
+        // nav(url);
+        nav(url, { state: { questionId } });
     }
 
     useEffect(() => {
@@ -25,22 +32,17 @@ const Questions = () => {
 
     return(
         <>
-            <h1>hghghg {courseId}</h1>
-
             <div className="container mt-3">
-                <div>
-                    <Button onClick={() => handleAddQuestion()}>Add question</Button>
-                </div>
+                
                 {questions.map((question) => (
-                    <Card style={{marginBottom: "20px"}}>
+                    <Card key={question.id} style={{marginBottom: "20px"}}>
                         <Card.Header className="d-flex justify-content-between">
                             <div
                                 className="div-card-header">
-                                {/* style={{margin: "10px", padding: "10px", fontWeight: "bold"}}> */}
                                 {question.name}
                             </div>
                             <div>
-                                <Button className="button-update-choices">Update Choices</Button>
+                                <Button onClick={() => handleAddChoice(question.id)} className="button-update-choices">Update Choices</Button>
                             </div>
                             </Card.Header>
                         <Card.Body>
@@ -52,7 +54,16 @@ const Questions = () => {
                             </div>
 
                             {question.tagId?.name === "Quiz" ? <>
-                                <p>Các lựa chọn: </p>
+                                <Button onClick={() => loadChoices(question.id)} className="button-update-choices">Show choices</Button>
+                                {choices[question.id] ? (
+                                    <ul>
+                                        {choices[question.id].map(c => (
+                                            <li>{c.content}</li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p></p>
+                                )}
                             </> :
                             <>
                                 <p>.</p>

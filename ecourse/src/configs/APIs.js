@@ -27,15 +27,20 @@ export const endpoints = {
     'delete-cart': (cartId) => `cart/${cartId}`,
 
     'courses-by-teacher': (teacherId) => `/courses/teacher/${teacherId}`,
+
     'assignment-by-course': (courseId) => `/lecturer/assignments/courses/${courseId}`,
-    // 'get-form-assignment': ,
     'assignment': (assignmentId) => `/lecturer/assignment/${assignmentId}`,
+
+    'user-assignments': (courseId) => `/assignments/courses/${courseId}`,
+
     'questions': (assignmentId) => `/questions/assignment/${assignmentId}`,
+    'question': (questionId) => `/questions/${questionId}`,
     'add-question': '/questions',
-    'add-question-2': (courseId) => `/questions/course/${courseId}`,
+
+    'choices': (questionId) => `/choices/question/${questionId}`,
+    'add-choice': `/choices`,
 
     'tags': '/tags',
-    // 'videos': (lessonId) => `videos/${lessonId}`
 
 }
 

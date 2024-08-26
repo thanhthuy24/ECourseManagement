@@ -15,4 +15,5 @@ import java.util.List;
 public interface QuestionRepository {
     void addOrUpdateQuestions(Question q);
     List<Question> getQuestionsByAssignmentId(Long assignmentId);
+    Question getQuestionById(Long id);
 }

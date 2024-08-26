@@ -23,7 +23,7 @@ import Assignments from "./components/assignments/Assignments";
 import AssignmentUpdate from "./components/assignments/AssignmentUpdate";
 import Questions from "./components/questions/Questions";
 import AddQuestion from "./components/questions/AddQuestion";
-import AddQuestionByCourseId from "./components/questions/AddQuestionByCourseId";
+import UpdateChoices from "./components/questions/UpdateChoices";
 // import { ToastContainer } from "react-bootstrap";
 // import './styleAssignments.css';
 
@@ -62,8 +62,9 @@ const App = () => {
                                 <Route path='/lecturer/assignments/courses/:courseId' element={<Assignments />} />
                                 <Route path='/lecturer/assignment/:assignmentId' element={<AssignmentUpdate />} />
                                 <Route path='/questions/assignment/:assignmentId' element={<Questions />} />
-                                {/* <Route path='/questions' element={<AddQuestion />} /> */}
-                                <Route path='/questions/course/:courseId' element={<AddQuestionByCourseId />} />
+                                <Route path='/choices' element={<UpdateChoices />} />
+                                <Route path='/questions/assignments/:assignmentId' element={<AddQuestion />} />
+                                <Route path="/user" element={<UserInfor />}/>
                             </Routes>
                         </> : 
                         <>

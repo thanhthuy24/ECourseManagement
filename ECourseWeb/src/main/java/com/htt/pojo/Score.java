@@ -19,6 +19,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -26,6 +32,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "score")
+@Getter
+@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
@@ -39,96 +51,20 @@ public class Score implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
+    private Long id;
+    
     @Column(name = "score")
     private long score;
-    @Size(max = 255)
+    
     @Column(name = "feedBack")
     private String feedBack;
+    
     @JoinColumn(name = "assignment_id", referencedColumnName = "id")
     @ManyToOne
     private Assignment assignmentId;
+    
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;
-
-    public Score() {
-    }
-
-    public Score(Integer id) {
-        this.id = id;
-    }
-
-    public Score(Integer id, long score) {
-        this.id = id;
-        this.score = score;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public long getScore() {
-        return score;
-    }
-
-    public void setScore(long score) {
-        this.score = score;
-    }
-
-    public String getFeedBack() {
-        return feedBack;
-    }
-
-    public void setFeedBack(String feedBack) {
-        this.feedBack = feedBack;
-    }
-
-    public Assignment getAssignmentId() {
-        return assignmentId;
-    }
-
-    public void setAssignmentId(Assignment assignmentId) {
-        this.assignmentId = assignmentId;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Score)) {
-            return false;
-        }
-        Score other = (Score) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.htt.pojo.Score[ id=" + id + " ]";
-    }
     
 }

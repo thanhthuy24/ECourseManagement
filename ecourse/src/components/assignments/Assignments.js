@@ -25,9 +25,9 @@ const Assignments = () => {
         nav(url);
     }
 
-    const handleAddQuestion = (courseId) => {
-        const url = endpoints['add-question-2'](courseId);
-        nav(url);
+    const handleAddQuestion = (assignmentId) => {
+        // const url = endpoints['add-question'](assignmentId);
+        nav(`/questions/assignments/${assignmentId}`);
     }
 
     return(
@@ -60,7 +60,7 @@ const Assignments = () => {
                                 <div className="text-tag font-weight" >Created date: {format(assignment.createdDate, 'dd/MM/yyyy')}</div>
                                 <div className="text-deadline font-weight">Deadline: {format(assignment.dueDate, 'dd/MM/yyyy')}</div>
                             </div>
-                            <Button onClick={() => handleAddQuestion(assignment.id, courseId)}>Add question</Button>
+                            <Button onClick={() => handleAddQuestion(assignment.id)}>Add question</Button>
                         </Card.Footer>
                         </Card>
                     ))}

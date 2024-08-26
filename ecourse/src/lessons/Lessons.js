@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { authAPIs, endpoints } from "../configs/APIs";
-import { Card, Col, Form, Nav, ProgressBar, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Nav, ProgressBar, Row } from "react-bootstrap";
 import './styleLesson.css';
 import ReactPlayer from 'react-player';
 import { MyUserContext } from "../App";
@@ -10,6 +10,7 @@ import cookie from "react-cookies";
 
   import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 const Lessons = () => {
     const { courseId } = useParams();
@@ -22,6 +23,8 @@ const Lessons = () => {
     const [lessonId, setlessonId] = useState('');
     const [videoSrc, setVideoSrc] = useState("");
     const userId = user.id;
+
+    const [assignments, setAssignment] = useState([]);
 
     const loadLesson = async() => {
         try{
@@ -62,6 +65,11 @@ const Lessons = () => {
         }
     }
 
+    const loadAssignment = async(courseId) => {
+        let res = await authAPIs().get(endpoints['user-assignments'](courseId));
+        setAssignment(res.data);
+    }
+
     const handleCheckboxChange = async (videoId) => {
         const isWatched = !watchedVideos[videoId];
         
@@ -96,6 +104,7 @@ const Lessons = () => {
         loadVideos();
         loadProgress();
         loadVideosComplete();
+        loadAssignment(courseId);
     }, [courseId, user.id]);
 
     const renderTabContent = () => {
@@ -107,7 +116,43 @@ const Lessons = () => {
                 <div>Overview content goes here.</div>
                 </>;
             case "assignments":
-                return <div>Assignments and materials content goes here.</div>;
+                return (
+                    <>
+                        {/* <div>Assignments and materials content goes here.</div> */}
+                        {assignments === null ? <>
+                            <p>Không có bài tập nào được đăng lên!</p>
+                        </> : <>
+                            {assignments.map(assignment => (
+                                <Card style={{marginBottom: "20px"}}>
+                                <Card.Header className="d-flex justify-content-between">
+                                    <div
+                                        className="div-card-header">
+                                        {/* style={{margin: "10px", padding: "10px", fontWeight: "bold"}}> */}
+                                        Assignment name: {assignment.name}
+                                    </div>
+                                    </Card.Header>
+                                <Card.Body>
+                                    <div className="d-flex justify-content-between">
+                                        <Card.Title>{assignment.lessonId?.name}</Card.Title>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="text-tag font-weight">Type: {assignment.tagId?.name}</p>
+                                    </div>
+                                </Card.Body>
+                                <Card.Footer className="text-muted">
+                                    <div>
+                                        <div className="text-tag font-weight" >Created date: {format(assignment.createdDate, 'dd/MM/yyyy')}</div>
+                                        <div className="text-deadline font-weight">Deadline: {format(assignment.dueDate, 'dd/MM/yyyy')}</div>
+                                    </div>
+                                </Card.Footer>
+                                </Card>
+                            ))}
+                        </>
+                        }
+                    </>
+                );
+                
             case "faq":
                 return <>
                 <div>FAQ content goes here. {lessonId}</div>

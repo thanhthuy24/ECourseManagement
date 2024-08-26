@@ -64,7 +64,6 @@ public class ApiAssignmentController {
     public void updateAssignment(
             @ModelAttribute Assignment assignment
     ) {
-//        AssignmentDTO assignmentDTO = convertToDTO(assignment);
         this.assignmentSer.addOrUpdate(assignment);
     }
     
@@ -73,7 +72,6 @@ public class ApiAssignmentController {
         assignmentDTO.setName(t.getName());
         assignmentDTO.setCreatedDate(t.getCreatedDate());
         assignmentDTO.setDueDate(t.getDueDate());
-//        assignmentDTO.setLesson(t.ge
         
         TagDTO tagDTO = new TagDTO();
         tagDTO.setName(t.getTagId().getName());
@@ -89,6 +87,14 @@ public class ApiAssignmentController {
         assignmentDTO.setCourse(courseDTO);
 
         return assignmentDTO;
+    }
+    
+//    Hiển thị ở học viên
+    @GetMapping("/assignments/courses/{courseId}")
+    public ResponseEntity<?> getAssignmentsByCourseAtUser(
+            @PathVariable(value = "courseId") Long courseId
+    ){
+        return ResponseEntity.ok(assignmentSer.getAssignmentByCourseId(courseId));
     }
     
     

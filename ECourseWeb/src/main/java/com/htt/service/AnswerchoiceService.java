@@ -4,15 +4,14 @@
  */
 package com.htt.service;
 
-import com.htt.pojo.Question;
+import com.htt.pojo.Answerchoice;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public interface QuestionService {
-    void addOrUpdateQuestions(Question q);
-    List<Question> getQuestionsByAssignmentId(Long assignmentId);
-    Question getQuestionById(Long id);
+public interface AnswerchoiceService {
+    void addAnswerChoice(Answerchoice answerchoice);
+    List<Answerchoice> getAnswerchoiceByUserId(Long userId);
 }

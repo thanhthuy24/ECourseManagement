@@ -46,9 +46,7 @@ public class QuestionRepositoryImpl implements QuestionRepository {
             question.setTagId(q.getTagId());
 
             s.save(question);
-//            s.save(q);
         }
-
     }
 
     @Override
@@ -58,6 +56,12 @@ public class QuestionRepositoryImpl implements QuestionRepository {
         return s.createQuery(hql, Question.class)
                 .setParameter("assignmentId", assignmentId)
                 .list();
+    }
+
+    @Override
+    public Question getQuestionById(Long id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(Question.class, id);
     }
 
 }
