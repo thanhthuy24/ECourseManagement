@@ -16,7 +16,7 @@ import cookie from "react-cookies";
 import MyCartReducer from "./reducers/MyCartReducer";
 import Cart from "./components/cart/Cart";
 import UserCourseDetail from "./user/UserCourseDetail";
-import Lessons from "./lessons/Lessons";
+import Lessons from "./components/lessons/Lessons";
 import TeacherHeader from "./layouts/HeaderTeacher";
 import HomeTeacher from "./components/teachers/HomeTeacher";
 import Assignments from "./components/assignments/Assignments";
@@ -24,6 +24,7 @@ import AssignmentUpdate from "./components/assignments/AssignmentUpdate";
 import Questions from "./components/questions/Questions";
 import AddQuestion from "./components/questions/AddQuestion";
 import UpdateChoices from "./components/questions/UpdateChoices";
+import Quiz from "./components/quiz/Quiz";
 // import { ToastContainer } from "react-bootstrap";
 // import './styleAssignments.css';
 
@@ -81,6 +82,8 @@ const App = () => {
                                 <Route path="/my-receipts" element={<MyCourses />}/>
                                 <Route path="/receipt/:id" element={<UserCourseDetail />}/>
                                 <Route path="/lessons/:courseId" element={<Lessons />}/>
+                                <Route path='/questions/assignment/:assignmentId' element={<Quiz />} />
+                                
                             </Routes>
                         </>
                         }

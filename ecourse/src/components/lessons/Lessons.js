@@ -1,15 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { authAPIs, endpoints } from "../configs/APIs";
-import { Button, Card, Col, Form, Nav, ProgressBar, Row } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router";
+import { authAPIs, endpoints } from "../../configs/APIs";
+import { Card, Col, Form, Nav, ProgressBar, Row } from "react-bootstrap";
 import './styleLesson.css';
 import ReactPlayer from 'react-player';
-import { MyUserContext } from "../App";
+import { MyUserContext } from "../../App";
 import { ToastContainer, toast } from 'react-toastify';
-import cookie from "react-cookies";
 
   import 'react-toastify/dist/ReactToastify.css';
-import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
 const Lessons = () => {
@@ -23,6 +21,7 @@ const Lessons = () => {
     const [lessonId, setlessonId] = useState('');
     const [videoSrc, setVideoSrc] = useState("");
     const userId = user.id;
+    const nav = useNavigate();
 
     const [assignments, setAssignment] = useState([]);
 
@@ -96,7 +95,11 @@ const Lessons = () => {
     const handleVideoChange = (description, lessonId) => {
         setVideoSrc(description);
         setlessonId(lessonId);
-        console.log(lessonId);
+        // console.log(lessonId);
+    }
+
+    const handleClickAssignment = (assignmentId) => {
+        nav(`/questions/assignment/${assignmentId}`);
     }
 
     useEffect(() => {
@@ -123,7 +126,7 @@ const Lessons = () => {
                             <p>Không có bài tập nào được đăng lên!</p>
                         </> : <>
                             {assignments.map(assignment => (
-                                <Card style={{marginBottom: "20px"}}>
+                                <Card style={{marginBottom: "20px"}} onClick={() => handleClickAssignment(assignment.id)}>
                                 <Card.Header className="d-flex justify-content-between">
                                     <div
                                         className="div-card-header">
