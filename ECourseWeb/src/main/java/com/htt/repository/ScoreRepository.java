@@ -4,15 +4,14 @@
  */
 package com.htt.repository;
 
-import com.htt.pojo.Choice;
-import java.util.List;
+import com.htt.pojo.Score;
 
 /**
  *
  * @author Admin
  */
-public interface ChoiceRepository {
-    void addChoice(Choice choice);
-    List<Choice> getChoicesByQuestionId(Long questionId);
-    List<Choice> getChoicesByCorrectByQuestionId (Long questionId);
+public interface ScoreRepository {
+    void addScore(Long assignmentId, Long userId);
+    void addScore2(Score score, Long assignmentId, Long userId);
+    Score getScoreByUserIdAndAssignment(Long assignmentId, Long userId);
 }

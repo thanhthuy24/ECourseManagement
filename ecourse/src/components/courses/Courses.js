@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Navbar, Row } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import APIs, { endpoints } from "../../configs/APIs";
 import { format } from 'date-fns';
@@ -15,7 +15,16 @@ const Courses = () => {
     const [page, setPage] = useState(1);
     const nav = useNavigate();
     const [, dispatch] = useContext(MyCartContext);
+    const [categories, setCategories] = useState([]);
 
+    const loadCates = async () => {
+        let res = await APIs.get(endpoints['categories']);
+        setCategories(res.data);
+    }
+
+    useEffect(() => {
+        loadCates();
+    }, [])
 
     const loadCourses = async () => {
         try {
@@ -78,6 +87,16 @@ const Courses = () => {
       }
     return (
         <>
+         <Navbar className="backgroudColor margin" fill variant="tabs"> 
+                <Container>
+                {categories.map(c => 
+                    {
+                        const url = `/?cateId=${c.id}`;    
+                        return <Link key={c.id} to={url} className='nav-link font-size-header'> {c.name} </Link>
+                    }
+                    )}
+                </Container>
+            </Navbar>
             <div className="container">
                 <Row>
                 <ToastContainer />

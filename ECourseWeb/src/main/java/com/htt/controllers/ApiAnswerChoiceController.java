@@ -32,9 +32,11 @@ public class ApiAnswerChoiceController {
     @PostMapping("/answerchoices")
     @ResponseStatus(HttpStatus.CREATED)
     public void addAnswerChoice(
-            @RequestBody Answerchoice ans
+            @RequestBody Answerchoice ans           
     ){
-        this.answerChoiceSer.addAnswerChoice(ans);
+        
+        this.answerChoiceSer.addAnswerChoice(ans,
+                ans.getAssignmentId().getId(), ans.getUserId().getId(), ans.getQuestionId().getId());
     }
     
     @GetMapping("/answerchoices/user/{userId}")

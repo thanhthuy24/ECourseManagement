@@ -45,4 +45,12 @@ public class ApiChoiceController {
         return ResponseEntity.ok(choiceSer.getChoicesByQuestionId(questionId));
     }
     
+    @GetMapping("/choices/isCorrect/question/{questionId}")
+    public ResponseEntity<?> getListRightChoiceByAssignmentId(
+            @PathVariable(value = "questionId") Long questionId
+    ){
+        return ResponseEntity.ok(choiceSer.getChoicesByCorrectByQuestionId(questionId));
+    }
+    
+    
 }

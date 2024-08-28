@@ -90,16 +90,6 @@ const Header = () => {
                 </Container>
                 
             </Navbar>
-            <Navbar className="backgroudColor margin" fill variant="tabs"> 
-                <Container>
-                {categories.map(c => 
-                    {
-                        const url = `/?cateId=${c.id}`;    
-                        return <Link key={c.id} to={url} className='nav-link font-size-header'> {c.name} </Link>
-                    }
-                    )}
-                </Container>
-            </Navbar>
         </>
         
     );

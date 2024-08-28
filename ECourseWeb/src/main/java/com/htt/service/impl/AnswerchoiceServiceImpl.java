@@ -22,13 +22,18 @@ public class AnswerchoiceServiceImpl implements AnswerchoiceService{
     private AnswerchoiceRepository answerChoiceRepo;
 
     @Override
-    public void addAnswerChoice(Answerchoice answerchoice) {
-        this.answerChoiceRepo.addAnswerChoice(answerchoice);
+    public void addAnswerChoice(Answerchoice answerchoice, Long assignmentId, Long userId, Long questionId) {
+        this.answerChoiceRepo.addAnswerChoice(answerchoice, assignmentId, userId, questionId);
     }
 
     @Override
     public List<Answerchoice> getAnswerchoiceByUserId(Long userId) {
         return this.answerChoiceRepo.getAnswerchoiceByUserId(userId);
+    }
+
+    @Override
+    public List<Answerchoice> getAnswerchoiceByAssignmentAndUserId(Long userId, Long assignmentId, Long questionId) {
+        return this.answerChoiceRepo.checkAnswers(userId, assignmentId, questionId);
     }
     
 }

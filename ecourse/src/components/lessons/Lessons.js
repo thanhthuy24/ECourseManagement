@@ -20,6 +20,8 @@ const Lessons = () => {
     const [activeTab, setActiveTab] = useState("overview");
     const [lessonId, setlessonId] = useState('');
     const [videoSrc, setVideoSrc] = useState("");
+    const [score, setScore] = useState([]);
+
     const userId = user.id;
     const nav = useNavigate();
 
@@ -126,6 +128,7 @@ const Lessons = () => {
                             <p>Không có bài tập nào được đăng lên!</p>
                         </> : <>
                             {assignments.map(assignment => (
+                               
                                 <Card style={{marginBottom: "20px"}} onClick={() => handleClickAssignment(assignment.id)}>
                                 <Card.Header className="d-flex justify-content-between">
                                     <div

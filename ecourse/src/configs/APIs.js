@@ -42,6 +42,12 @@ export const endpoints = {
 
     'answer': '/answerchoices',
 
+    'check-assignment-done': (userId) => `/answerchoices/user/${userId}`,
+    // 'score': (assignmentId, userId) => `/score/assignment/${assignmentId}/user/${userId}`,
+    'score': '/score',
+    'scores': (assignmentId, userId) => `/scores/assignment/${assignmentId}/user/${userId}`,
+    'userDone':(assignmentId, userId) => `/userdone/assignment/${assignmentId}/user/${userId}`,
+
     'tags': '/tags',
 
 }

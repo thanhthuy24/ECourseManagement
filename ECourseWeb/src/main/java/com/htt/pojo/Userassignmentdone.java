@@ -33,19 +33,19 @@ import lombok.Setter;
  * @author Admin
  */
 @Entity
-@Table(name = "answerchoice")
+@Table(name = "userassignmentdone")
+@XmlRootElement
 @Getter
 @Setter
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Answerchoice.findAll", query = "SELECT a FROM Answerchoice a"),
-    @NamedQuery(name = "Answerchoice.findById", query = "SELECT a FROM Answerchoice a WHERE a.id = :id"),
-    @NamedQuery(name = "Answerchoice.findByCreatedDate", query = "SELECT a FROM Answerchoice a WHERE a.createdDate = :createdDate")})
-public class Answerchoice implements Serializable {
+    @NamedQuery(name = "Userassignmentdone.findAll", query = "SELECT u FROM Userassignmentdone u"),
+    @NamedQuery(name = "Userassignmentdone.findById", query = "SELECT u FROM Userassignmentdone u WHERE u.id = :id"),
+    @NamedQuery(name = "Userassignmentdone.findByCreatedDate", query = "SELECT u FROM Userassignmentdone u WHERE u.createdDate = :createdDate")})
+public class Userassignmentdone implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,19 +53,10 @@ public class Answerchoice implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-
     @Column(name = "createdDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-
-    @JoinColumn(name = "choice_id", referencedColumnName = "id")
-    @ManyToOne
-    private Choice choiceId;
-
-    @JoinColumn(name = "question_id", referencedColumnName = "id")
-    @ManyToOne
-    private Question questionId;
-
+    
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;

@@ -30,5 +30,10 @@ public class ChoiceServiceImpl implements ChoiceService{
     public List<Choice> getChoicesByQuestionId(Long questionId) {
         return this.choiceRepo.getChoicesByQuestionId(questionId);
     }
+
+    @Override
+    public List<Choice> getChoicesByCorrectByQuestionId(Long questionId) {
+        return this.choiceRepo.getChoicesByCorrectByQuestionId(questionId);
+    }
     
 }

@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { MyUserContext } from "../../App";
+import { ToastContainer, toast, Bounce  } from 'react-toastify';
+import { format } from "date-fns";
 // import { Form } from "react-router-dom";
 
 const Quiz = () => {
@@ -11,6 +13,9 @@ const Quiz = () => {
     const [questions, setQuestions] = useState([]);
     const [choices, setChoices] = useState({});
     const [selectedId, setSelectedId] = useState({});
+    const [assignmentDone, setAssignmentDone] = useState([]);
+    const [score, setScore] = useState({});
+    const nav = useNavigate();
     
     const user = useContext(MyUserContext);
 
@@ -24,6 +29,27 @@ const Quiz = () => {
         });
     };
 
+    // const loadAssignmentDone = async () => {
+    //     let res = await authAPIs().get(endpoints['userDone'](assignmentId, user.id));
+    //     setAssignmentDone(res.data);
+    // }
+
+    const loadAddScore = async (e) => {
+        e.preventDefault();
+        const result = {
+            userId: {id: user.id},
+            assigmentId: {id: assignmentId}
+        };
+
+        let res = await authAPIs().post(endpoints['score'], result, {
+            headers: {
+                'Content-Type':  "application/json"
+            }
+        })
+        setScore(res.data);
+    }
+
+
     const loadAnswer = async (e) => {
         e.preventDefault();
         try {
@@ -33,7 +59,8 @@ const Quiz = () => {
                 choiceId: { id: choiceId },
                 questionId: { id: questionId },
                 userId: { id: user.id },
-                createdDate: currentDate
+                createdDate: currentDate,
+                assignmentId: {id: assignmentId}
             }));
 
             // Send the answers to the server
@@ -45,16 +72,19 @@ const Quiz = () => {
                 });
             }
 
-            // console.info('Answers submitted:', res.data);
-            alert('Answers saved successfully!');
+            await loadAddScore(e);
+
+            toast.success("Completed!");
+            
         } catch (err) {
-            console.error('Error saving answers:', err);
-            alert('Failed to save answers.');
+            toast.error('You had done before!');
         }
     };
 
     useEffect(() => {
         loadQuestions();
+        // loadAssignmentDone();
+        // loadScore();
     }, [assignmentId]);
 
     const handleChoiceSelect = (questionId, choiceId) => {
@@ -66,38 +96,74 @@ const Quiz = () => {
 
     return (
         <div className="container">
-            <h1>Quiz for Assignment {assignmentId}</h1>
-            <Form method="post" onSubmit={loadAnswer}>
-                {questions.map((question, index) => (
-                    <Card key={question.id} style={{ marginBottom: "20px" }}>
-                        <Card.Header className="d-flex justify-content-between">
-                            <div className="div-card-header">
-                                {`Question ${index + 1}: `}
-                                {question.name}
-                            </div>
-                        </Card.Header>
-                        <Card.Body>
-                            {choices[question.id] ? (
-                                <div>
-                                    {choices[question.id].map(c => (
-                                        <div key={c.id} className="mb-3 d-flex" style={{ marginLeft: "10px" }}>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedId[question.id] === c.id}
-                                                onChange={() => handleChoiceSelect(question.id, c.id)}
-                                            />
-                                            <p style={{ margin: "0px", marginLeft: "10px" }}>{c.content}</p>
+            {/* <h1>Quiz for Assignment {assignmentId}</h1> */}
+            <ToastContainer
+                position="top-center"
+                autoClose={1500}
+                hideProgressBar
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+                transition= {Bounce}
+                />
+                <Row>
+                    <Col>
+                        <Form className="mt-3" method="post" onSubmit={loadAnswer}>
+                            {questions.map((question, index) => (
+                                <Card key={question.id} style={{ marginBottom: "20px" }}>
+                                    <Card.Header className="d-flex justify-content-between">
+                                        <div className="div-card-header">
+                                            {`Question ${index + 1}: `}
+                                            {question.name}
                                         </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <p>Loading choices...</p>
+                                    </Card.Header>
+                                    <Card.Body>
+                                        {choices[question.id] ? (
+                                            <div>
+                                                {choices[question.id].map(c => (
+                                                    <div key={c.id} className="mb-3 d-flex" style={{ marginLeft: "10px" }}>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedId[question.id] === c.id}
+                                                            onChange={() => handleChoiceSelect(question.id, c.id)}
+                                                        />
+                                                        <p style={{ margin: "0px", marginLeft: "10px" }}>{c.content}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <p>Loading choices...</p>
+                                        )}
+                                    </Card.Body>
+                                </Card>
+                            ))}
+                            <Button type="submit">Save All Answers</Button>
+                        </Form>
+                    </Col>
+                    <Col className="mt-3">
+                        {assignmentDone ? <>
+                            {assignmentDone.map(a => 
+                                <Card border="danger" style={{ width: '18rem' }}>
+                                    <Card.Header>Result</Card.Header>
+                                    <Card.Body>
+                                        <Card.Title>Score: {score.score}</Card.Title>
+                                        <Card.Text>
+                                            <div className="text-tag font-weight" >Created date: {format(a.createdDate, 'dd/MM/yyyy')}</div>
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
                             )}
-                        </Card.Body>
-                    </Card>
-                ))}
-                <Button type="submit">Save All Answers</Button>
-            </Form>
+                           
+                        </> : <>
+                            <h1>Chưa có kết quả</h1>
+                        </>}
+                    </Col>
+                </Row>
+            
         </div>
     );
 };

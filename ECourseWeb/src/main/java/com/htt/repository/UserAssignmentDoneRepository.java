@@ -2,17 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package com.htt.service;
+package com.htt.repository;
 
-import com.htt.pojo.Choice;
+import com.htt.pojo.Userassignmentdone;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public interface ChoiceService {
-    void addChoice(Choice choice);
-    List<Choice> getChoicesByQuestionId(Long questionId);
-    List<Choice> getChoicesByCorrectByQuestionId(Long questionId);
+public interface UserAssignmentDoneRepository {
+    List<Userassignmentdone> getAllByUserAndAssignmentId(Long userId, Long assignmentId);
 }

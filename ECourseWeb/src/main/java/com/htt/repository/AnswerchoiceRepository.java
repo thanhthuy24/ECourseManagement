@@ -12,6 +12,8 @@ import java.util.List;
  * @author Admin
  */
 public interface AnswerchoiceRepository {
-    void addAnswerChoice(Answerchoice answerchoice);
+    void addAnswerChoice(Answerchoice answerchoice, Long assignmentId, Long userId, Long questionId);
     List<Answerchoice> getAnswerchoiceByUserId(Long userId);
+    List<Answerchoice> checkAnswers(Long userId, Long assignmentId, Long questionId);
+    List<Answerchoice> checkAnswer(Long userId, Long assignmentId);
 }

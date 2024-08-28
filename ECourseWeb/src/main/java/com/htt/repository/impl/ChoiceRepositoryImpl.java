@@ -48,4 +48,13 @@ public class ChoiceRepositoryImpl implements ChoiceRepository {
                 .list();
     }
 
+    @Override
+    public List<Choice> getChoicesByCorrectByQuestionId(Long questionId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String hql = "FROM Choice WHERE questionId.id = :questionId and isCorrect = true";
+        return s.createQuery(hql, Choice.class)
+                .setParameter("questionId", questionId)
+                .list();
+    }
+
 }
