@@ -33,7 +33,6 @@ public class ApiScoreController {
     @PostMapping("/score/assignment/{assignmentId}/user/{userId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void addScore(
-//            @RequestBody Score sc,
             @PathVariable(value = "assignmentId") Long assignmentId,
             @PathVariable(value = "userId") Long userId
     ) {

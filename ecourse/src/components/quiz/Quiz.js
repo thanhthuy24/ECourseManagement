@@ -29,23 +29,13 @@ const Quiz = () => {
         });
     };
 
-    // const loadAssignmentDone = async () => {
-    //     let res = await authAPIs().get(endpoints['userDone'](assignmentId, user.id));
-    //     setAssignmentDone(res.data);
-    // }
+    const loadAssignmentDone = async () => {
+        let res = await authAPIs().get(endpoints['userDone'](assignmentId, user.id));
+        setAssignmentDone(res.data);
+    }
 
-    const loadAddScore = async (e) => {
-        e.preventDefault();
-        const result = {
-            userId: {id: user.id},
-            assigmentId: {id: assignmentId}
-        };
-
-        let res = await authAPIs().post(endpoints['score'], result, {
-            headers: {
-                'Content-Type':  "application/json"
-            }
-        })
+    const loadScore = async () => {
+        let res = await authAPIs().get(endpoints['scores'](assignmentId, user.id));
         setScore(res.data);
     }
 
@@ -72,7 +62,7 @@ const Quiz = () => {
                 });
             }
 
-            await loadAddScore(e);
+            let res = await authAPIs().post(endpoints['score'](assignmentId, user.id));
 
             toast.success("Completed!");
             
@@ -83,8 +73,8 @@ const Quiz = () => {
 
     useEffect(() => {
         loadQuestions();
-        // loadAssignmentDone();
-        // loadScore();
+        loadAssignmentDone();
+        loadScore();
     }, [assignmentId]);
 
     const handleChoiceSelect = (questionId, choiceId) => {
@@ -141,7 +131,12 @@ const Quiz = () => {
                                     </Card.Body>
                                 </Card>
                             ))}
-                            <Button type="submit">Save All Answers</Button>
+                            {assignmentDone ? <>
+                                <Button disabled type="submit">You'd done all Answers</Button>
+                            </> : <>
+                                <Button type="submit">Save All Answers</Button>
+                            </>}
+                            
                         </Form>
                     </Col>
                     <Col className="mt-3">
@@ -150,7 +145,10 @@ const Quiz = () => {
                                 <Card border="danger" style={{ width: '18rem' }}>
                                     <Card.Header>Result</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>Score: {score.score}</Card.Title>
+                                        <Card.Title>Answers: {score.score} / {questions.length}</Card.Title>
+                                        <Card.Title>
+                                            Feedback: {score.feedBack}
+                                        </Card.Title>
                                         <Card.Text>
                                             <div className="text-tag font-weight" >Created date: {format(a.createdDate, 'dd/MM/yyyy')}</div>
                                         </Card.Text>
