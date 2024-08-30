@@ -58,6 +58,10 @@ public class Essay implements Serializable {
     @ManyToOne
     private Question questionId;
     
+    @JoinColumn(name = "assignment_id", referencedColumnName = "id")
+    @ManyToOne
+    private Assignment assignmentId;
+    
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;

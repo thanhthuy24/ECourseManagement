@@ -38,6 +38,13 @@ public class ApiEssayController {
         this.essaySer.addEssay(essay);
     }
     
+    @GetMapping("/essays/assignment/{assignmentId}")
+    public ResponseEntity<?> getEssayAssignmentId(
+            @PathVariable(value = "assignmentId") Long assignmentId
+    ){
+        return ResponseEntity.ok(essaySer.getEssayByAssignmentId(assignmentId));
+    }
+    
     @GetMapping("/essays/user/{userId}")
     public ResponseEntity<?> getEssayUserId(
             @PathVariable(value = "userId") Long userId

@@ -15,4 +15,5 @@ public interface EssayRepository {
     void addEssay(Essay essay);
     List<Essay> getEssayByUserId(Long userId);
     List<Essay> getEssayByQuestionId(Long questionId);
+    List<Essay> getEssayByAssignmentId(Long assignmentId);
 }

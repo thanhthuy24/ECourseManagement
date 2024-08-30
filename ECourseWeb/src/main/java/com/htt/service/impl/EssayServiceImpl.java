@@ -35,5 +35,10 @@ public class EssayServiceImpl implements EssayService{
     public List<Essay> getEssayByQuestionId(Long questionId) {
         return this.essayRepo.getEssayByQuestionId(questionId);
     }
+
+    @Override
+    public List<Essay> getEssayByAssignmentId(Long assignmentId) {
+        return this.essayRepo.getEssayByAssignmentId(assignmentId);
+    }
     
 }

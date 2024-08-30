@@ -30,7 +30,11 @@ public class EssayRepositoryImpl implements EssayRepository {
         if (essay.getId() != null) {
             s.update(essay);
         } else {
-            s.save(essay);
+            Essay e = new Essay();
+            e.setContent(essay.getContent());
+            e.setQuestionId(essay.getQuestionId());
+            e.setAssignmentId(essay.getAssignmentId());
+            s.save(e);
         }
     }
 
@@ -49,6 +53,15 @@ public class EssayRepositoryImpl implements EssayRepository {
         String essay = "FROM Essay p WHERE p.questionId.id = :questionId";
         return s.createQuery(essay)
                 .setParameter("questionId", questionId)
+                .list();
+    }
+
+    @Override
+    public List<Essay> getEssayByAssignmentId(Long assignmentId) {
+         Session s = this.factory.getObject().getCurrentSession();
+        String essay = "FROM Essay p WHERE p.assignmentId.id = :assignmentId";
+        return s.createQuery(essay)
+                .setParameter("assignmentId", assignmentId)
                 .list();
     }
 

@@ -26,6 +26,7 @@ import AddQuestion from "./components/questions/AddQuestion";
 import UpdateChoices from "./components/questions/UpdateChoices";
 import Quiz from "./components/quiz/Quiz";
 import AfterQuiz from "./components/quiz/AfterQuiz";
+import Essay from "./components/quiz/Essay";
 // import { ToastContainer } from "react-bootstrap";
 // import './styleAssignments.css';
 
@@ -88,6 +89,7 @@ const App = () => {
                                 <Route path="/lessons/:courseId" element={<Lessons />}/>
                                 <Route path='/questions/assignment/:assignmentId' element={<Quiz />} />
                                 <Route path='/score' element={<AfterQuiz />} />
+                                <Route path='/essays/assignment/:assignmentId' element={<Essay />} />
                             </Routes>
                         </>
                         }

@@ -7,7 +7,7 @@ import ReactPlayer from 'react-player';
 import { MyUserContext } from "../../App";
 import { ToastContainer, toast } from 'react-toastify';
 
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { format, isAfter } from "date-fns";
 
 const Lessons = () => {
@@ -156,7 +156,7 @@ const Lessons = () => {
                                     if (assignment.tagId?.name === "Quiz") {
                                         nav(`/questions/assignment/${assignment.id}`)
                                     } else if (assignment.tagId?.name === "Essay") {
-                                        nav(`/`)
+                                        nav(`/essays/assignment/${assignment.id}`)
                                     }
                                 };
 
