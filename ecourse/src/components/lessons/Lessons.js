@@ -8,7 +8,7 @@ import { MyUserContext } from "../../App";
 import { ToastContainer, toast } from 'react-toastify';
 
   import 'react-toastify/dist/ReactToastify.css';
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 
 const Lessons = () => {
     const { courseId } = useParams();
@@ -69,24 +69,27 @@ const Lessons = () => {
     const loadAssignment = async(courseId) => {
         let res = await authAPIs().get(endpoints['user-assignments'](courseId));
         setAssignment(res.data);
-
-        // if (assignments && assignments.length > 0) {
-        //     const completedAssignments = [];
-
-        //     for (const assignment of assignments) {
-        //         const res = await authAPIs().get(endpoints['userDone'](assignment.id, userId));
-        //         if (res.data) {
-        //             completedAssignments.push({ assignmentId: assignment.id });
-        //         }
-        //     }setAssignmentDone(completedAssignments);
-        // }
-        
     }
 
     const loadAssignmentDone = async (assignmentId) => {
-        let res = await authAPIs().get(endpoints['userDone'](assignmentId, user.id));
-        setAssignmentDone(res.data);
+        try {
+            let res = await authAPIs().get(endpoints['userDone'](assignmentId, user.id));
+            setAssignmentDone(prevState => ({
+                ...prevState,
+                [assignmentId]: res.data
+            }));
+        } catch (err) {
+            console.log(err);
+        }
     }
+
+    useEffect(() => {
+        if (assignments.length > 0) {
+            assignments.forEach(assignment => {
+                loadAssignmentDone(assignment.id);
+            });
+        }
+    }, [assignments]);
 
     const handleCheckboxChange = async (videoId) => {
         const isWatched = !watchedVideos[videoId];
@@ -117,9 +120,9 @@ const Lessons = () => {
         // console.log(lessonId);
     }
 
-    const handleClickAssignment = (assignmentId) => {
-        nav(`/questions/assignment/${assignmentId}`);
-    }
+    // const handleClickAssignment = (assignmentId) => {
+    //     nav(`/questions/assignment/${assignmentId}`);
+    // }
 
     useEffect(() => {
         loadLesson();
@@ -127,10 +130,11 @@ const Lessons = () => {
         loadProgress();
         loadVideosComplete();
         loadAssignment(courseId);
-
-        
+        // loadAssignmentDone();      
 
     }, [courseId, user.id]);
+
+    
 
     const renderTabContent = () => {
         switch(activeTab) {
@@ -148,28 +152,35 @@ const Lessons = () => {
                         </> : <>
                             {assignments.map(assignment => {
 
-                                // const handleAssignmentClick = () => {
-                                //     if (assignment.tagId?.name === "quiz") {
-                                //         nav(`/questions/assignment/${assignment.id}`)
-                                //     } else if (assignment.tagId?.name === "essay") {
-                                //         nav(`/questions/assignment/${assignment.id}`)
-                                //     } else {
-                                //         // Handle other types if needed
-                                //     }
-                                // };
+                                const handleAssignmentClick = () => {
+                                    if (assignment.tagId?.name === "Quiz") {
+                                        nav(`/questions/assignment/${assignment.id}`)
+                                    } else if (assignment.tagId?.name === "Essay") {
+                                        nav(`/`)
+                                    }
+                                };
+
+                                const isPastDue = isAfter(new Date(), new Date(assignment.dueDate));
 
                             return (
-                                <Card style={{ marginBottom: "20px" }} onClick={() => handleClickAssignment(assignment.id)}>
+                                <Card style={{ marginBottom: "20px" }} >
                                     <Card.Header className="d-flex justify-content-between">
                                         <div className="div-card-header">
-                                            Assignment name: {assignment.name}
-                                            
+                                             Assignment name: {assignment.name}
                                         </div>
+                                        <div>
+                                            {assignmentDone[assignment.id]?.length > 0 ? (
+                                                <Button onClick={() => handleAssignmentClick()} className="button-done">Done!</Button>
+                                            ) : (
+                                                <Button onClick={() => handleAssignmentClick()} disabled={isPastDue} className="button-not-done">Not Done</Button>
+                                            )}
+                                            </div>
                                     </Card.Header>
                                     <Card.Body>
                                         <div className="d-flex justify-content-between">
                                             <Card.Title>{assignment.lessonId?.name}</Card.Title>
                                         </div>
+                                        
                                         <div>
                                             <p className="text-tag font-weight">Type: {assignment.tagId?.name}</p>
                                         </div>

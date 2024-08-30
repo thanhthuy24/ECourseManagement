@@ -39,6 +39,7 @@ export const endpoints = {
 
     'choices': (questionId) => `/choices/question/${questionId}`,
     'add-choice': `/choices`,
+    'correct-choices': (questionId) => `choices/isCorrect/question/${questionId}`,
 
     'answer': '/answerchoices',
 

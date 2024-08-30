@@ -12,6 +12,7 @@ const Quiz = () => {
 
     const [questions, setQuestions] = useState([]);
     const [choices, setChoices] = useState({});
+    const [correctChoices, setCorrectChoices] = useState({});
     const [selectedId, setSelectedId] = useState({});
     const [assignmentDone, setAssignmentDone] = useState([]);
     const [score, setScore] = useState({});
@@ -26,6 +27,10 @@ const Quiz = () => {
         res.data.forEach(async (question) => {
             let choiceRes = await authAPIs().get(endpoints['choices'](question.id));
             setChoices(prev => ({ ...prev, [question.id]: choiceRes.data }));
+
+            let correctChoiceRes = await authAPIs().get(endpoints['correct-choices'](question.id));
+            setCorrectChoices(prev => ({ ...prev, [question.id]: correctChoiceRes.data }));
+            console.log(correctChoiceRes.data);
         });
     };
 
@@ -86,7 +91,6 @@ const Quiz = () => {
 
     return (
         <div className="container">
-            {/* <h1>Quiz for Assignment {assignmentId}</h1> */}
             <ToastContainer
                 position="top-center"
                 autoClose={1500}
@@ -121,7 +125,15 @@ const Quiz = () => {
                                                             checked={selectedId[question.id] === c.id}
                                                             onChange={() => handleChoiceSelect(question.id, c.id)}
                                                         />
-                                                        <p style={{ margin: "0px", marginLeft: "10px" }}>{c.content}</p>
+                                                        {/* <p style={{ margin: "0px", marginLeft: "10px" }}>{c.content}</p> */}
+                                                        <p style={{ margin: "0px", marginLeft: "10px" }}>
+                                                            {c.content}
+                                                            {assignmentDone.length > 0 && correctChoices[question.id]?.some(correctChoice => correctChoice.id === c.id) && (
+                                                                <span style={{ color: 'green', marginLeft: '10px', fontWeight: "bold" }}>
+                                                                    (Correct Answer)
+                                                                </span>
+                                                            )}
+                                                        </p>
                                                     </div>
                                                 ))}
                                             </div>

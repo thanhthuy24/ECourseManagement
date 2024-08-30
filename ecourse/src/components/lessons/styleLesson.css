@@ -15,3 +15,13 @@
 .card-body-not-watched {
     background-color: #f8d7da; /* Màu nền cho video chưa xem */
 }
+
+.button-done {
+    background-color: green !important;
+    color: white !important;
+}
+
+.button-not-done {
+    background-color: red !important;
+    color: white !important;
+}
