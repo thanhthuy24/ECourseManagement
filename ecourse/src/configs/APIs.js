@@ -45,12 +45,15 @@ export const endpoints = {
 
     'check-assignment-done': (userId) => `/answerchoices/user/${userId}`,
     'score': (assignmentId, userId) => `/score/assignment/${assignmentId}/user/${userId}`,
+    'add-score-essay': '/score',
     
     'scores': (assignmentId, userId) => `/scores/assignment/${assignmentId}/user/${userId}`,
     'userDone':(assignmentId, userId) => `/userdone/assignment/${assignmentId}/user/${userId}`,
 
     'add-essay':'/essays',
     'essay': (assignmentId) => `/essays/assignment/${assignmentId}`,
+    'check-essays': (questionId) => `/essays/question/${questionId}`,
+    'essay-user-done': (userId) => `/essays/user/${userId}`,
 
     'tags': '/tags',
 

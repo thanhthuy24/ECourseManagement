@@ -23,8 +23,12 @@ const Questions = () => {
 
     const handleAddChoice = (questionId) => {
         const url = endpoints['add-choice'];
-        // nav(url);
         nav(url, { state: { questionId } });
+    }
+
+    const handleCheckEssays = (assignmentId, questionId) => {
+        const url = endpoints['check-essays'](questionId);
+        nav(url, { state: { assignmentId, questionId } });
     }
 
     useEffect(() => {
@@ -43,7 +47,14 @@ const Questions = () => {
                                 {question.name}
                             </div>
                             <div>
+                            {question.tagId?.name === "Quiz" ? <>
                                 <Button onClick={() => handleAddChoice(question.id)} className="button-update-choices">Update Choices</Button>
+                               
+                            </> :
+                            <>
+                                <Button onClick={() => handleCheckEssays(assignmentId, question.id)} className="button-update-choices">Check essays done</Button>
+                            </>}
+                                
                             </div>
                             </Card.Header>
                         <Card.Body>

@@ -5,7 +5,10 @@
 package com.htt.repository.impl;
 
 import com.htt.pojo.Essay;
+import com.htt.pojo.Userassignmentdone;
 import com.htt.repository.EssayRepository;
+import com.htt.repository.UserAssignmentDoneRepository;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +26,60 @@ public class EssayRepositoryImpl implements EssayRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+    
+    @Autowired
+    private EssayRepository essayRepo;
+    
+    @Autowired
+    private UserAssignmentDoneRepository userAssignRepo;
 
     @Override
-    public void addEssay(Essay essay) {
+    public void addEssay(Essay essay, Long assignmentId, Long userId, Long questionId) {
         Session s = this.factory.getObject().getCurrentSession();
         if (essay.getId() != null) {
             s.update(essay);
         } else {
+            
+            List<Essay> list
+                    = essayRepo.checkEssay(userId, assignmentId, questionId);
+
+            if (!list.isEmpty()) {
+                throw new IllegalArgumentException("User had done this assignment!");
+            }
+            
+            List<Userassignmentdone> listDone = userAssignRepo
+                    .getAllByUserAndAssignmentId(userId, assignmentId);
+
+            if (listDone.isEmpty()) {
+                Userassignmentdone u = new Userassignmentdone();
+                u.setCreatedDate(new Date());
+                u.setAssignmentId(essay.getAssignmentId());
+                u.setUserId(essay.getUserId());
+                s.save(u);
+
+            }
             Essay e = new Essay();
             e.setContent(essay.getContent());
             e.setQuestionId(essay.getQuestionId());
             e.setAssignmentId(essay.getAssignmentId());
+            e.setUserId(essay.getUserId());
             s.save(e);
         }
+    }
+    
+    @Override
+    public List<Essay> checkEssay(Long userId, Long assignmentId, Long questionId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String essay
+                = "FROM Essay p "
+                + "WHERE p.userId.id = :userId and"
+                + " p.assignmentId.id = :assignmentId and"
+                + " p.questionId.id = :questionId";
+        return s.createQuery(essay)
+                .setParameter("userId", userId)
+                .setParameter("assignmentId", assignmentId)
+                .setParameter("questionId", questionId)
+                .list();
     }
 
     @Override

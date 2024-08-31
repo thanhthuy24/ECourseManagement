@@ -94,6 +94,28 @@ public class ScoreRepositoryImpl implements ScoreRepository {
     }
 
     @Override
+    public void addScoreEssay(Score score, Long assignmentId, Long userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        if (score.getId() != null) {
+            s.update(score);
+        } else {
+            Score sc = scoreRepo.getScoreByUserIdAndAssignment(assignmentId, userId);
+
+            if (sc != null) {
+                throw new IllegalArgumentException("User had done assignment!");
+            }
+            
+            Score userScore = new Score();
+            userScore.setUserId(score.getUserId()); 
+            userScore.setAssignmentId(this.assignmentRepo.getAssignmentById(assignmentId));  // Giả sử Assignment có constructor Assignment(Long id)
+            userScore.setScore(score.getScore());
+            userScore.setFeedBack(score.getFeedBack());
+
+            s.save(userScore);
+        }
+    }
+
+    @Override
     public Score getScoreByUserIdAndAssignment(Long assignmentId, Long userId) {
         Session s = this.factory.getObject().getCurrentSession();
         String sql = "FROM Score WHERE userId.id = :userId and assignmentId.id = :assignmentId";
@@ -104,53 +126,6 @@ public class ScoreRepositoryImpl implements ScoreRepository {
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
-        }
-    }
-
-    @Override
-    public void addScore2(Score score, Long assignmentId, Long userId) {
-        Session s = this.factory.getObject().getCurrentSession();
-        if (score.getId() != null) {
-            s.update(score);
-        } else {
-            Score sc = scoreRepo.getScoreByUserIdAndAssignment(assignmentId, userId);
-
-        if (sc != null) {
-            throw new IllegalArgumentException("User had done assignment!");
-        }
-
-        List<Answerchoice> answerChoices
-                = answerChoiceRepo.checkAnswer(userId, assignmentId);
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        List<Question> totalQuestions
-                = quesRepo.getQuestionsByAssignmentId(assignmentId);
-
-        long sco = 0;
-        for (Answerchoice answer : answerChoices) {
-            if (answer.getChoiceId().getIsCorrect()) {
-                sco++;
-            }
-        }
-
-        double percentage = ((double) sco / totalQuestions.size()) * 100;
-
-        String feedback;
-        if (percentage >= 80) {
-            feedback = "Bravo!";
-        } else if (percentage >= 50) {
-            feedback = "Good!";
-        } else {
-            feedback = "You need to be more careful!";
-        }
-
-        score.setUserId(this.userRepo.getUserByUsername(username));  // Giả sử User có constructor User(Long id)
-        score.setAssignmentId(this.assignmentRepo.getAssignmentById(assignmentId));  // Giả sử Assignment có constructor Assignment(Long id)
-        score.setScore(sco);
-        score.setFeedBack(feedback);
-
-        s.save(score);
         }
     }
 

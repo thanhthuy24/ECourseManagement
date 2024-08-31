@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { ToastContainer, Bounce, toast  } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { MyUserContext } from "../../App";
 import { authAPIs, endpoints } from "../../configs/APIs";
+import { format } from "date-fns";
 
 const Essay = () => {
     const { assignmentId } = useParams();
@@ -12,6 +13,9 @@ const Essay = () => {
     const [questions, setQuestions] = useState([]);
     const [assignmentDone, setAssignmentDone] = useState([]);
     const [essay, setEssay] = useState({});
+    const [score, setScore] = useState({});
+    const [essayDone, setEssayDone] = useState([]);
+    const nav = useNavigate();
 
     const user = useContext(MyUserContext);
 
@@ -29,24 +33,34 @@ const Essay = () => {
 
     const loadScore = async () => {
         let res = await authAPIs().get(endpoints['scores'](assignmentId, user.id));
-        // setScore(res.data);
+        setScore(res.data);
+        console.log(res.data);
+    }
+    
+    const loadEssayDone = async () => {
+        let res = await authAPIs().get(endpoints['essay-user-done'](user.id));
+        setEssayDone(res.data);
     }
 
     const saveEssay = async (e) => {
         try {
             e.preventDefault();
 
-            const esssayData = {
-                content: essay.content,
+            const essaysData = Object.entries(essay).map(([questionId, content]) => ({
+                content: content,
+                userId: { id: user.id },
                 assignmentId: { id: assignmentId },
-                questionId: { id: questions.id } 
-            };
-    
-            let res = await authAPIs().post(endpoints['add-essay'], esssayData, {
-                headers: {
-                    'Content-Type': "application/json"
-                }
-            });
+                questionId: { id: questionId }
+            }));
+            
+            // Post each essay to the server
+            for (let essayData of essaysData) {
+                await authAPIs().post(endpoints['add-essay'], essayData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
        
             toast.success("Completed!");
         } catch (err) {
@@ -62,6 +76,7 @@ const Essay = () => {
         loadQuestions();
         loadScore();
         loadAssignmentDone();
+        loadEssayDone();
     }, []);
 
     return(
@@ -94,15 +109,14 @@ const Essay = () => {
                                     <Card.Body>
                                     <Form.Group className="mb-3">
                                         <Form.Label>Answer here:</Form.Label>
-                                        <Form.Control 
-                                            id="content" 
-                                            name="content" 
-                                            as="textarea"
-                                            rows={3}
-                                            value={essay.content || ''} // Provide a default empty string if content is undefined
-                                            onChange={e => change(e, "content")}
-                                            type="text"
-                                        />
+                                        <Form.Control
+                                                as="textarea"
+                                                rows={3}
+                                                // value={essay[question.id] || ''} // Bind the textarea value to the corresponding question ID
+                                                onChange={e => change(e, question.id)} // Update the essay state with the question ID
+                                                type="text"
+                                                value={essayDone.find(e => e.questionId?.id === question.id)?.content || essay[question.id] || ''} 
+                                            />
                                     </Form.Group>
                                     </Card.Body>
                                 </Card>
@@ -119,7 +133,16 @@ const Essay = () => {
                         {assignmentDone.length > 0 ? (
                             assignmentDone.map(a => 
                                 <Card border="danger" style={{ width: '18rem' }}>
-                                    {/* Render assignmentDone content */}
+                                    <Card.Header>Result</Card.Header>
+                                    <Card.Body>
+                                        <Card.Title>Score: {score.score}</Card.Title>
+                                        <Card.Title>
+                                            Feedback: {score.feedBack}
+                                        </Card.Title>
+                                        <Card.Text>
+                                            <div className="text-tag font-weight" >Created date: {format(a.createdDate, 'dd/MM/yyyy')}</div>
+                                        </Card.Text>
+                                    </Card.Body>
                                 </Card>
                             )
                         ) : (

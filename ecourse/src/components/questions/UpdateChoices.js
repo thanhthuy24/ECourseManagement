@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
-import { Button, Form, FormCheck, FormControl, FormGroup, FormLabel } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 const UpdateChoices = () => {
     const location = useLocation();
@@ -13,7 +13,7 @@ const UpdateChoices = () => {
     const loadQuestion = async (questionId) => {
         let res = await authAPIs().get(endpoints['question'](questionId));
         setQuestion(res.data);    
-        console.log(res.data);
+        // console.log(res.data);
     }
 
     useEffect(() => {
@@ -42,11 +42,11 @@ const UpdateChoices = () => {
         setChoice({...choice, [fields]: e.target.value});
     }
 
-    const handleCheck = (e) => {
-        const isChecked = e.target.checked;
-        setChoice(prevChoice => ({ ...prevChoice, isCorrect: isChecked }));
-        console.log("Checkbox changed:", isChecked);
-    }
+    // const handleCheck = (e) => {
+    //     const isChecked = e.target.checked;
+    //     setChoice(prevChoice => ({ ...prevChoice, isCorrect: isChecked }));
+    //     console.log("Checkbox changed:", isChecked);
+    // }
 
     const [isChecked, setIsChecked] = useState(false);
     const handleCheckboxChange = () => {

@@ -27,6 +27,7 @@ import UpdateChoices from "./components/questions/UpdateChoices";
 import Quiz from "./components/quiz/Quiz";
 import AfterQuiz from "./components/quiz/AfterQuiz";
 import Essay from "./components/quiz/Essay";
+import CheckEssays from "./components/quiz/CheckEssays";
 // import { ToastContainer } from "react-bootstrap";
 // import './styleAssignments.css';
 
@@ -68,6 +69,7 @@ const App = () => {
                                 <Route path='/choices' element={<UpdateChoices />} />
                                 <Route path='/questions/assignments/:assignmentId' element={<AddQuestion />} />
                                 <Route path="/user" element={<UserInfor />}/>
+                                <Route path='/essays/question/:questionId' element={<CheckEssays />} />
                             </Routes>
                         </> : 
                         <>

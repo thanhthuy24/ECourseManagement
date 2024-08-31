@@ -12,7 +12,7 @@ import java.util.List;
  * @author Admin
  */
 public interface EssayService {
-    void addEssay(Essay essay);
+    void addEssay(Essay essay, Long assignmentId, Long userId, Long questionId);
     List<Essay> getEssayByUserId(Long userId);
     List<Essay> getEssayByQuestionId(Long questionId);
     List<Essay> getEssayByAssignmentId(Long assignmentId);

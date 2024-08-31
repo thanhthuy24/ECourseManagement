@@ -32,8 +32,8 @@ public class ScoreServiceImpl implements ScoreService{
     }
 
     @Override
-    public void addScore2(Score score, Long assignmentId, Long userId) {
-        this.scoreRepo.addScore2(score, assignmentId, userId);
+    public void addScoreEssay(Score score, Long assignmentId, Long userId) {
+        this.scoreRepo.addScoreEssay(score, assignmentId, userId);
     }
     
 }

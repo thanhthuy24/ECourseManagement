@@ -35,7 +35,8 @@ public class ApiEssayController {
     public void addEssay(
             @RequestBody Essay essay
     ){
-        this.essaySer.addEssay(essay);
+        this.essaySer.addEssay(essay, 
+                essay.getAssignmentId().getId(), essay.getUserId().getId(), essay.getQuestionId().getId());
     }
     
     @GetMapping("/essays/assignment/{assignmentId}")

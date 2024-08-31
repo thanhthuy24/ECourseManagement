@@ -22,8 +22,8 @@ public class EssayServiceImpl implements EssayService{
     private EssayRepository essayRepo;
 
     @Override
-    public void addEssay(Essay essay) {
-        this.essayRepo.addEssay(essay);
+    public void addEssay(Essay essay, Long assignmentId, Long userId, Long questionId) {
+        this.essayRepo.addEssay(essay, assignmentId, userId, questionId);
     }
 
     @Override

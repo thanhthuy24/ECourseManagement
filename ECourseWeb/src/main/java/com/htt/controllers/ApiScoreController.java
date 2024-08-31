@@ -41,15 +41,17 @@ public class ApiScoreController {
     
     @PostMapping("/score")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addScore2(
+    public void addScoreEssay(
             @RequestBody Score sc
     ) {
        if (sc.getAssignmentId() != null && sc.getUserId() != null) {
-        this.scoreSer.addScore2(sc, sc.getAssignmentId().getId(), sc.getUserId().getId());
+        this.scoreSer.addScoreEssay(sc, 
+                sc.getAssignmentId().getId(), 
+                sc.getUserId().getId());
     } else {
         // Handle the case where Assignment or User is null
         throw new IllegalArgumentException("Assignment or User cannot be null");
-    }
+        }
     }
 
     @GetMapping("/scores/assignment/{assignmentId}/user/{userId}")

@@ -12,6 +12,6 @@ import com.htt.pojo.Score;
  */
 public interface ScoreService {
     void addScore(Long assignmentId, Long userId);
-    void addScore2(Score score, Long assignmentId, Long userId);
+    void addScoreEssay(Score score, Long assignmentId, Long userId);
     Score getScoreByUserIdAndAssignment(Long assignmentId, Long userId);
 }
