@@ -13,7 +13,7 @@ const Questions = () => {
     const loadQuestions = async () => {
         let res = await authAPIs().get(endpoints['questions'](assignmentId));
         setQuestions(res.data);
-        console.log(res.data);
+        // console.log(res.data);
     }
 
     const loadChoices = async(questionId) => {
@@ -83,7 +83,7 @@ const Questions = () => {
 
                         </Card.Body>
                         <Card.Footer className="text-muted">
-                            <div>Số người đã hoàn thành: </div>
+                            {/* <div>Số người đã hoàn thành: </div> */}
                         </Card.Footer>
                         </Card>
                     ))}

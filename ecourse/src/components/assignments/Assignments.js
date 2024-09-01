@@ -9,12 +9,25 @@ import './styleAssignments.css';
 const Assignments = () => {
     const { courseId } = useParams();
     const [assignments, setAssignments] = useState([]);
+    const [countUserDone, setCountUserDone] = useState({});
     const nav = useNavigate();
 
     const loadAssignments = async (courseId) => {
         let res = await authAPIs().get(endpoints['assignment-by-course'](courseId));
         setAssignments(res.data);
+
+        for (let assignment of res.data) {
+            loadUserDone(assignment.id);
+        }
     } 
+
+    const loadUserDone = async (assignmentId) => {
+        let res = await authAPIs().get(endpoints['count-userDone'](assignmentId));
+        setCountUserDone(prevState => ({
+            ...prevState,
+            [assignmentId]: res.data // assuming res.data is the count
+        }));
+    }
 
     useEffect(() => {
         loadAssignments(courseId);
@@ -53,6 +66,10 @@ const Assignments = () => {
                             
                             <div>
                                 <p className="text-tag font-weight">Type: {assignment.tagId?.name}</p>
+                            </div>
+
+                            <div>
+                                <p>Số người hoàn thành: {countUserDone[assignment.id] || 0}</p>
                             </div>
                         </Card.Body>
                         <Card.Footer className="text-muted">

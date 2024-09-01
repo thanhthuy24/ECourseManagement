@@ -32,4 +32,11 @@ public class ApiUserDoneController {
     ){
         return ResponseEntity.ok(userAssignSer.getAllByUserAndAssignmentId(userId, assignmentId));
     }
+    
+    @GetMapping("/userdone/assignment/{assignmentId}")
+     public Long getAssignmentDone(
+             @PathVariable Long assignmentId
+     ) {
+        return userAssignSer.countCompletedAssignments(assignmentId);
+    }
 }

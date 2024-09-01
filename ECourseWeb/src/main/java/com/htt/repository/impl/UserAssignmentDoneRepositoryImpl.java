@@ -34,4 +34,13 @@ public class UserAssignmentDoneRepositoryImpl implements UserAssignmentDoneRepos
                 .list();
     }
 
+    @Override
+    public Long countCompletedAssignments(Long assignmentId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String countQuery = "SELECT COUNT(DISTINCT ac.userId) FROM Userassignmentdone ac WHERE ac.assignmentId.id = :assignmentId";
+        return (Long) s.createQuery(countQuery)
+                .setParameter("assignmentId", assignmentId)
+                .uniqueResult();
+    }
+
 }

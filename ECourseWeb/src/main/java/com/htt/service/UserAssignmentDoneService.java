@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface UserAssignmentDoneService {
     List<Userassignmentdone> getAllByUserAndAssignmentId(Long userId, Long assignmentId);
+    Long countCompletedAssignments (Long assignmentId);
 }

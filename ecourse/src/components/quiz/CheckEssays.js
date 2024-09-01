@@ -25,6 +25,10 @@ const CheckEssays = () => {
 
     const loadScoreDone = async (essay) => {
         let res = await authAPIs().get(endpoints['scores'](assignmentId, essay.userId?.id));
+        // setScoreDone(prevScores => ({
+        //     ...prevScores,
+        //     [essay.id]: res.data // Store the scores using essay id as the key
+        // }));
         setScoreDone(res.data);
         console.log(res.data);
     }
@@ -38,19 +42,19 @@ const CheckEssays = () => {
         try {
             e.preventDefault();
 
-            const scoreEssayDate = {
-                score: score.score,
-                feedBack: score.feedBack,
+            const scoreData = score[essay.id] || {};
+            const scoreEssayData = {
+                score: scoreData.score,
+                feedBack: scoreData.feedBack,
                 userId: {id: essay.userId?.id},
                 assignmentId: {id: assignmentId}
             };
     
-            let res = await authAPIs().post(endpoints['add-score-essay'], scoreEssayDate, {
+            await authAPIs().post(endpoints['add-score-essay'], scoreEssayData, {
                 headers: {
                     'Content-Type':  "application/json"
                 }
             })
-            // console.info(scoreEssayDate);
             toast.success("Completed!");
         } catch (err) {
             toast.error('You had done before!');
@@ -59,29 +63,25 @@ const CheckEssays = () => {
     }
 
     useEffect(() => {
+        essays.forEach(essay => {
+            loadScoreDone(essay);
+        });
+    }, [essays]);
+
+    useEffect(() => {
         loadQuestions(assignmentId);
         loadEssays(assignmentId);
-        // loadEssays(assignmentId).then(() => {
-            // essays.forEach(essay => {
-            //     loadScoreDone(essay);
-            // });
-        // });
-        // loadScoreDone(essays);
-    }, [assignmentId, essays])
+    }, [assignmentId])
 
-    const change = (e, fields) => {
-        setScore({...score, [fields]: e.target.value});
+    const change = (e, field, essayId) => {
+        setScore(prevScores => ({
+            ...prevScores,
+            [essayId]: {
+                ...prevScores[essayId],
+                [field]: e.target.value
+            }
+        }));
     }
-
-    // const change = (e, fields, essayId) => {
-    //     setScores({
-    //         ...scores,
-    //         [essayId]: {
-    //             ...scores[essayId],
-    //             [fields]: e.target.value
-    //         }
-    //     });
-    // }
 
     return(
         <>
@@ -119,31 +119,42 @@ const CheckEssays = () => {
                                 disabled/>
                         </Form.Group>
                     </Card.Body>
-                    <Card.Footer>
-                        <Form method="post" onSubmit={(e) => addScoreEssay(e, essay)}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Score:</Form.Label>
-                                <Form.Control 
-                                    type="number" 
-                                    placeholder="Enter score" 
-                                    value={score.score}
-                                    // value={score[essay.id]?.feedBack || ''}
-                                    onChange={e => change(e, "score")}
-                                    />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Feedback for student:</Form.Label>
-                                <Form.Control 
-                                    as="textarea" 
-                                    rows={3} 
-                                    value={score.feedBack}
-                                    onChange={e => change(e, "feedBack")}
-                                    />
-                            </Form.Group>
-                            <Button type="submit">Send feedBack</Button>
-                        </Form>
+
+                    {scoreDone.length > 0 ?
+                    <>
+                        <Card.Footer>
+                            <Form method="post" onSubmit={(e) => addScoreEssay(e, essay)}>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Score:</Form.Label>
+                                    <Form.Control 
+                                        type="number" 
+                                        placeholder="Enter score" 
+                                        value={score[essay.id]?.score || ''}
+                                        onChange={e => change(e, "score", essay.id)}
+                                        />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                    <Form.Label>Feedback for student:</Form.Label>
+                                    <Form.Control 
+                                        as="textarea" 
+                                        rows={3} 
+                                        value={score[essay.id]?.feedBack || ''}
+                                        onChange={e => change(e, "feedBack", essay.id)}
+                                        />
+                                </Form.Group>
+                                <Button type="submit">Send feedBack</Button>
+                            </Form>
+                        </Card.Footer>
+                    </>    
+                    : <>
+                        <Card.Footer>
+                            <Button>You'd have checked!</Button>
+                        </Card.Footer>
                         
-                    </Card.Footer>
+                    </>
+                    }
+
+                    
                 </Card>
             ))}
         </div>

@@ -19,4 +19,5 @@ public interface AssignmentRepository {
     List<Assignment> getAssignmentByLessonId(Long lessonId);
     Assignment getAssignmentById(Long id);
     void deleteAssignment(Long id);
+    
 }

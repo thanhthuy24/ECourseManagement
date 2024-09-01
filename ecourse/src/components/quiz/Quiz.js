@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, CardFooter, Col, Form, Row } from "react-bootstrap";
 import { MyUserContext } from "../../App";
 import { ToastContainer, toast, Bounce  } from 'react-toastify';
 import { format } from "date-fns";
@@ -30,7 +30,7 @@ const Quiz = () => {
 
             let correctChoiceRes = await authAPIs().get(endpoints['correct-choices'](question.id));
             setCorrectChoices(prev => ({ ...prev, [question.id]: correctChoiceRes.data }));
-            console.log(correctChoiceRes.data);
+            // console.log(correctChoiceRes.data);
         });
     };
 
@@ -67,7 +67,7 @@ const Quiz = () => {
                 });
             }
 
-            let res = await authAPIs().post(endpoints['score'](assignmentId, user.id));
+            await authAPIs().post(endpoints['score'](assignmentId, user.id));
 
             toast.success("Completed!");
             
@@ -80,7 +80,7 @@ const Quiz = () => {
         loadQuestions();
         loadAssignmentDone();
         loadScore();
-    }, [assignmentId]);
+    }, []);
 
     const handleChoiceSelect = (questionId, choiceId) => {
         setSelectedId(prevSelectedChoices => ({
@@ -128,11 +128,6 @@ const Quiz = () => {
                                                         {/* <p style={{ margin: "0px", marginLeft: "10px" }}>{c.content}</p> */}
                                                         <p style={{ margin: "0px", marginLeft: "10px" }}>
                                                             {c.content}
-                                                            {assignmentDone.length > 0 && correctChoices[question.id]?.some(correctChoice => correctChoice.id === c.id) && (
-                                                                <span style={{ color: 'green', marginLeft: '10px', fontWeight: "bold" }}>
-                                                                    (Correct Answer)
-                                                                </span>
-                                                            )}
                                                         </p>
                                                     </div>
                                                 ))}
@@ -141,6 +136,17 @@ const Quiz = () => {
                                             <p>Loading choices...</p>
                                         )}
                                     </Card.Body>
+                                    <Card.Footer>
+                                    {assignmentDone.length > 0 ? (
+                                        correctChoices[question.id]?.map((correctChoice) => (
+                                            <div key={correctChoice.id} style={{ color: 'green', marginLeft: '10px', fontWeight: "bold" }}>
+                                                Correct Answer: {correctChoice.content}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <></>
+                                    )}
+                                    </Card.Footer>
                                 </Card>
                             ))}
                             {assignmentDone ? <>
@@ -154,7 +160,7 @@ const Quiz = () => {
                     <Col className="mt-3">
                         {assignmentDone ? <>
                             {assignmentDone.map(a => 
-                                <Card border="danger" style={{ width: '18rem' }}>
+                                <Card key={a.id} border="danger" style={{ width: '18rem' }}>
                                     <Card.Header>Result</Card.Header>
                                     <Card.Body>
                                         <Card.Title>Answers: {score.score} / {questions.length}</Card.Title>

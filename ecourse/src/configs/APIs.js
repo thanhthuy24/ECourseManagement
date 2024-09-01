@@ -49,6 +49,7 @@ export const endpoints = {
     
     'scores': (assignmentId, userId) => `/scores/assignment/${assignmentId}/user/${userId}`,
     'userDone':(assignmentId, userId) => `/userdone/assignment/${assignmentId}/user/${userId}`,
+    'count-userDone': (assignmentId) => `/userdone/assignment/${assignmentId}`,
 
     'add-essay':'/essays',
     'essay': (assignmentId) => `/essays/assignment/${assignmentId}`,

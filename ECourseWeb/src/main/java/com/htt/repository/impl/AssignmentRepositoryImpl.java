@@ -80,4 +80,5 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
                 .setParameter("courseId", courseId)
                 .list();
     }
+    
 }

@@ -25,5 +25,10 @@ public class UserAssignmentDoneServiceImpl implements UserAssignmentDoneService{
     public List<Userassignmentdone> getAllByUserAndAssignmentId(Long userId, Long assignmentId) {
         return this.userAssRepo.getAllByUserAndAssignmentId(userId, assignmentId);
     }
+
+    @Override
+    public Long countCompletedAssignments(Long assignmentId) {
+        return this.userAssRepo.countCompletedAssignments(assignmentId);
+    }
     
 }
