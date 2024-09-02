@@ -47,4 +47,12 @@ public class ApiCourseRatingController {
         return ResponseEntity.ok(this.courseRatingSer.checkCourseRating(userId, courseId));
     }    
     
+    @GetMapping("/courseRating/avgCourse/{courseId}")
+    public ResponseEntity<?> calculateRating (
+            @PathVariable Long courseId
+    ){
+        float avg = courseRatingSer.calculateCourseRating(courseId);
+        return ResponseEntity.ok(avg);
+    }    
+    
 }

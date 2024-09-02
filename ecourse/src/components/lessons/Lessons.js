@@ -9,7 +9,6 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { format, isAfter } from "date-fns";
-import { PiStarThin } from "react-icons/pi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,7 +25,8 @@ const Lessons = () => {
     const [videoSrc, setVideoSrc] = useState("");
     const [assignmentDone, setAssignmentDone] = useState([]);
     const [enrollment, setEnrollment] = useState('');
-    const [rating, setRating] = useState({});
+    const [rating, setRating] = useState('');
+    const [avg, setAvg] = useState('');
 
     const userId = user.id;
     const nav = useNavigate();
@@ -46,7 +46,17 @@ const Lessons = () => {
         try {
             let res = await authAPIs().get(endpoints['check-rating'](user.id, courseId));
             setRating(res.data);
-            console.log(rating);
+            // console.log(res.data);
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
+    const loadAvgRating = async () => {
+        try {
+            let res = await authAPIs().get(endpoints['avg-rating'](courseId));
+            setAvg(res.data);
+            // console.log(res.data);
         } catch(err) {
             console.error(err);
         }
@@ -163,8 +173,7 @@ const Lessons = () => {
         loadProgress();
         loadVideosComplete();
         loadAssignment(courseId);
-        // loadAssignmentDone();      
-
+        loadAvgRating();
     }, [courseId, user.id]);
 
     const [start, setStart] = useState(0);
@@ -259,31 +268,108 @@ const Lessons = () => {
                 </> ;
             case "estimate":
                 return <>
+                
                     {rating ? (
                         <>
-                            {/* <p>555{rating.id}</p> */}
-                            <div>
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <span
-                                        key={star}
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: star <= rating.rating ? 'gold' : 'gray',
-                                        }}
-                                        onClick={() => handleRating(star)}
-                                    >
-                                        <FontAwesomeIcon icon={faStar} className="icon-size" />
-                                    </span>
-                                ))}
-                                
+                            <div className="d-flex">
+                                <h1 style={{marginTop: "5px"}}>Đánh giá của bạn: </h1>
+                                <div style={{marginLeft: "20px"}}>
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <span
+                                            key={star}
+                                            style={{
+                                                cursor: 'pointer',
+                                                color: star <= rating.rating ? 'gold' : 'gray',
+                                            }}
+                                            onClick={() => handleRating(star)}
+                                        >
+                                            <FontAwesomeIcon icon={faStar} className="icon-size" />
+                                            
+                                        </span>
+                                        
+                                    ))}
+                                    
+                                </div>
+                                <p style={{marginLeft: "20px"}}>({rating.rating} sao)</p>
                             </div>
+                            <p>Nhận xét của bạn: </p>
+                            <Form.Control 
+                                as="textarea" 
+                                rows={3} 
+                                disabled
+                                value={rating.comment || ''}
+                            />
+                            <hr/>
                         </>
                     ) : (
                         <>
-                            <Alert variant="warning">Hoàn thành khóa học trước khi đánh giá nhé!</Alert>
+                            <div className="d-flex">
+                                <h1 style={{marginTop: "5px"}}>Đánh giá của bạn: </h1>
+                                <div style={{marginLeft: "20px"}}>
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <span
+                                            key={star}
+                                            style={{
+                                                cursor: 'pointer',
+                                                color: star <= rating.rating ? 'gold' : 'gray',
+                                            }}
+                                            onClick={() => handleRating(star)}
+                                        >
+                                            <FontAwesomeIcon icon={faStar} className="icon-size" />
+                                            
+                                        </span>
+                                        
+                                    ))}
+                                    
+                                </div>
+                                {/* <p style={{marginLeft: "20px"}}>({rating.rating} sao)</p> */}
+                            </div>
+                            <p>Nhận xét của bạn: </p>
+                            <Form>
+                                <Form.Control 
+                                    as="textarea" 
+                                    rows={3} 
+                                    // disabled
+                                    value={rating.comment || ''}
+                                />
+                                <Button>Gửi đánh giá</Button>
+                            </Form>
+                            <hr/>
                         </>
                     )}
-                    {/* <h1>hiii -  {rating.length} - {rating.courseId?.name}</h1> */}
+                    
+                    <div>
+                        <p className="font-size" style={{marginLeft: "35%"}}>Phản hồi của học viên</p>
+                        <div className="d-flex" style={{justifyContent: "space-evenly"}}>
+                            <div>
+                                {/* trung bình xếp hạng (vd: 4.8) */}
+                                <p className="font-size" >{avg}</p>
+                                <p>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                        <span
+                                            key={star}
+                                            style={{
+                                                cursor: 'pointer',
+                                                color: star <= avg ? 'gold' : 'gray',
+                                            }}
+                                            onClick={() => handleRating(star)}
+                                        >
+                                            <FontAwesomeIcon icon={faStar} className="icon-size" />
+                                        </span>
+                                    ))}
+                                </p>
+                                <p>Xếp hạng khóa học</p>
+                            </div>
+                            <div>thanh process cho từng sao</div>
+                            <div>phân theo số sao</div>
+                        </div>
+                        <hr className="mt-5"/>
+                        <p className="font-size ">Đánh giá</p>
+                        <div>
+                            <h1>hiển thị các đánh giá</h1>
+                        </div>
+                    </div>
+                    
                 </>;
             default:
                 return <div>Select a tab to see the content</div>;

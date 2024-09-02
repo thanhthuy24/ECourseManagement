@@ -12,10 +12,12 @@ import java.util.List;
  * @author Admin
  */
 public interface CourseRatingRepository {
+    
+    float calculateCourseRating(Long courseId);
 
     void addRating(Courserating c, Long courseId);
     
-    List<Courserating> checkCourseRating(Long userId, Long courseId);
+    Courserating checkCourseRating(Long userId, Long courseId);
 
     List<Courserating> getCourseRatingByUserId(Long userId);
 

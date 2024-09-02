@@ -41,10 +41,10 @@ public class CourseRatingRepositoryImpl implements CourseRatingRepository {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        List<Courserating> list
+        Courserating list
                 = courseRatingRepo.checkCourseRating(this.userRepo.getUserByUsername(username).getId(), courseId);
 
-        if (!list.isEmpty()) {
+        if (list == null) {
             throw new IllegalArgumentException("User had estimated this course!");
         }
 
@@ -60,6 +60,18 @@ public class CourseRatingRepositoryImpl implements CourseRatingRepository {
     }
 
     @Override
+    public float calculateCourseRating(Long courseId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        String query = "SELECT AVG(p.rating) FROM Courserating p WHERE p.courseId.id = :courseId";
+
+        Double result = (Double) session.createQuery(query)
+                .setParameter("courseId", courseId)
+                .uniqueResult();
+
+        return result != null ? result.floatValue() : null;
+    }
+
+    @Override
     public List<Courserating> getCourseRatingByUserId(Long userId) {
         Session s = this.factory.getObject().getCurrentSession();
         String rating = "FROM Courserating p WHERE p.userId.id = :userId";
@@ -69,16 +81,16 @@ public class CourseRatingRepositoryImpl implements CourseRatingRepository {
     }
 
     @Override
-    public List<Courserating> checkCourseRating(Long userId, Long courseId) {
+    public Courserating checkCourseRating(Long userId, Long courseId) {
         Session s = this.factory.getObject().getCurrentSession();
         String courseRating
                 = "FROM Courserating p "
                 + "WHERE p.userId.id = :userId and"
                 + " p.courseId.id = :courseId";
-        return s.createQuery(courseRating)
+        return (Courserating) s.createQuery(courseRating)
                 .setParameter("userId", userId)
                 .setParameter("courseId", courseId)
-                .list();
+                .getSingleResult();
     }
 
     @Override
