@@ -25,3 +25,12 @@
     background-color: red !important;
     color: white !important;
 }
+
+.font-size {
+    font-size: 25px !important;
+    font-weight: bold;
+}
+
+.icon-size {
+    font-size: xx-large !important;
+}

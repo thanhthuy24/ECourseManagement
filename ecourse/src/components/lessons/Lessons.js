@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
-import { Button, Card, Col, Form, Nav, ProgressBar, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Form, Nav, ProgressBar, Row } from "react-bootstrap";
 import './styleLesson.css';
 import ReactPlayer from 'react-player';
 import { MyUserContext } from "../../App";
@@ -9,10 +9,14 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { format, isAfter } from "date-fns";
+import { PiStarThin } from "react-icons/pi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const Lessons = () => {
     const { courseId } = useParams();
     const user = useContext(MyUserContext);
+    const [course, setCourse] = useState('');
     const [lessons, setLessons] = useState([]);
     const [videos, setVideos] = useState([]);  
     const [progress, setProgress] = useState("");
@@ -21,11 +25,41 @@ const Lessons = () => {
     const [lessonId, setlessonId] = useState('');
     const [videoSrc, setVideoSrc] = useState("");
     const [assignmentDone, setAssignmentDone] = useState([]);
+    const [enrollment, setEnrollment] = useState('');
+    const [rating, setRating] = useState({});
 
     const userId = user.id;
     const nav = useNavigate();
 
     const [assignments, setAssignment] = useState([]);
+
+    const loadCourse = async () => {
+        try {
+            let res = await authAPIs().get(endpoints['course'](courseId));
+            setCourse(res.data);
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
+    const loadRating = async () => {
+        try {
+            let res = await authAPIs().get(endpoints['check-rating'](user.id, courseId));
+            setRating(res.data);
+            console.log(rating);
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
+    const loadCountUserCourse = async () => {
+        try {
+            let res = await authAPIs().get(endpoints['count-user-course'](courseId));
+            setEnrollment(res.data);
+        } catch(err) {
+            console.error(err);
+        }
+    }
 
     const loadLesson = async() => {
         try{
@@ -120,11 +154,10 @@ const Lessons = () => {
         // console.log(lessonId);
     }
 
-    // const handleClickAssignment = (assignmentId) => {
-    //     nav(`/questions/assignment/${assignmentId}`);
-    // }
-
     useEffect(() => {
+        loadCourse();
+        loadCountUserCourse();
+        loadRating();
         loadLesson();
         loadVideos();
         loadProgress();
@@ -134,16 +167,32 @@ const Lessons = () => {
 
     }, [courseId, user.id]);
 
-    
+    const [start, setStart] = useState(0);
+
+    const handleRating = (start) => {
+        setStart(start);
+        console.log(start);
+    };
 
     const renderTabContent = () => {
         switch(activeTab) {
             case "overview":
-                return <>
-                <div>Overview content goes here.</div>
-                <div>Overview content goes here.</div>
-                <div>Overview content goes here.</div>
-                </>;
+                return (
+                <>
+                <div style={{marginLeft: "10px"}}>
+                    <div>
+                        <p  className="font-size">{course.name}</p>
+                    </div>
+                    <div>
+                        <p>Số lượng học viên: {enrollment} </p>
+                    </div>
+                    <div>
+                        Lần cập nhật gần nhất: 
+                        {/* {format(course.createdDate, 'dd/MM/yyyy')} */}
+                    </div>
+                </div>
+                   
+                </>);
             case "assignments":
                 return (
                     <>
@@ -208,6 +257,34 @@ const Lessons = () => {
                     <option value="2">Bài giảng hiện tại</option>
                 </Form.Select>
                 </> ;
+            case "estimate":
+                return <>
+                    {rating ? (
+                        <>
+                            {/* <p>555{rating.id}</p> */}
+                            <div>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                        key={star}
+                                        style={{
+                                            cursor: 'pointer',
+                                            color: star <= rating.rating ? 'gold' : 'gray',
+                                        }}
+                                        onClick={() => handleRating(star)}
+                                    >
+                                        <FontAwesomeIcon icon={faStar} className="icon-size" />
+                                    </span>
+                                ))}
+                                
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <Alert variant="warning">Hoàn thành khóa học trước khi đánh giá nhé!</Alert>
+                        </>
+                    )}
+                    {/* <h1>hiii -  {rating.length} - {rating.courseId?.name}</h1> */}
+                </>;
             default:
                 return <div>Select a tab to see the content</div>;
         }
@@ -215,12 +292,11 @@ const Lessons = () => {
 
     return(
         <>
-            <div>
-                <h1 className="container mb-3">Click vào video bài học muốn xem nhé!</h1>
-                
+            <div className="mt-3">
                 <Row>
                 <ToastContainer />
                     <Col sm={8}>
+                    <Alert variant="info" style={{marginLeft: "30px"}}>Click vào video bài học muốn xem nhé!</Alert>
                     <div style={{marginLeft: "50px"}}>
                         <ReactPlayer
                             url={videoSrc}
@@ -243,13 +319,13 @@ const Lessons = () => {
                         </Nav.Item>
                         <Nav.Item>
                         <Nav.Link eventKey="faq" onClick={() => setActiveTab("faq")}>
-                                Hỏi đáp
+                            Hỏi đáp
                                 
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="disabled" disabled>
-                            Disabled
+                            <Nav.Link eventKey="estimate" onClick={() => setActiveTab("estimate")}>
+                            Đánh giá khóa học
                             </Nav.Link>
                         </Nav.Item>
                         </Nav>
@@ -301,12 +377,15 @@ const Lessons = () => {
                                             ) : (
                                                 <Card.Text>Không có video nào cho bài học này.</Card.Text>
                                             )}
-                                            <hr style={{ borderColor: 'black', borderWidth: '1px', margin: "0px" }} />
+                                            <br style={{ borderColor: 'black', borderWidth: '1px', margin: "0px" }} />
+                                            
                                         </Card.Body>
+                                        
                                     );
                                 })}
+                                
                             <Card.Footer className="text-muted">
-                                hhhh
+                                
                             </Card.Footer>
                         </Card>
                         </>)

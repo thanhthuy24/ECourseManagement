@@ -34,36 +34,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @CrossOrigin
 public class ApiCourseController {
+
     @Autowired
     private CourseService courseSer;
-    
+
     @DeleteMapping("/courses/{courseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable(value = "courseId") Long id){
+    public void delete(@PathVariable(value = "courseId") Long id) {
         this.courseSer.deleteCourse(id);
     }
-    
+
     @GetMapping("/courses")
     public ResponseEntity<List<CourseDTO>> list(@RequestParam Map<String, String> params) {
         List<Course> courses = this.courseSer.getCourses(params);
-         List<CourseDTO> coursesDTO = convertToDTO(courses);
+        List<CourseDTO> coursesDTO = convertToDTO(courses);
         return new ResponseEntity<>(coursesDTO, HttpStatus.OK);
     }
-    
+
     @GetMapping("/courses/{courseId}")
     public ResponseEntity<CourseDTO> course(@PathVariable(value = "courseId") Long id) {
-        Course courses  = this.courseSer.getCourseById(id);
+        Course courses = this.courseSer.getCourseById(id);
         CourseDTO courseDTO = convertToDTO(courses);
         return new ResponseEntity<>(courseDTO, HttpStatus.OK);
     }
-    
+
     @GetMapping("/courses/teacher/{teacherId}")
     public ResponseEntity<?> listCourseByTeacher(
             @PathVariable(value = "teacherId") Long id
-    ){
+    ) {
         return ResponseEntity.ok(courseSer.getCoursesByTeacherId(id));
     }
-    
+
     private CourseDTO convertToDTO(Course t) {
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setId(t.getId());
@@ -75,15 +76,15 @@ public class ApiCourseController {
         courseDTO.setIsActive(t.getIsActive());
         courseDTO.setName(t.getName());
         courseDTO.setUpdatedDate(t.getUpdatedDate());
-        
+
         TagDTO tagDTO = new TagDTO();
         tagDTO.setName(t.getTagId().getName());
-        
+
         courseDTO.setTag(tagDTO);
 
         return courseDTO;
     }
-    
+
     private List<CourseDTO> convertToDTO(List<Course> courses) {
         List<CourseDTO> courseDTOList = new ArrayList<>();
         for (Course t : courses) {
@@ -109,9 +110,14 @@ public class ApiCourseController {
             userDTO.setAvatar(t.getTeacherId().getUserId().getAvatar());
             userDTO.setEmail(t.getTeacherId().getUserId().getEmail());
             userDTO.setPhoneNumber(t.getTeacherId().getUserId().getPhoneNumber());
-            
+
+            TagDTO tagDTO = new TagDTO();
+            tagDTO.setName(t.getTagId().getName());
+
+            courseDTO.setTag(tagDTO);
+
             teacherDTO.setUser(userDTO);
-            
+
             courseDTO.setTeacher(teacherDTO);
 
             courseDTOList.add(courseDTO);
@@ -119,6 +125,5 @@ public class ApiCourseController {
 
         return courseDTOList;
     }
-    
 
 }

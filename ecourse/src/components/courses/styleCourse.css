@@ -31,7 +31,7 @@
     background-color: #00ccff; /* Màu nền cho 'intermediate' */
   }
   
-  .tag-master {
+  .tag-advanced {
     background-color: #ff6600; /* Màu nền cho 'master' */
   }
   
@@ -45,6 +45,7 @@
     font-weight: bold;
     text-align: center;
     margin-left: 10px;
+    padding: 5px;
   }
   .custom-btn {
     background-color: #B1AFFF !important; /* Đặt kiểu riêng cho nút */

@@ -81,7 +81,7 @@ const Courses = () => {
           default:
             return "tag-default";
         }
-      };
+    };
 
     const addToCart = (p) => {
         let cart = cookie.load("cart") || null;
@@ -141,18 +141,28 @@ const Courses = () => {
                             <Card.Title>{c.name}</Card.Title>
                             <Card.Text>
                                 <div>
-                                {c.teacher.user.username}
+                                    {c.teacher.user.username}
                                 </div>
                                 <span style={{ textDecoration: "line-through", color: "red" }}>
-                                {c.price.toLocaleString()} VNĐ
+                                    {c.price.toLocaleString()} VNĐ
                                 </span>
                                 <br />
                                 <span style={{ color: "green", fontWeight: "bold" }}>
-                                {(c.price * (1 - c.discount / 100)).toLocaleString()} VNĐ
+                                    {(c.price * (1 - c.discount / 100)).toLocaleString()} VNĐ
                                 </span>
-                                {/* <div className={`tag ${getTagClass(c.tag.name)}`}>
-                                {c.tag.name}
-                                </div> */}
+                                <div
+                                    className={`tag ${
+                                        c.tag.name === "Beginner"
+                                        ? "tag-beginner"
+                                        : c.tag.name === "Intermediate"
+                                        ? "tag-intermediate"
+                                        : c.tag.name === "Advanced"
+                                        ? "tag-advanced"
+                                        : ""
+                                    }`}
+                                    >
+                                    {c.tag.name}
+                                </div>
                             </Card.Text>
                             <Button
                                 variant="danger"

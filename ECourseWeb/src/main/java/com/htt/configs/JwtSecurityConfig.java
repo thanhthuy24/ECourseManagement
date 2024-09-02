@@ -77,6 +77,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/lessons/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.GET, "/api/essays/**").access("hasRole('ROLE_TEACHER') or hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.GET, "/api/score/**").access("hasRole('ROLE_TEACHER') or hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.GET, "/api/courseRating/**").access("hasRole('ROLE_USER')")
+                .antMatchers(HttpMethod.POST, "/api/courseRating/**").access("hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.POST, "/api/lecturer/**").access("hasRole('ROLE_TEACHER')")
                 .antMatchers(HttpMethod.POST, "/api/choices/**").access("hasRole('ROLE_TEACHER')")
                 .antMatchers(HttpMethod.POST, "/api/questions/**").access("hasRole('ROLE_TEACHER') or hasRole('ROLE_USER')")

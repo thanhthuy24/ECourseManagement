@@ -7,6 +7,7 @@ export const endpoints = {
     'categories': '/categories',
     'courses': 'courses',
     'course': (courseId) => `courses/${courseId}`,
+    
     'teachers': 'teachers',
     'teacher': (teacherId) => `teachers/${teacherId}`,
     'login': '/login',
@@ -22,6 +23,7 @@ export const endpoints = {
     'my-courses': (receiptId) => `receipt/${receiptId}`,
 
     'get-enrollment': (userId) => `/enrollments/user/${userId}`,
+    'count-user-course': (courseId) => `/enrollments/count/${courseId}`,
 
     'lessons': (coursesId) => `lessons/${coursesId}`,
     'get-all-lessons': '/lesson',
@@ -61,6 +63,9 @@ export const endpoints = {
     'essay': (assignmentId) => `/essays/assignment/${assignmentId}`,
     'check-essays': (questionId) => `/essays/question/${questionId}`,
     'essay-user-done': (userId) => `/essays/user/${userId}`,
+
+    'rating-course': (courseId) => `/courseRating/course/${courseId}`,
+    'check-rating': (userId, courseId) => `/courseRating/user/${userId}/course/${courseId}`,
 
     'tags': '/tags',
 
