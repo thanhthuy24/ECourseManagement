@@ -1,0 +1,53 @@
+
+  .slick-slide {
+    padding: 0 10px; /* Điều chỉnh khoảng cách giữa các card */
+  }
+  .slick-slide .card {
+    margin: 0 auto; /* Trung tâm hóa các card trong slide */
+  }
+
+  .slick-prev, .slick-next {
+    width: 50px;
+    height: 40px;   
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slick-prev {
+    left: 20px;
+  }
+  
+  .slick-next {
+    right: 20px;
+  }
+
+  .tag-beginner {
+    background-color: #ffcc00; /* Màu nền cho 'beginner' */
+  }
+  
+  .tag-intermediate {
+    background-color: #00ccff; /* Màu nền cho 'intermediate' */
+  }
+  
+  .tag-master {
+    background-color: #ff6600; /* Màu nền cho 'master' */
+  }
+  
+  .tag-default {
+    background-color: #cccccc; /* Màu nền cho giá trị khác */
+  }
+  .tag {
+    display: inline-block; /* Hoặc block nếu bạn muốn tag chiếm toàn bộ chiều rộng của phần tử cha */
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    margin-left: 10px;
+  }
+  .custom-btn {
+    background-color: #B1AFFF !important; /* Đặt kiểu riêng cho nút */
+    color: white !important;
+    border: none !important;
+  }

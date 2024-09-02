@@ -68,7 +68,7 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
             receipt.setCreatedDate(new Date());
 
             float totalPrice = (float) carts.stream()
-                    .mapToDouble(c -> c.getPrice() * c.getQuantity())
+                    .mapToDouble(c ->(c.getPrice() * c.getQuantity() * (1 - c.getDiscount() / 100)))
                     .sum();
             receipt.setTotal(totalPrice);
 
@@ -78,6 +78,7 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
                 ReceiptDetail d = new ReceiptDetail();
                 d.setPrice(c.getPrice());
                 d.setQuantity(c.getQuantity());
+                d.setDiscount(c.getDiscount());
                 d.setCourseId(courseRepo.getCourseById(c.getId()));
                 d.setReceiptId(receipt);
                 

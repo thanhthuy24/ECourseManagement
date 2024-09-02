@@ -50,10 +50,10 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     @Override
     public List<Enrollment> getEnrollmentByUserId(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("User.findById");
-        q.setParameter("id", id);
-
-        return q.getResultList();
+        String hql = "FROM Enrollment WHERE userId.id = :userId";
+        return s.createQuery(hql, Enrollment.class)
+                .setParameter("userId", id)
+                .list();
     }
     
     @Override

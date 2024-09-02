@@ -13,9 +13,15 @@ export const endpoints = {
     'current-user': '/current-user',
     'register': '/users',
     'update-user': '/update-user',
+
     'pay': '/pay',
+    "create-payment": "/create-payment",
+    "update-payment": "/update-payment",
+
     'my-receipts': (userId) => `receipts/user/${userId}`,
     'my-courses': (receiptId) => `receipt/${receiptId}`,
+
+    'get-enrollment': (userId) => `/enrollments/user/${userId}`,
 
     'lessons': (coursesId) => `lessons/${coursesId}`,
     'get-all-lessons': '/lesson',

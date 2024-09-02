@@ -26,6 +26,7 @@ public class Cart {
     private Long id;
     private String name;
     private int quantity;
+    private float discount;
     private float price;
     // Getter for id
     public Long getId() {

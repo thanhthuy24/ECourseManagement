@@ -7,7 +7,7 @@ import TeacherDetail from "./components/teachers/TeacherDetail";
 import Courses from "./components/courses/Courses";
 import Login from "./components/login/Login";
 import MyUserReducer from "./reducers/MyUserReducer";
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import Register from "./components/login/Register";
 import UserInfor from "./user/UserInfor";
 import MyCourses from "./user/MyCourses";
@@ -28,8 +28,7 @@ import Quiz from "./components/quiz/Quiz";
 import AfterQuiz from "./components/quiz/AfterQuiz";
 import Essay from "./components/quiz/Essay";
 import CheckEssays from "./components/quiz/CheckEssays";
-// import { ToastContainer } from "react-bootstrap";
-// import './styleAssignments.css';
+import { io } from "socket.io-client";
 
 export const MyUserContext = createContext();
 export const MyDispatchContext = createContext();
@@ -50,8 +49,17 @@ const count = () => {
 const App = () => {
     const [user, dispatch] = useReducer(MyUserReducer, cookie.load("user") || null);
     const [cartCounter, cartDispatch] = useReducer(MyCartReducer, count());
+    const [socket, setSocket] = useState(null);
 
     const isTeacher = user?.role === 'ROLE_TEACHER';
+
+    // useEffect(() => {
+    //     setSocket(io("http://localhost:5000"));
+    // }, [])
+
+    // useEffect(() => {
+    //     socket?.emit("newUser", user);
+    // }, [socket, user]);
 
     return (
         <BrowserRouter>
@@ -60,7 +68,7 @@ const App = () => {
                     <MyCartContext.Provider value={[cartCounter, cartDispatch]}>
                         {isTeacher ? 
                         <>
-                            <TeacherHeader/>
+                            <TeacherHeader />
                             <Routes>
                                 <Route path='/' element={<HomeTeacher />} />
                                 <Route path='/lecturer/assignments/courses/:courseId' element={<Assignments />} />
@@ -69,11 +77,11 @@ const App = () => {
                                 <Route path='/choices' element={<UpdateChoices />} />
                                 <Route path='/questions/assignments/:assignmentId' element={<AddQuestion />} />
                                 <Route path="/user" element={<UserInfor />}/>
-                                <Route path='/essays/question/:questionId' element={<CheckEssays />} />
+                                <Route path='/essays/question/:questionId' element={<CheckEssays  />} />
                             </Routes>
                         </> : 
                         <>
-                            <Header />
+                            <Header/>
                             <Routes>
                                 <Route path="/" element={<Courses />} />
                                 <Route path="/courses/:id" element={<CourseDetail />} />

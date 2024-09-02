@@ -5,7 +5,7 @@ import { authAPIs, endpoints } from "../../configs/APIs";
 import { MyUserContext } from "../../App";
 import { ToastContainer, toast, Bounce  } from 'react-toastify';
 
-const CheckEssays = () => {
+const CheckEssays = ({u}) => {
     const location = useLocation();
     const questionId = location.state?.questionId;
     const assignmentId = location.state?.assignmentId;
@@ -25,10 +25,6 @@ const CheckEssays = () => {
 
     const loadScoreDone = async (essay) => {
         let res = await authAPIs().get(endpoints['scores'](assignmentId, essay.userId?.id));
-        // setScoreDone(prevScores => ({
-        //     ...prevScores,
-        //     [essay.id]: res.data // Store the scores using essay id as the key
-        // }));
         setScoreDone(res.data);
         console.log(res.data);
     }
@@ -38,7 +34,7 @@ const CheckEssays = () => {
         setQuestions(res.data);
     };
 
-    const addScoreEssay = async (e, essay) => {
+    const addScoreEssay = async (e, essay, type) => {
         try {
             e.preventDefault();
 
@@ -56,6 +52,11 @@ const CheckEssays = () => {
                 }
             })
             toast.success("Completed!");
+            // socket.emit("sendNotification", {
+            //     senderName: "Giảng viên",
+            //     receiverName: essay.userId?.username,
+            //     type
+            // })
         } catch (err) {
             toast.error('You had done before!');
         }
@@ -119,8 +120,30 @@ const CheckEssays = () => {
                                 disabled/>
                         </Form.Group>
                     </Card.Body>
-
-                    {scoreDone.length > 0 ?
+                    <Card.Footer>
+                            <Form method="post" onSubmit={(e) => addScoreEssay(e, essay)}>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Score:</Form.Label>
+                                    <Form.Control 
+                                        type="number" 
+                                        placeholder="Enter score" 
+                                        value={score[essay.id]?.score || ''}
+                                        onChange={e => change(e, "score", essay.id)}
+                                        />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                    <Form.Label>Feedback for student:</Form.Label>
+                                    <Form.Control 
+                                        as="textarea" 
+                                        rows={3} 
+                                        value={score[essay.id]?.feedBack || ''}
+                                        onChange={e => change(e, "feedBack", essay.id)}
+                                        />
+                                </Form.Group>
+                                <Button type="submit">Send feedBack</Button>
+                            </Form>
+                        </Card.Footer>
+                    {/* {scoreDone.length > 0 ?
                     <>
                         <Card.Footer>
                             <Form method="post" onSubmit={(e) => addScoreEssay(e, essay)}>
@@ -152,7 +175,7 @@ const CheckEssays = () => {
                         </Card.Footer>
                         
                     </>
-                    }
+                    } */}
 
                     
                 </Card>

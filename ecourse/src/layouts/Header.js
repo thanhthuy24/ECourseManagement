@@ -23,6 +23,19 @@ const Header = () => {
     const nav = useNavigate();
     const [cartCounter, ] = useContext(MyCartContext);
 
+    const [notifications, setNotifications] = useState([]);
+//   const [open, setOpen] = useState(false);
+
+    // useEffect(() => {
+    //     if (socket) {
+    //         socket.on("getNotification", (data) => {
+    //             setNotifications((prev) => [...prev, data]);
+    //         });
+    //     }
+    // }, [socket]);
+
+    // console.log(notifications);
+
     const loadCates = async () => {
         let res = await APIs.get(endpoints['categories']);
         setCategories(res.data);

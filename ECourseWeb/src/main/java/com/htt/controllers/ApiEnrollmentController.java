@@ -61,4 +61,10 @@ public class ApiEnrollmentController {
         Long count = enrollService.countByCourseId(courseId);
         return ResponseEntity.ok(count);
     }
+    
+    @GetMapping("/enrollments/user/{userId}")
+    public ResponseEntity<?> getCourses(
+            @PathVariable("userId") Long userId) {
+        return ResponseEntity.ok(this.enrollService.getEnrollmentByUserId(userId));
+    }
 }

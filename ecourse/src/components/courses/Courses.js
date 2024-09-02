@@ -5,9 +5,16 @@ import APIs, { endpoints } from "../../configs/APIs";
 import { format } from 'date-fns';
 import cookie from "react-cookies";
 import { MyCartContext } from "../../App";
+import './styleCourse.css';
+import Arrow from "./Arrow";
 import { ToastContainer, toast } from 'react-toastify';
+import Slider from "react-slick";
+import Carousel from "./Carousel";
+import 'react-toastify/dist/ReactToastify.css';
 
-  import 'react-toastify/dist/ReactToastify.css';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 
 const Courses = () => {
     const [courses, setCourses] = useState([]);
@@ -63,6 +70,19 @@ const Courses = () => {
         nav(`/courses/${id}`);
     };
 
+    const getTagClass = (tagName) => {
+        switch (tagName) {
+          case "Beginner":
+            return "tag-beginner";
+          case "Intermediate":
+            return "tag-intermediate";
+          case "Master":
+            return "tag-master";
+          default:
+            return "tag-default";
+        }
+      };
+
     const addToCart = (p) => {
         let cart = cookie.load("cart") || null;
         if (cart === null)
@@ -73,7 +93,8 @@ const Courses = () => {
                 "id": p.id,
                 "name": p.name,
                 "price": p.price,
-                "quantity": 1
+                "quantity": 1,
+                "discount": p.discount,
             };
             cookie.save("cart", cart);
             dispatch({
@@ -83,21 +104,76 @@ const Courses = () => {
         } else {
             toast.error("Product is already in the cart and cannot be added again.");
         }  
-        
       }
+
+      const cardSliderSettings = {
+        dots: false,
+        infinite: courses.length > 3, // Disable infinite loop if less than 3 courses
+        speed: 500,
+        slidesToShow: Math.min(3, courses.length), // Adjust number of slides shown
+        slidesToScroll: 1,
+        autoplay: false,
+        prevArrow: <Arrow type="prev" />, // Custom arrow
+        nextArrow: <Arrow type="next" />, // Custom arrow
+    };
+
     return (
         <>
          <Navbar className="backgroudColor margin" fill variant="tabs"> 
-                <Container>
-                {categories.map(c => 
-                    {
-                        const url = `/?cateId=${c.id}`;    
-                        return <Link key={c.id} to={url} className='nav-link font-size-header'> {c.name} </Link>
-                    }
-                    )}
-                </Container>
-            </Navbar>
-            <div className="container">
+            <Container>
+            {categories.map(c => 
+                {
+                    const url = `/?cateId=${c.id}`;    
+                    return <Link key={c.id} to={url} className='nav-link font-size-header'> {c.name} </Link>
+                }
+                )}
+            </Container>
+        </Navbar>
+                <ToastContainer/>
+        <div className="container">
+            <Carousel />
+            <h2 style={{ fontWeight: "bold" }}>Được đề xuất cho bạn</h2>
+            <Slider {...cardSliderSettings}>
+                {courses.map((c) => (
+                    <Card className="card" key={c.id}>
+                        <Card.Img variant="top" src={c.image} />
+                        <Card.Body>
+                            <Card.Title>{c.name}</Card.Title>
+                            <Card.Text>
+                                <div>
+                                {c.teacher.user.username}
+                                </div>
+                                <span style={{ textDecoration: "line-through", color: "red" }}>
+                                {c.price.toLocaleString()} VNĐ
+                                </span>
+                                <br />
+                                <span style={{ color: "green", fontWeight: "bold" }}>
+                                {(c.price * (1 - c.discount / 100)).toLocaleString()} VNĐ
+                                </span>
+                                {/* <div className={`tag ${getTagClass(c.tag.name)}`}>
+                                {c.tag.name}
+                                </div> */}
+                            </Card.Text>
+                            <Button
+                                variant="danger"
+                                className="btn"
+                                onClick={() => handleCardClick(c.id)}
+                            >
+                                Xem chi tiết
+                            </Button>
+                            <Button
+                                variant="danger"
+                                className="btn"
+                                onClick={() => addToCart(c)}
+                            >
+                                Thêm vào giỏ hàng
+                            </Button>
+                        </Card.Body>    
+                    </Card>
+                ))}
+            </Slider>
+            </div>
+            {/* <div className="container">
                 <Row>
                 <ToastContainer />
                     {courses.map(t => (
@@ -126,7 +202,7 @@ const Courses = () => {
                     </Col>
                     ))}
                 </Row>
-            </div>
+            </div> */}
         </>
     );
 }
