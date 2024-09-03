@@ -83,6 +83,17 @@ public class CourseRatingRepositoryImpl implements CourseRatingRepository {
     }
 
     @Override
+    public Long countRating(Long courseId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        String query = "SELECT count(p.rating) FROM Courserating p WHERE p.courseId.id = :courseId";
+
+        Long totalRating = (Long) session.createQuery(query)
+                .setParameter("courseId", courseId)
+                .uniqueResult();
+        return totalRating;
+    }
+
+    @Override
     public float countRatinngByCourse(Long rating, Long courseId) {
         Session session = this.factory.getObject().getCurrentSession();
         String ratingIndex = "SELECT COUNT(p.rating) FROM Courserating p WHERE p.courseId.id = :courseId AND p.rating = :rating";

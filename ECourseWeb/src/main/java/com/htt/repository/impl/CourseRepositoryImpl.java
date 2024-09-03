@@ -5,6 +5,7 @@
 package com.htt.repository.impl;
 
 import com.htt.pojo.Course;
+import com.htt.pojo.Courserating;
 import com.htt.pojo.Teacher;
 import com.htt.repository.CourseRepository;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -56,13 +58,13 @@ public class CourseRepositoryImpl implements CourseRepository {
 
             String fromPrice = params.get("fromPrice");
             if (fromPrice != null && !fromPrice.isEmpty()) {
-                Predicate p2 = b.greaterThanOrEqualTo(root.get("price"), Double.parseDouble(fromPrice));
+                Predicate p2 = b.greaterThanOrEqualTo(root.get("price"), Float.parseFloat(fromPrice));
                 predicates.add(p2);
             }
 
             String toPrice = params.get("toPrice");
             if (toPrice != null && !toPrice.isEmpty()) {
-                Predicate p3 = b.lessThanOrEqualTo(root.get("price"), Double.parseDouble(toPrice));
+                Predicate p3 = b.lessThanOrEqualTo(root.get("price"), Float.parseFloat(toPrice));
                 predicates.add(p3);
             }
 
@@ -70,6 +72,19 @@ public class CourseRepositoryImpl implements CourseRepository {
             if (cateId != null && !cateId.isEmpty()) {
                 Predicate p4 = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
                 predicates.add(p4);
+            }
+
+            String rating = params.get("rating");
+            if (rating != null && !rating.isEmpty()) {
+                // Giả sử có bảng CourseRating lưu đánh giá và khóa học
+                // Thay đổi để phù hợp với cấu trúc dữ liệu thực tế của bạn
+                Subquery<Double> subquery = c.subquery(Double.class);
+                Root<Courserating> ratingRoot = subquery.from(Courserating.class);
+                subquery.select(b.avg(ratingRoot.get("rating")))
+                        .where(b.equal(ratingRoot.get("courseId"), root.get("id")));
+
+                Predicate ratingPredicate = b.greaterThanOrEqualTo(subquery, Double.parseDouble(rating));
+                predicates.add(ratingPredicate);
             }
 
             c.where(predicates.toArray(Predicate[]::new));
@@ -138,6 +153,5 @@ public class CourseRepositoryImpl implements CourseRepository {
                 .setParameter("teacherId", teacherId)
                 .list();
     }
-
 
 }

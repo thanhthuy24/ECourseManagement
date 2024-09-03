@@ -80,7 +80,23 @@ public class ApiCourseController {
         TagDTO tagDTO = new TagDTO();
         tagDTO.setName(t.getTagId().getName());
 
+        TeacherDTO teacherDTO = new TeacherDTO();
+        teacherDTO.setId(t.getTeacherId().getId());
+        teacherDTO.setPosition(t.getTeacherId().getPosition());
+        teacherDTO.setDescription(t.getTeacherId().getDescription());
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(t.getTeacherId().getUserId().getId());
+        userDTO.setUsername(t.getTeacherId().getUserId().getUsername());
+        userDTO.setAvatar(t.getTeacherId().getUserId().getAvatar());
+        userDTO.setEmail(t.getTeacherId().getUserId().getEmail());
+        userDTO.setPhoneNumber(t.getTeacherId().getUserId().getPhoneNumber());
+
         courseDTO.setTag(tagDTO);
+
+        teacherDTO.setUser(userDTO);
+
+        courseDTO.setTeacher(teacherDTO);
 
         return courseDTO;
     }

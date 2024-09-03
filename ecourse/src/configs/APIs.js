@@ -68,6 +68,7 @@ export const endpoints = {
     'check-rating': (userId, courseId) => `/courseRating/user/${userId}/course/${courseId}`,
     'avg-rating' :(courseId) =>  `/courseRating/avgCourse/${courseId}`,
     'rating-percent' : (rating, courseId) => `/courseRating/course/${courseId}/rating/${rating}`,
+    'count-amount-rate':(courseId) => `/courseRating/count/course/${courseId}`,
 
     'tags': '/tags',
 

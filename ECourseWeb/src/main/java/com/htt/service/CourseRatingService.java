@@ -16,6 +16,8 @@ public interface CourseRatingService {
     float calculateCourseRating(Long courseId);
     
     float countRatinngByCourse(Long rating, Long courseId);
+    
+    Long countRating(Long courseId);
 
     void addRating(Courserating c, Long courseId);
     

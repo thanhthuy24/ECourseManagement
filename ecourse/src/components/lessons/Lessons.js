@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
 import { Alert, Button, Card, Col, Form, Nav, ProgressBar, Row } from "react-bootstrap";
@@ -10,12 +10,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { format, isAfter } from "date-fns";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const Lessons = () => {
     const { courseId } = useParams();
     const user = useContext(MyUserContext);
-    const [course, setCourse] = useState('');
+    const [course, setCourse] = useState({});
     const [lessons, setLessons] = useState([]);
     const [videos, setVideos] = useState([]);  
     const [progress, setProgress] = useState("");
@@ -47,7 +47,6 @@ const Lessons = () => {
         try {
             let res = await authAPIs().get(endpoints['check-rating'](user.id, courseId));
             setRating(res.data);
-            // console.log(res.data);
         } catch(err) {
             console.error(err);
         }
@@ -57,7 +56,6 @@ const Lessons = () => {
         try {
             let res = await authAPIs().get(endpoints['avg-rating'](courseId));
             setAvg(res.data);
-            // console.log(res.data);
         } catch(err) {
             console.error(err);
         }
@@ -79,7 +77,6 @@ const Lessons = () => {
         for (let i = 1; i <= 5; i++) {
             loadRatingIndex(i);
         }
-        // console.log(ratePercent);
     }, [rating]);
 
     const loadCountUserCourse = async () => {
@@ -202,7 +199,7 @@ const Lessons = () => {
 
     const handleRating = (start) => {
         setStart(start);
-        console.log(start);
+        // console.log(start);
     };
 
     const addRating = async(e) => {
@@ -241,17 +238,24 @@ const Lessons = () => {
                 <>
                 <div style={{marginLeft: "10px"}}>
                     <div>
-                        <p  className="font-size">{course.name}</p>
+                        {/* <p  className="font-size">{course.name}</p> */}
                     </div>
-                    <div>
-                        <p>Số lượng học viên: {enrollment} </p>
-                    </div>
-                    <div>
-                        Lần cập nhật gần nhất: 
-                        {/* {format(course.createdDate, 'dd/MM/yyyy')} */}
+                    <div className="d-flex" style={{justifyContent: "space-around"}}>
+                        <div>
+                            <p style={{marginLeft: "35%"}} className="font-size">{enrollment}</p>
+                            <p>Học viên</p>
+                            
+                        </div>
+                        <div style={{marginLeft: "15%"}}>
+                            <div className="d-flex">
+                                <p className="font-size">{typeof avg === 'number' && !isNaN(avg) ? avg.toFixed(1) : 0}
+                                </p>
+                                <FontAwesomeIcon style={{color: "gold", marginLeft: "5px", marginTop: "3px"}} icon={faStar} className="icon-size" />
+                            </div>
+                            <p>Xếp hạng</p>
+                        </div>
                     </div>
                 </div>
-                   
                 </>);
             case "assignments":
                 return (
@@ -309,14 +313,14 @@ const Lessons = () => {
                     </>
                 );
                 
-            case "faq":
-                return <>
-                <div>FAQ content goes here. {lessonId}</div>
-                <Form.Select aria-label="Default select example">
-                    <option value="1">Tất cả bài giảng</option>
-                    <option value="2">Bài giảng hiện tại</option>
-                </Form.Select>
-                </> ;
+            // case "faq":
+            //     return <>
+            //     <div>FAQ content goes here. {lessonId}</div>
+            //     <Form.Select aria-label="Default select example">
+            //         <option value="1">Tất cả bài giảng</option>
+            //         <option value="2">Bài giảng hiện tại</option>
+            //     </Form.Select>
+            //     </> ;
             case "estimate":
                 return <>
                 
@@ -453,11 +457,7 @@ const Lessons = () => {
                                 
                             </div>
                         </div>
-                        <hr className="mt-5"/>
-                        <p className="font-size ">Đánh giá</p>
-                        <div>
-                            <h1>hiển thị các đánh giá</h1>
-                        </div>
+                        
                     </div>
                     
                 </>;
@@ -491,12 +491,6 @@ const Lessons = () => {
                         <Nav.Item>
                         <Nav.Link eventKey="assignments" onClick={() => setActiveTab("assignments")}>
                             Bài tập và tài liệu
-                            </Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                        <Nav.Link eventKey="faq" onClick={() => setActiveTab("faq")}>
-                            Hỏi đáp
-                                
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>

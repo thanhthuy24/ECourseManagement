@@ -64,5 +64,13 @@ public class ApiCourseRatingController {
         float count = courseRatingSer.countRatinngByCourse(rating, courseId);
         return ResponseEntity.ok(count);
     }
+    
+    @GetMapping("/courseRating/count/course/{courseId}")
+    public ResponseEntity<?> countRatingInCourse(
+            @PathVariable Long courseId
+    ) {
+//        Long count = courseRatingSer.countRating(courseId);
+        return ResponseEntity.ok(this.courseRatingSer.countRating(courseId));
+    }
 
 }

@@ -51,5 +51,9 @@ public class CourseRatingServiceImpl implements CourseRatingService{
     public float countRatinngByCourse(Long rating, Long courseId) {
         return this.courseRatingRepo.countRatinngByCourse(rating, courseId);
     }
-    
+
+    @Override
+    public Long countRating(Long courseId) {
+        return this.courseRatingRepo.countRating(courseId);
+    }
 }
