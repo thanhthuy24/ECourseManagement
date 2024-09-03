@@ -5,9 +5,11 @@
 package com.htt.repository.impl;
 
 import com.htt.pojo.Course;
+import com.htt.pojo.CourseProcess;
 import com.htt.pojo.Courserating;
 import com.htt.repository.CourseRatingRepository;
 import com.htt.repository.CourseRepository;
+import com.htt.repository.ProgressRepository;
 import com.htt.repository.UserRepository;
 import java.util.Date;
 import java.util.List;
@@ -35,16 +37,25 @@ public class CourseRatingRepositoryImpl implements CourseRatingRepository {
     @Autowired
     private CourseRatingRepository courseRatingRepo;
 
+    @Autowired
+    private ProgressRepository processRepo;
+
     @Override
     public void addRating(Courserating c, Long courseId) {
         Session s = this.factory.getObject().getCurrentSession();
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        Courserating list
+        CourseProcess process = processRepo.getProcess(this.userRepo.getUserByUsername(username).getId(), courseId);
+
+        if (process.getCompletionPercentage() < 100) {
+            throw new IllegalArgumentException("User must complete the course before estimate!!");
+        }
+
+        List<Courserating> list
                 = courseRatingRepo.checkCourseRating(this.userRepo.getUserByUsername(username).getId(), courseId);
 
-        if (list == null) {
+        if (!list.isEmpty()) {
             throw new IllegalArgumentException("User had estimated this course!");
         }
 
@@ -68,7 +79,31 @@ public class CourseRatingRepositoryImpl implements CourseRatingRepository {
                 .setParameter("courseId", courseId)
                 .uniqueResult();
 
-        return result != null ? result.floatValue() : null;
+        return result != null ? result.floatValue() : 0;
+    }
+
+    @Override
+    public float countRatinngByCourse(Long rating, Long courseId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        String ratingIndex = "SELECT COUNT(p.rating) FROM Courserating p WHERE p.courseId.id = :courseId AND p.rating = :rating";
+
+        Long result = (Long) session.createQuery(ratingIndex)
+                .setParameter("courseId", courseId)
+                .setParameter("rating", rating)
+                .uniqueResult();
+
+        String query = "SELECT count(p.rating) FROM Courserating p WHERE p.courseId.id = :courseId";
+
+        Long totalRating = (Long) session.createQuery(query)
+                .setParameter("courseId", courseId)
+                .uniqueResult();
+
+        float progress = 0.0f;
+        if (totalRating > 0) {
+            progress = ((float) result / totalRating) * 100;
+        }
+
+        return progress;
     }
 
     @Override
@@ -81,16 +116,16 @@ public class CourseRatingRepositoryImpl implements CourseRatingRepository {
     }
 
     @Override
-    public Courserating checkCourseRating(Long userId, Long courseId) {
+    public List<Courserating> checkCourseRating(Long userId, Long courseId) {
         Session s = this.factory.getObject().getCurrentSession();
         String courseRating
                 = "FROM Courserating p "
                 + "WHERE p.userId.id = :userId and"
                 + " p.courseId.id = :courseId";
-        return (Courserating) s.createQuery(courseRating)
+        return s.createQuery(courseRating)
                 .setParameter("userId", userId)
                 .setParameter("courseId", courseId)
-                .getSingleResult();
+                .list();
     }
 
     @Override

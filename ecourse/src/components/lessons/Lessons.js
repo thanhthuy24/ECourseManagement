@@ -27,6 +27,7 @@ const Lessons = () => {
     const [enrollment, setEnrollment] = useState('');
     const [rating, setRating] = useState('');
     const [avg, setAvg] = useState('');
+    const [ratePercent, setRatePercent] = useState('');
 
     const userId = user.id;
     const nav = useNavigate();
@@ -62,6 +63,25 @@ const Lessons = () => {
         }
     }
 
+    const loadRatingIndex = async(start) => {
+        try {
+            let res = await authAPIs().get(endpoints['rating-percent'](start, courseId));
+            setRatePercent(prevState => ({
+                ...prevState,
+                [start]: res.data
+            }));
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    useEffect(() => {
+        for (let i = 1; i <= 5; i++) {
+            loadRatingIndex(i);
+        }
+        // console.log(ratePercent);
+    }, [rating]);
+
     const loadCountUserCourse = async () => {
         try {
             let res = await authAPIs().get(endpoints['count-user-course'](courseId));
@@ -94,6 +114,7 @@ const Lessons = () => {
         try{
             let res = await authAPIs().get(endpoints['progress'](courseId, userId));
             setProgress(res.data);
+            // console.log(progress);
         } catch(ex){
             console.log(ex);
         }
@@ -177,11 +198,41 @@ const Lessons = () => {
     }, [courseId, user.id]);
 
     const [start, setStart] = useState(0);
+    const [userRate, setUserRate] = useState({ comment: '', rating: null, courseId: null });
 
     const handleRating = (start) => {
         setStart(start);
         console.log(start);
     };
+
+    const addRating = async(e) => {
+        try {
+            e.preventDefault();
+
+            const rateData = {
+                comment: userRate.comment ,
+                rating: start,
+                courseId: { id: courseId }
+            };
+
+            await authAPIs().post(endpoints['rating-course'](courseId), rateData, {
+                headers: {
+                    'Content-Type':  "application/json"
+                }
+            })
+            toast.success("successful!");
+            // console.log(userRate);
+            await loadRating();
+            await loadAvgRating();
+        } catch(ex){
+            toast.error("Error");
+            console.error(ex);
+        }
+    }
+
+    const change = (e, fields) => {
+        setUserRate({...userRate, [fields]: e.target.value});
+    }
 
     const renderTabContent = () => {
         switch(activeTab) {
@@ -269,7 +320,7 @@ const Lessons = () => {
             case "estimate":
                 return <>
                 
-                    {rating ? (
+                    {rating.length > 0 ? (
                         <>
                             <div className="d-flex">
                                 <h1 style={{marginTop: "5px"}}>Đánh giá của bạn: </h1>
@@ -279,7 +330,7 @@ const Lessons = () => {
                                             key={star}
                                             style={{
                                                 cursor: 'pointer',
-                                                color: star <= rating.rating ? 'gold' : 'gray',
+                                                color: star <= rating[0].rating ? 'gold' : 'gray',
                                             }}
                                             onClick={() => handleRating(star)}
                                         >
@@ -290,49 +341,55 @@ const Lessons = () => {
                                     ))}
                                     
                                 </div>
-                                <p style={{marginLeft: "20px"}}>({rating.rating} sao)</p>
+                                <p style={{marginLeft: "20px"}}>({rating[0].rating} sao)</p>
                             </div>
                             <p>Nhận xét của bạn: </p>
                             <Form.Control 
                                 as="textarea" 
                                 rows={3} 
                                 disabled
-                                value={rating.comment || ''}
+                                value={rating[0].comment || ''}
                             />
                             <hr/>
                         </>
-                    ) : (
+                    ) : ( 
                         <>
-                            <div className="d-flex">
-                                <h1 style={{marginTop: "5px"}}>Đánh giá của bạn: </h1>
-                                <div style={{marginLeft: "20px"}}>
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <span
-                                            key={star}
-                                            style={{
-                                                cursor: 'pointer',
-                                                color: star <= rating.rating ? 'gold' : 'gray',
-                                            }}
-                                            onClick={() => handleRating(star)}
-                                        >
-                                            <FontAwesomeIcon icon={faStar} className="icon-size" />
-                                            
-                                        </span>
+                            <Form onSubmit={addRating}>
+                                <div className="d-flex">
+                                    <h1 style={{marginTop: "5px"}}>Đánh giá của bạn: </h1>
+                                    <div style={{marginLeft: "20px"}}>
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <span
+                                                key={star}
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    color: star <= rating.rating ? 'gold' : 'gray',
+                                                }}
+                                                onClick={() => handleRating(star)}
+                                            >
+                                                <FontAwesomeIcon icon={faStar} className="icon-size" />
+                                                
+                                            </span>
+                                        ))}
                                         
-                                    ))}
-                                    
+                                    </div>
                                 </div>
-                                {/* <p style={{marginLeft: "20px"}}>({rating.rating} sao)</p> */}
-                            </div>
-                            <p>Nhận xét của bạn: </p>
-                            <Form>
+                                <p>Nhận xét của bạn: </p>
+                            
                                 <Form.Control 
                                     as="textarea" 
                                     rows={3} 
-                                    // disabled
-                                    value={rating.comment || ''}
+                                    value={userRate.comment}
+                                    onChange={e => change(e, "comment")}
                                 />
-                                <Button>Gửi đánh giá</Button>
+                                {progress < 100 ?
+                                <>
+                                <Button disabled type="submit">You'd had completed course before!!</Button>
+                                </> :
+                                <>
+                                <Button type="submit">Gửi đánh giá</Button>
+                                </>}
+                                {/* <Button type="submit">Gửi đánh giá</Button> */}
                             </Form>
                             <hr/>
                         </>
@@ -342,15 +399,16 @@ const Lessons = () => {
                         <p className="font-size" style={{marginLeft: "35%"}}>Phản hồi của học viên</p>
                         <div className="d-flex" style={{justifyContent: "space-evenly"}}>
                             <div>
-                                {/* trung bình xếp hạng (vd: 4.8) */}
-                                <p className="font-size" >{avg}</p>
+                                <p className="font-size" style={{marginLeft: "35%"}}>
+                                    {avg !== null && avg !== undefined ? avg.toFixed(1) : 0}
+                                </p>
                                 <p>
                                 {[1, 2, 3, 4, 5].map((star) => (
                                         <span
                                             key={star}
                                             style={{
                                                 cursor: 'pointer',
-                                                color: star <= avg ? 'gold' : 'gray',
+                                                color: star <= Math.round(avg) ? 'gold' : 'gray',
                                             }}
                                             onClick={() => handleRating(star)}
                                         >
@@ -360,8 +418,40 @@ const Lessons = () => {
                                 </p>
                                 <p>Xếp hạng khóa học</p>
                             </div>
-                            <div>thanh process cho từng sao</div>
-                            <div>phân theo số sao</div>
+                            <div>
+                                <p>Thanh Process cho từng sao</p>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <div
+                                        key={star}
+                                        style={{
+                                            cursor: 'pointer',
+                                            color: star <= Math.round(avg) ? 'gold' : 'gray',
+                                            marginBottom: "20px",
+                                            marginTop: "3px",
+                                        }}
+                                    >
+                                            <ProgressBar variant="warning" now={ratePercent[star]} />  
+                                    </div>
+                                ))}
+                                
+                            </div>
+                            <div>
+                                <p>Phần trăm process</p>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <div
+                                        key={star}
+                                        style={{
+                                            cursor: 'pointer',
+                                            color: 'gray',
+                                            marginBottom: "10px"
+                                        }}
+                                    >
+                                        {star} sao - ({Math.round(ratePercent[star])}%)
+                                           
+                                    </div>
+                                ))}
+                                
+                            </div>
                         </div>
                         <hr className="mt-5"/>
                         <p className="font-size ">Đánh giá</p>

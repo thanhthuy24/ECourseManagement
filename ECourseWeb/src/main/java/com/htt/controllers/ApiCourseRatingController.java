@@ -27,32 +27,42 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @CrossOrigin
 public class ApiCourseRatingController {
+
     @Autowired
     private CourseRatingService courseRatingSer;
-    
+
     @PostMapping("/courseRating/course/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void estimateCourse(
             @RequestBody Courserating c,
             @PathVariable Long courseId
-    ){
+    ) {
         this.courseRatingSer.addRating(c, courseId);
     }
-    
+
     @GetMapping("/courseRating/user/{userId}/course/{courseId}")
-    public ResponseEntity<?> checkRating (
+    public ResponseEntity<?> checkRating(
             @PathVariable Long userId,
             @PathVariable Long courseId
-    ){
+    ) {
         return ResponseEntity.ok(this.courseRatingSer.checkCourseRating(userId, courseId));
-    }    
-    
+    }
+
     @GetMapping("/courseRating/avgCourse/{courseId}")
-    public ResponseEntity<?> calculateRating (
+    public ResponseEntity<?> calculateRating(
             @PathVariable Long courseId
-    ){
+    ) {
         float avg = courseRatingSer.calculateCourseRating(courseId);
         return ResponseEntity.ok(avg);
-    }    
-    
+    }
+
+    @GetMapping("/courseRating/course/{courseId}/rating/{rating}")
+    public ResponseEntity<?> countRating(
+            @PathVariable Long courseId,
+            @PathVariable Long rating
+    ) {
+        float count = courseRatingSer.countRatinngByCourse(rating, courseId);
+        return ResponseEntity.ok(count);
+    }
+
 }

@@ -38,13 +38,18 @@ public class CourseRatingServiceImpl implements CourseRatingService{
     }
 
     @Override
-    public Courserating checkCourseRating(Long userId, Long courseId) {
+    public List<Courserating> checkCourseRating(Long userId, Long courseId) {
         return this.courseRatingRepo.checkCourseRating(userId, courseId);
     }
     
     @Override
     public float calculateCourseRating(Long courseId) {
         return this.courseRatingRepo.calculateCourseRating(courseId);
+    }
+
+    @Override
+    public float countRatinngByCourse(Long rating, Long courseId) {
+        return this.courseRatingRepo.countRatinngByCourse(rating, courseId);
     }
     
 }
