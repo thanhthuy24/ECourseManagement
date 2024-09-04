@@ -24,6 +24,7 @@ export const endpoints = {
 
     'get-enrollment': (userId) => `/enrollments/user/${userId}`,
     'count-user-course': (courseId) => `/enrollments/count/${courseId}`,
+    'check-enrollments':(courseId, userId) => `/enrollments/course/${courseId}/user/${userId}`,
 
     'lessons': (coursesId) => `lessons/${coursesId}`,
     'get-all-lessons': '/lesson',
@@ -59,6 +60,9 @@ export const endpoints = {
     'userDone':(assignmentId, userId) => `/userdone/assignment/${assignmentId}/user/${userId}`,
     'count-userDone': (assignmentId) => `/userdone/assignment/${assignmentId}`,
 
+    'enrollment': (courseId) => `/enrollments/course/${courseId}`,
+    'user-enrollment': (userId) => `/enrollments/user/${userId}`,
+
     'add-essay':'/essays',
     'essay': (assignmentId) => `/essays/assignment/${assignmentId}`,
     'check-essays': (questionId) => `/essays/question/${questionId}`,
@@ -69,6 +73,13 @@ export const endpoints = {
     'avg-rating' :(courseId) =>  `/courseRating/avgCourse/${courseId}`,
     'rating-percent' : (rating, courseId) => `/courseRating/course/${courseId}/rating/${rating}`,
     'count-amount-rate':(courseId) => `/courseRating/count/course/${courseId}`,
+    'get-list-ratings':(courseId) => `/courseRating/listRating/course/${courseId}`,
+
+    'create-certificate': (courseId, userId) => `/certification/${courseId}/user/${userId}`,
+
+    'send-notic':'/notifications',
+    'notic-unseen':(userId) => `/notifications/${userId}`,
+    'mark-notic':(notificationId) => `/notifications/mark-as-read/${notificationId}`,
 
     'tags': '/tags',
 

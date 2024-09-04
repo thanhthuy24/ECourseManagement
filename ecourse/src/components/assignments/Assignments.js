@@ -5,17 +5,51 @@ import { Button, Card } from "react-bootstrap";
 import { format } from "date-fns";
 
 import './styleAssignments.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const Assignments = () => {
     const { courseId } = useParams();
     const [assignments, setAssignments] = useState([]);
     const [countUserDone, setCountUserDone] = useState({});
+    const [enrollment, setEnrollment] = useState([]);
     const nav = useNavigate();
+
+    const loadEnrollment = async () => {
+        let res = await authAPIs().get(endpoints['enrollment'](courseId));
+        setEnrollment(res.data);
+    }
+
+    const addNotic = async (e, assignment) => {
+        try {
+            e.preventDefault();
+
+            for (let student of enrollment) {
+                const noticData = {
+                    title: "Hạn nộp bài tập",
+                    message: `Bài tập ${assignment.name} trong khóa học ${assignment.courseId?.name} sắp hết hạn! Làm ngay nào!`,
+                    userId: { id: student.userId?.id }
+                };
+    
+                await authAPIs().post(endpoints['send-notic'], noticData, {
+                    headers: {
+                        'Content-Type': "application/json"
+                    }
+                });
+            }
+
+            toast.success("Notification successful!");
+        } catch (err) {
+            toast.error('You had done before!');
+        }
+        
+    }
 
     const loadAssignments = async (courseId) => {
         let res = await authAPIs().get(endpoints['assignment-by-course'](courseId));
         setAssignments(res.data);
-
+        // console.log(res.data);
         for (let assignment of res.data) {
             loadUserDone(assignment.id);
         }
@@ -31,6 +65,7 @@ const Assignments = () => {
 
     useEffect(() => {
         loadAssignments(courseId);
+        loadEnrollment();
     }, [courseId]);
 
     const handleClick = (assignmentId) => {
@@ -50,10 +85,17 @@ const Assignments = () => {
                 {assignments.map((assignment) => (
                     <Card style={{marginBottom: "20px"}}>
                         <Card.Header className="d-flex justify-content-between">
-                            <div
-                                className="div-card-header">
-                                {/* style={{margin: "10px", padding: "10px", fontWeight: "bold"}}> */}
-                                Assignment name: {assignment.name}
+                            <div className="d-flex">
+                                <div className="div-card-header"> Assignment name: {assignment.name}</div>
+
+                                <div 
+                                    onClick={(e) => addNotic(e, assignment)} 
+                                    style={{marginLeft: "10px", marginTop: "15px"}}>
+                                    <FontAwesomeIcon  
+                                        icon={faBell} style={{color: "gold", cursor: "pointer"}} 
+                                        className="icon-size" />
+                                </div>
+                                
                             </div>
                             
                             <Button onClick={() => handleClick(assignment.id)}>List questions</Button>

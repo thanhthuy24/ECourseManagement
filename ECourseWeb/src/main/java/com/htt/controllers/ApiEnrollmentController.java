@@ -55,16 +55,32 @@ public class ApiEnrollmentController {
 
     }
 
+    @GetMapping("/enrollments/course/{courseId}/user/{userId}")
+    public ResponseEntity<?> checkEnroll(
+            @PathVariable Long courseId,
+            @PathVariable Long userId            
+    ) {
+        List<Enrollment> listEnroll = enrollService.getAllEnrollments(userId, courseId);
+        return ResponseEntity.ok(listEnroll);
+
+    }
+
     @GetMapping("/enrollments/count/{courseId}")
     public ResponseEntity<?> countCourse(
             @PathVariable("courseId") Long courseId) {
         Long count = enrollService.countByCourseId(courseId);
         return ResponseEntity.ok(count);
     }
-    
+
     @GetMapping("/enrollments/user/{userId}")
     public ResponseEntity<?> getCourses(
             @PathVariable("userId") Long userId) {
         return ResponseEntity.ok(this.enrollService.getEnrollmentByUserId(userId));
+    }
+    
+    @GetMapping("/enrollments/course/{courseId}")
+    public ResponseEntity<?> getEnrollByCourse(
+            @PathVariable("courseId") Long courseId) {
+        return ResponseEntity.ok(this.enrollService.getEnrollmentByCourseId(courseId));
     }
 }

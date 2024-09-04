@@ -66,5 +66,13 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
                 .getSingleResult()).longValue();
     }
     
+    @Override
+    public List<Enrollment> getEnrollmentByCourseId(Long courseId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        String hql = "FROM Enrollment WHERE courseId.id = :courseId";
+        return s.createQuery(hql, Enrollment.class)
+                .setParameter("courseId", courseId)
+                .list();
+    }
     
 }

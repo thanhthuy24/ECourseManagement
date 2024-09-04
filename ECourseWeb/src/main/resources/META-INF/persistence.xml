@@ -22,6 +22,7 @@
     <class>com.htt.pojo.ReceiptDetail</class>
     <class>com.htt.pojo.Userassignmentdone</class>
     <class>com.htt.pojo.Courserating</class>
+    <class>com.htt.pojo.Notification</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ecoursedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

@@ -16,4 +16,5 @@ public interface EnrollmentRepository {
     List<Enrollment> getAllEnrollments(Long userId, Long courseId);
     List<Enrollment> getEnrollmentByUserId(Long id);
     Long countByCourseId(Long courseId);
+    List<Enrollment> getEnrollmentByCourseId(Long courseId);
 }

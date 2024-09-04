@@ -1,26 +1,22 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { useLocation, useParams } from "react-router";
+import { useLocation } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
-import { MyUserContext } from "../../App";
 import { ToastContainer, toast, Bounce  } from 'react-toastify';
 
 const CheckEssays = ({u}) => {
     const location = useLocation();
-    const questionId = location.state?.questionId;
     const assignmentId = location.state?.assignmentId;
-
-    const user = useContext(MyUserContext);
 
     const [questions, setQuestions] = useState([]);
     const [essays, setEssays] = useState([]);
     const [score, setScore] = useState({});
     const [scoreDone, setScoreDone] = useState([]);
+    const [notic, setNotic] = useState({});
 
     const loadEssays = async(assignmentId) => {
         let res = await authAPIs().get(endpoints['essay'](assignmentId));
         setEssays(res.data);
-        // console.log(res.data);
     }
 
     const loadScoreDone = async (essay) => {
@@ -45,18 +41,26 @@ const CheckEssays = ({u}) => {
                 userId: {id: essay.userId?.id},
                 assignmentId: {id: assignmentId}
             };
+
+            const noticData = {
+                title: "Bài tập đã có điểm!!",
+                message: "Giảng viên đã nhận xét bài của bạn! Check ngay nhé!",
+                userId: {id: essay.userId?.id},
+            };
     
             await authAPIs().post(endpoints['add-score-essay'], scoreEssayData, {
                 headers: {
                     'Content-Type':  "application/json"
                 }
             })
+
+            await authAPIs().post(endpoints['send-notic'], noticData, {
+                headers: {
+                    'Content-Type':  "application/json"
+                }
+            })
+
             toast.success("Completed!");
-            // socket.emit("sendNotification", {
-            //     senderName: "Giảng viên",
-            //     receiverName: essay.userId?.username,
-            //     type
-            // })
         } catch (err) {
             toast.error('You had done before!');
         }
@@ -86,7 +90,6 @@ const CheckEssays = ({u}) => {
 
     return(
         <>
-            {/* <h1>check {questionId} -- {assignmentId}</h1> */}
             <div className="container">
                 <ToastContainer 
                       position="top-center"

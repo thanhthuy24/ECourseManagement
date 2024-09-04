@@ -194,6 +194,28 @@ const Lessons = () => {
         loadAvgRating();
     }, [courseId, user.id]);
 
+    const ProgressClick = async () => {
+        let res = await authAPIs().get(endpoints["progress"](courseId, userId));
+        let progressValue = res.data;
+        if (progressValue === 100) {
+          try {
+            let res2 = await authAPIs().post(
+              endpoints["create-certificate"](courseId, userId)
+            );
+    
+            const baseUrl = "http://localhost:8080/";
+            const pdfUrl = `${baseUrl}${res2.data}`;
+            console.log("PDF URL:", pdfUrl);
+            window.open(pdfUrl);
+          } catch (err) {
+            console.log(err);
+            toast.error("Có lỗi trong quá trình tải file pdf.");
+          }
+        } else {
+          toast.error("Bạn chưa hoàn thành khóa học.");
+        }
+      };
+
     const [start, setStart] = useState(0);
     const [userRate, setUserRate] = useState({ comment: '', rating: null, courseId: null });
 
@@ -313,14 +335,6 @@ const Lessons = () => {
                     </>
                 );
                 
-            // case "faq":
-            //     return <>
-            //     <div>FAQ content goes here. {lessonId}</div>
-            //     <Form.Select aria-label="Default select example">
-            //         <option value="1">Tất cả bài giảng</option>
-            //         <option value="2">Bài giảng hiện tại</option>
-            //     </Form.Select>
-            //     </> ;
             case "estimate":
                 return <>
                 
@@ -555,7 +569,7 @@ const Lessons = () => {
                                 })}
                                 
                             <Card.Footer className="text-muted">
-                                
+                                <Button onClick={ProgressClick}>Nhận chứng chỉ</Button>
                             </Card.Footer>
                         </Card>
                         </>)

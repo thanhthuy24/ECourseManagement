@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import APIs, { authAPIs, endpoints } from "../../configs/APIs";
-import { Button, Card, Col, Image, ProgressBar, Row, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Form, Image, ProgressBar, Row, Spinner } from "react-bootstrap";
 import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,7 @@ const CourseDetail = () => {
 
     const [avg, setAvg] = useState('');
     const [ratePercent, setRatePercent] = useState('');
+    const [reviews, setReviews] = useState([]);
 
     const loadCourse = async () => {
         let res = await APIs.get(endpoints['course'](id));
@@ -23,8 +24,9 @@ const CourseDetail = () => {
         loadAvgRating();
     }, [id])
 
-    const handleClick = async (teacherId) => {
-        nav(`teachers/${teacherId}`);
+    const handleClick = (teacherId) => {
+        const url = endpoints['teacher'](teacherId);
+        nav(url);
     }
 
     const loadAvgRating = async () => {
@@ -48,10 +50,22 @@ const CourseDetail = () => {
         }
     }
 
+    const loadReviews = async () => {
+        try {
+            let res = await authAPIs().get(endpoints['get-list-ratings'](id));
+            setReviews(res.data);
+            
+        } catch(er){
+            console.error(er);
+        }
+    }
+
     useEffect(() => {
         for (let i = 1; i <= 5; i++) {
             loadRatingIndex(i);
         }
+        loadReviews();
+        
     }, []);
 
     return (
@@ -100,68 +114,108 @@ const CourseDetail = () => {
                 </Col>
             </Row>
             <div>
-                        <p className="font-size" style={{marginLeft: "15%"}}>Phản hồi của học viên</p>
-                        <div className="d-flex" style={{justifyContent: "space-evenly"}}>
-                            <div>
-                                <p className="font-size" style={{marginLeft: "35%"}}>
-                                {avg!== undefined ? avg.toLocaleString('en-US', { 
-                                    minimumFractionDigits: 1, 
-                                    maximumFractionDigits: 1 
-                                }) : "Chưa có đánh giá"}
-                                </p>
-                                <p>
-                                {[1, 2, 3, 4, 5].map((star) => (
+                <p className="font-size" style={{marginTop: "20px"}}>Phản hồi của học viên</p>
+                <div className="d-flex" style={{justifyContent: "space-evenly"}}>
+                    <div>
+                        <p className="font-size" style={{marginLeft: "35%"}}>
+                        {avg!== undefined ? avg.toLocaleString('en-US', { 
+                            minimumFractionDigits: 1, 
+                            maximumFractionDigits: 1 
+                        }) : "Chưa có đánh giá"}
+                        </p>
+                        <p>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                                <span
+                                    key={star}
+                                    style={{
+                                        cursor: 'pointer',
+                                        color: star <= Math.round(avg) ? 'gold' : 'gray',
+                                    }}
+                                    // onClick={() => handleRating(star)}
+                                >
+                                    <FontAwesomeIcon icon={faStar} className="icon-size" />
+                                </span>
+                            ))}
+                        </p>
+                        <p>Xếp hạng khóa học</p>
+                    </div>
+                    <div>
+                        <p>Thanh Process cho từng sao</p>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <div
+                                key={star}
+                                style={{
+                                    cursor: 'pointer',
+                                    color: star <= Math.round(avg) ? 'gold' : 'gray',
+                                    marginBottom: "20px",
+                                    marginTop: "3px",
+                                }}
+                            >
+                                    <ProgressBar variant="warning" now={ratePercent[star]} />  
+                            </div>
+                        ))}
+                        
+                    </div>
+                    <div>
+                        <p>Phần trăm process</p>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <div
+                                key={star}
+                                style={{
+                                    cursor: 'pointer',
+                                    color: 'gray',
+                                    marginBottom: "10px"
+                                }}
+                            >
+                                {star} sao - ({Math.round(ratePercent[star])}%)
+                                    
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="mt-5">
+                    {reviews.length > 0 && reviews.map(review => (
+                        <Card className="mb-3">
+                            <Card.Body>
+                                <div className="d-flex">
+                                    <Image className="image" roundedCircle src={review.userId?.avatar} style={{width: "50px", height: "50px"}} />
+                                    <Card.Title style={{marginTop: "1%", marginLeft: "15px"}}>{review.userId?.username}</Card.Title>
+                                </div>
+                                
+                                
+                                <Card.Text>
+                                    <div>
+                                    {[1, 2, 3, 4, 5].map((star) => (
                                         <span
                                             key={star}
                                             style={{
-                                                cursor: 'pointer',
-                                                color: star <= Math.round(avg) ? 'gold' : 'gray',
+                                                color: star <= (review.rating || 0) ? 'gold' : 'gray',
                                             }}
-                                            // onClick={() => handleRating(star)}
                                         >
                                             <FontAwesomeIcon icon={faStar} className="icon-size" />
                                         </span>
+                                        
                                     ))}
-                                </p>
-                                <p>Xếp hạng khóa học</p>
-                            </div>
-                            <div>
-                                <p>Thanh Process cho từng sao</p>
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <div
-                                        key={star}
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: star <= Math.round(avg) ? 'gold' : 'gray',
-                                            marginBottom: "20px",
-                                            marginTop: "3px",
-                                        }}
-                                    >
-                                            <ProgressBar variant="warning" now={ratePercent[star]} />  
-                                    </div>
-                                ))}
-                                
-                            </div>
-                            <div>
-                                <p>Phần trăm process</p>
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <div
-                                        key={star}
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: 'gray',
-                                            marginBottom: "10px"
-                                        }}
-                                    >
-                                        {star} sao - ({Math.round(ratePercent[star])}%)
-                                           
-                                    </div>
-                                ))}
-                                
-                            </div>
-                        </div>
-                        
-                    </div>
+                                    
+                                </div>
+
+                                </Card.Text>
+                                <Card.Text>
+                                    <Form.Control 
+                                        as="textarea" 
+                                        rows={3} 
+                                        value={review.comment}
+                                        disabled
+                                    />
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    ))}
+                    
+                </div>
+            
+            </div>
             </div>
         </>
     );

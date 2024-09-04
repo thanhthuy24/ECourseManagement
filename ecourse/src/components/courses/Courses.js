@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, Image, InputGroup, Navbar, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Form, Image, InputGroup, Navbar, Row } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import APIs, { authAPIs, endpoints } from "../../configs/APIs";
 import { format } from 'date-fns';
 import cookie from "react-cookies";
-import { MyCartContext } from "../../App";
+import { MyCartContext, MyUserContext } from "../../App";
 import './styleCourse.css';
 import Arrow from "./Arrow";
 import { ToastContainer, toast } from 'react-toastify';
@@ -31,8 +31,45 @@ const Courses = () => {
     const [fromPrice, setFromPrice] = useState('');
     const [toPrice, setToPrice] = useState('');
     const [rating, setRating] = useState(null);
+    const [notifications, setNotifications] = useState([]);
+    const [enrollment, setEnrollment] = useState([]);
 
+    const user = useContext(MyUserContext);
+    
+    // const loadUserEnrollment = async () => {
+    //     let res = await authAPIs().get(endpoints['user-enrollment'](user.id));
+    //     setEnrollment(res.data);
+    // }
 
+    const loadNotic = async() => {
+        try{
+            if (!user || !user.id) {
+                // toast.warn("User is not logged in. Notifications will not be loaded.");
+                return;
+            }
+
+            let res = await authAPIs().get(endpoints['notic-unseen'](user.id));
+            setNotifications(res.data);
+            res.data.forEach(notification => {
+                toast.info(notification.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            });
+        } catch(err){
+            console.error(err);
+        }
+    }
+
+    const markAsRead = async(notificationId) => {
+        let res = await authAPIs().post(endpoints['mark-notic'](notificationId));
+        setNotifications(res.data);
+    }
+    
     const loadCates = async () => {
         let res = await APIs.get(endpoints['categories']);
         setCategories(res.data);
@@ -126,6 +163,8 @@ const Courses = () => {
     useEffect(() => {
         loadCourses();
         loadCourseSlider();
+        loadNotic();
+        // loadUserEnrollment();
     }, [q, page]);
     
     useEffect(() => {
@@ -143,10 +182,31 @@ const Courses = () => {
 
     const handleRatingChange = (event) => {
         setRating(event.target.value);
-        setPage(1); // Đặt lại trang về 1 khi thay đổi đánh giá
+        setPage(1);
     };
 
-    const addToCart = (p) => {
+    const loadEnrollment = async(courseId) =>{
+        try{
+            let res = await authAPIs().get(endpoints['check-enrollments'](courseId, user.id));
+            return res.data;
+        } catch(er){
+            console.error(er);
+        }
+        
+    }
+
+    const addToCart = async (p) => {
+        if (!user || !user.id) {
+            toast.error("Please log in to add products to the cart.");
+            return;
+        }
+        const enrollmentData = await loadEnrollment(p.id);
+
+        if (enrollmentData && enrollmentData.length > 0 && enrollmentData.some(e => e.courseId?.id === p.id)) {
+            toast.error("You are already enrolled in this course.");
+            return;
+        }
+
         let cart = cookie.load("cart") || null;
         if (cart === null)
             cart = {};
@@ -193,6 +253,17 @@ const Courses = () => {
             </Container>
         </Navbar>
         <ToastContainer/>
+        {notifications && notifications.map(notification => (
+            <>
+            <div className="container">
+                <Alert key={notification.id} variant="info">
+                    {notification.title} {notification.message}
+                    <Button onClick={() => markAsRead(notification.id)}>Mark as Read</Button>
+                </Alert>
+            </div>
+            
+            </>
+        ))}
         <div className="container">
             <Carousel />
             <h2 style={{ fontWeight: "bold" }}>Được đề xuất cho bạn</h2>

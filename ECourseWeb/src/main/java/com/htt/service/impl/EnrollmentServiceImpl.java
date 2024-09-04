@@ -37,4 +37,9 @@ public class EnrollmentServiceImpl implements EnrollmentService{
     public Long countByCourseId(Long courseId) {
         return this.enrollRepo.countByCourseId(courseId);
     }
+
+    @Override
+    public List<Enrollment> getEnrollmentByCourseId(Long courseId) {
+        return this.enrollRepo.getEnrollmentByCourseId(courseId);
+    }
 }

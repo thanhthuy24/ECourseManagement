@@ -78,7 +78,7 @@ const Questions = () => {
                                 )}
                             </> :
                             <>
-                                <p>.</p>
+                                <p></p>
                             </>}
 
                         </Card.Body>

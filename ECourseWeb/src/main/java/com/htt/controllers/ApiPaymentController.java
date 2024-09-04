@@ -34,6 +34,9 @@ public class ApiPaymentController {
 
     @PostMapping("/create-payment")
     public String createPayment(@RequestBody Map<String, String> params ) throws Exception {
+        
+//        this.receiptService.addReceipt(carts);
+        
         String orderId = params.get("orderId");
         String amount = params.get("amount");
         String returnUrl = params.get("returnUrl");

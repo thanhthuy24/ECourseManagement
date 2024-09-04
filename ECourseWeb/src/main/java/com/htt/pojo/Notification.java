@@ -16,10 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ import lombok.Setter;
  * @author Admin
  */
 @Entity
-@Table(name = "certification")
+@Table(name = "notification")
 @Getter
 @Setter
 @Data
@@ -43,11 +43,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Certification.findAll", query = "SELECT c FROM Certification c"),
-    @NamedQuery(name = "Certification.findById", query = "SELECT c FROM Certification c WHERE c.id = :id"),
-    @NamedQuery(name = "Certification.findByName", query = "SELECT c FROM Certification c WHERE c.name = :name"),
-    @NamedQuery(name = "Certification.findByIssuanceDate", query = "SELECT c FROM Certification c WHERE c.issuanceDate = :issuanceDate")})
-public class Certification implements Serializable {
+    @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
+    @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id"),
+    @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate"),
+    @NamedQuery(name = "Notification.findByTitle", query = "SELECT n FROM Notification n WHERE n.title = :title"),
+    @NamedQuery(name = "Notification.findByMessage", query = "SELECT n FROM Notification n WHERE n.message = :message"),
+    @NamedQuery(name = "Notification.findByIsRead", query = "SELECT n FROM Notification n WHERE n.isRead = :isRead")})
+public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,22 +57,24 @@ public class Certification implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "name")
-    private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "issuanceDate")
+    @Column(name = "createdDate", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date issuanceDate;
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
-    @ManyToOne
-    private Course courseId;
+    private Date createdDate;
+    @Size(max = 255)
+    @Column(name = "title")
+    private String title;
+    @Size(max = 255)
+    @Column(name = "message")
+    private String message;
+    @Column(name = "isRead")
+    private Boolean isRead;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private User userId;
-
     
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = new Date();
+    }
+
 }
