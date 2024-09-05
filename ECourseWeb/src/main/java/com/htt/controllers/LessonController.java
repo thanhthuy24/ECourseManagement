@@ -7,6 +7,7 @@ package com.htt.controllers;
 import com.htt.pojo.Lesson;
 import com.htt.service.CourseService;
 import com.htt.service.LessonService;
+import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -36,9 +38,9 @@ public class LessonController {
     }
 
     @GetMapping("/lessons")
-    public String viewLessons(Model model) {
+    public String viewLessons(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("lesson", new Lesson());
-        model.addAttribute("lessons", this.lessonSer.getLessons());
+        model.addAttribute("lessons", this.lessonSer.getLessons(params));
 
         return "lessons";
     }
@@ -65,6 +67,6 @@ public class LessonController {
             return "lesson";
         }
         this.lessonSer.addOrUpdate(lesson);
-        return "lessons";
+        return "redirect:/";
     }
 }

@@ -66,6 +66,6 @@ public class TeacherController {
             return "teacher";
         }
         this.teacherSer.addOrUpdate(teacher);
-        return "teachers";
+        return "redirect:/";
     }
 }

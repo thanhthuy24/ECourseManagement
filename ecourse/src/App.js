@@ -28,6 +28,7 @@ import Quiz from "./components/quiz/Quiz";
 import AfterQuiz from "./components/quiz/AfterQuiz";
 import Essay from "./components/quiz/Essay";
 import CheckEssays from "./components/quiz/CheckEssays";
+import UpdateUser from "./user/UpdateUser";
 
 export const MyUserContext = createContext();
 export const MyDispatchContext = createContext();
@@ -91,6 +92,7 @@ const App = () => {
                                 <Route path='/questions/assignment/:assignmentId' element={<Quiz />} />
                                 <Route path='/score' element={<AfterQuiz />} />
                                 <Route path='/essays/assignment/:assignmentId' element={<Essay />} />
+                                <Route path='/update-user' element={<UpdateUser />} />
                             </Routes>
                         </>
                         }

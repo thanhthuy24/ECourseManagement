@@ -58,10 +58,10 @@ public class HomeController {
         return "home";
     }
     
-    @RequestMapping("/lessons/")
-    public String indexCourse(Model model, @RequestParam Map<String, String> params) {
-        model.addAttribute("lessons", this.lessonSer.getLessons(params));
-        
-        return "lessons";
-    }
+//    @RequestMapping("/lessons/")
+//    public String indexCourse(Model model, @RequestParam Map<String, String> params) {
+//        model.addAttribute("lessons", this.lessonSer.getLessons(params));
+//        
+//        return "lessons";
+//    }
 }

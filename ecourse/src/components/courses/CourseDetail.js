@@ -81,7 +81,7 @@ const CourseDetail = () => {
                         {/* <h2>{course.id}</h2> */}
                         <Button className="font-size-bold margin btn-success">{course.tag?.name}</Button>
                         <h3 className="font-size-bold margin font-teacher-username">{course.name}</h3>
-                        <h3 className="margin">
+                        <h3 className="margin" style={{ color: "green", fontWeight: "bold" }}>
                         Price: {(course.price || 0)} VNĐ
                         </h3>
 
@@ -93,7 +93,7 @@ const CourseDetail = () => {
                         <Card>
                             <Card.Header>Thông tin giảng viên</Card.Header>
                             <Card.Body>
-                            <Card.Title>Họ tên: {course.teacher?.user?.username}</Card.Title>
+                            <Card.Title style={{color: "red", fontWeight: "bold"}}>{course.teacher?.user?.username}</Card.Title>
                                 
                                 <Card.Text>
                                 Position: {course.teacher?.position}
@@ -101,7 +101,7 @@ const CourseDetail = () => {
                                 <Card.Text>
                                 Description: {course.teacher?.description}
                                 </Card.Text>
-                                <Button onClick={() => handleClick(course.teacher?.id)} >Detail</Button>
+                                {/* <Button onClick={() => handleClick(course.teacher?.id)} >Detail</Button> */}
                             </Card.Body>
                             <Card.Footer></Card.Footer>
                         </Card>

@@ -28,5 +28,7 @@ public interface UserRepository {
     User findByIdWithEnrollments(Long userId);
     
     void deleteUser(Long id);
+    
+    void updateInfomationUser(User user);
 
 }

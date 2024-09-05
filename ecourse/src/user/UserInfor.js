@@ -30,17 +30,6 @@ const UserInfor = () => {
         nav('/');
       };
 
-    const cardSliderSettings1 = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3, // Số lượng card hiện tại cùng lúc
-    slidesToScroll: 1,
-    autoplay: false,
-    prevArrow: <Arrow type="prev" />, // Sử dụng mũi tên tùy chỉnh
-    nextArrow: <Arrow type="next" />, // Sử dụng mũi tên tùy chỉnh
-    };
-
     const cardSliderSettings = {
         dots: false,
         infinite: courses.length > 3, // Disable infinite loop if less than 3 courses
@@ -54,8 +43,11 @@ const UserInfor = () => {
     
 
     const handleClick = (courseId) => {
-        // console.log(`${courseId}`);
         nav(`/lessons/${courseId}`);
+    }
+
+    const handleUpdate = () => {
+        nav(`/update-user`);
     }
 
     return(
@@ -73,7 +65,8 @@ const UserInfor = () => {
                                 <Form.Group style={{margin: "10px"}} className="mb-3" controlId="controliInputFirstname">
                                     <Form.Label>First name: </Form.Label>
                                     <Form.Control type="text" placeholder="Enter firstname" 
-                                    value={user.firstName} />
+                                    value={user.firstName}
+                                    />
                                 </Form.Group>
                                 <Form.Group style={{margin: "10px"}} className="mb-3" controlId="controliInputLastname">
                                     <Form.Label>Last name: </Form.Label>
@@ -105,9 +98,10 @@ const UserInfor = () => {
                                 <Form.Control accept=".png,.jpg" type="file" />
                             </Form.Group>
                             </div>
-                            <Button type="submit" className="button-login">Update</Button>
+                            <Button onClick={handleUpdate}>Update information</Button>
                         </Form> 
-                        <Button  className="button-logout" onClick={handleLogout}>Đăng xuất</Button>
+
+                        <Button className="button-logout" onClick={handleLogout}>Đăng xuất</Button>
                     </>    
                     }
                 </Col>

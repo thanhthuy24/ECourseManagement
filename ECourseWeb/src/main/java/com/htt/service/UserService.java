@@ -24,4 +24,5 @@ public interface UserService extends UserDetailsService {
     User addUser(Map<String, String> params, MultipartFile avatar);
     UserDTO getUserWithEnrollments(Long userId);
     void deleteUser(Long id);
+    void updateInfomationUser(User user);
 }

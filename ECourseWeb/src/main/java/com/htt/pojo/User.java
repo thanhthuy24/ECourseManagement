@@ -69,22 +69,22 @@ public class User implements Serializable {
     @Column(name = "id")
     private Long id;
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "username")
     private String username;
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "role")
     private String role;
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "firstName")
     private String firstName;
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "lastName")
     private String lastName;
@@ -101,39 +101,16 @@ public class User implements Serializable {
     @Size(max = 255)
     @Column(name = "avatar")
     private String avatar;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
-    @NotNull
+//    @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "phoneNumber")
     private String phoneNumber;
-//    @OneToMany(mappedBy = "userId")
-//    @JsonIgnore
-//    private Set<Answerchoice> answerchoiceSet;
-//    @OneToMany(mappedBy = "userId")
-//    @JsonIgnore
-//    private Set<Certification> certificationSet;
-//    @OneToMany(mappedBy = "userId")
-//    @JsonIgnore
-//    private Set<Enrollment> enrollmentSet;
-//    @OneToMany(mappedBy = "userId")
-//    @JsonIgnore
-//    private Set<Score> scoreSet;
-//    @OneToMany(mappedBy = "userId")
-//    @JsonIgnore
-//    private Set<Teacher> teacherSet;
-//    @OneToMany(mappedBy = "userId")
-//    @JsonIgnore
-//    private Set<Essay> essaySet;
-//    @OneToMany(mappedBy = "userId")
-//    @JsonIgnore
-//    private Set<Receipt> receiptSet;
-    
     @Transient
     @JsonIgnore
     private MultipartFile file;
@@ -142,32 +119,5 @@ public class User implements Serializable {
     protected void onCreate() {
         this.createdDate = new Date();
     }
-
-//    @XmlTransient
-//    public Set<Answerchoice> getAnswerchoiceSet() {
-//        return answerchoiceSet;
-//    }
-//
-//    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
-//        this.answerchoiceSet = answerchoiceSet;
-//    }
-//
-//    @XmlTransient
-//    public Set<Teacher> getTeacherSet() {
-//        return teacherSet;
-//    }
-//
-//    public void setTeacherSet(Set<Teacher> teacherSet) {
-//        this.teacherSet = teacherSet;
-//    }
-//
-//    @XmlTransient
-//    public Set<Essay> getEssaySet() {
-//        return essaySet;
-//    }
-//
-//    public void setEssaySet(Set<Essay> essaySet) {
-//        this.essaySet = essaySet;
-//    }
 
 }

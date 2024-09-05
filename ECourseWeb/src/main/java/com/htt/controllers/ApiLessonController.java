@@ -30,7 +30,7 @@ public class ApiLessonController {
     @Autowired
     private LessonService lessonSer;
     
-    @DeleteMapping("/lessons/{lessonId}")
+    @DeleteMapping("/lesson-delete/{lessonId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "lessonId") Long id){
         this.lessonSer.deleteLesson(id);

@@ -221,7 +221,7 @@ const Lessons = () => {
 
     const handleRating = (start) => {
         setStart(start);
-        // console.log(start);
+        toast.success(`Bạn đang chọn ${start} sao!`);
     };
 
     const addRating = async(e) => {
@@ -353,11 +353,10 @@ const Lessons = () => {
                                             onClick={() => handleRating(star)}
                                         >
                                             <FontAwesomeIcon icon={faStar} className="icon-size" />
-                                            
                                         </span>
                                         
                                     ))}
-                                    
+                                     
                                 </div>
                                 <p style={{marginLeft: "20px"}}>({rating[0].rating} sao)</p>
                             </div>

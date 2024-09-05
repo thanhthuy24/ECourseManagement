@@ -37,7 +37,7 @@ public class ApiAssignmentController {
     @Autowired
     private AssignmentService assignmentSer;
     
-    @DeleteMapping("/assignments/{assignmentId}")
+    @DeleteMapping("/assignment/{assignmentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "assignmentId") Long id){
         this.assignmentSer.deleteAssignment(id);

@@ -48,7 +48,7 @@ public class UserRepositoryImpl implements UserRepository {
             c.setCreatedDate(new Date());
             c.setIsActive(true);
         }
-        
+
     }
 
     @Override
@@ -96,5 +96,28 @@ public class UserRepositoryImpl implements UserRepository {
         User user = this.getUserById(id);
 
         user.setIsActive(false);
+    }
+
+    @Override
+    public void updateInfomationUser(User user) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        User existingUser = s.get(User.class, user.getId());
+
+        if (existingUser != null) {
+            // Cập nhật thông tin của đối tượng hiện tại
+            existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPhoneNumber(user.getPhoneNumber());
+            existingUser.setUsername(user.getUsername());
+            existingUser.setAvatar(user.getAvatar());
+
+            // Lưu đối tượng đã cập nhật
+            s.update(existingUser);
+        } else {
+            throw new IllegalArgumentException("User with ID " + user.getId() + " not found.");
+        }
+
     }
 }
