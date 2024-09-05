@@ -89,13 +89,13 @@ public class LessonRepositoryImpl implements LessonRepository{
     }
 
     @Override
-    public Lesson getLessonById(int id) {
+    public Lesson getLessonById(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Lesson.class, id);
     }
 
     @Override
-    public void deleteLesson(int id) {
+    public void deleteLesson(Long id) {
         Session s = this.factory.getObject().getCurrentSession();
         Lesson c = this.getLessonById(id);
         s.delete(c);

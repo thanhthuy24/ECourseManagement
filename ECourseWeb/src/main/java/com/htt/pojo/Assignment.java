@@ -58,6 +58,13 @@ import lombok.Setter;
 })
 public class Assignment implements Serializable {
 
+//    @OneToMany(mappedBy = "assignmentId")
+//    private Set<Answerchoice> answerchoiceSet;
+//    @OneToMany(mappedBy = "assignmentId")
+//    private Set<Question> questionSet;
+//    @OneToMany(mappedBy = "assignmentId")
+//    private Set<Essay> essaySet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -97,16 +104,31 @@ public class Assignment implements Serializable {
     protected void onUpdate() {
         
     }
-    
-//    @PreUpdate
-//    protected void onUpdate() {
-//        validateDates(); // Gọi phương thức kiểm tra ngày tháng trước khi cập nhật
+
+//    @XmlTransient
+//    public Set<Answerchoice> getAnswerchoiceSet() {
+//        return answerchoiceSet;
 //    }
 //
-//    // Phương thức kiểm tra ngày tạo và ngày hết hạn
-//    private void validateDates() {
-//        if (this.dueDate != null && this.dueDate.before(this.createdDate)) {
-//            throw new IllegalArgumentException("Due date phải sau ngày tạo.");
-//        }
+//    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
+//        this.answerchoiceSet = answerchoiceSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<Question> getQuestionSet() {
+//        return questionSet;
+//    }
+//
+//    public void setQuestionSet(Set<Question> questionSet) {
+//        this.questionSet = questionSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<Essay> getEssaySet() {
+//        return essaySet;
+//    }
+//
+//    public void setEssaySet(Set<Essay> essaySet) {
+//        this.essaySet = essaySet;
 //    }
 }

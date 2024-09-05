@@ -35,6 +35,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tag.findByName", query = "SELECT t FROM Tag t WHERE t.name = :name")})
 public class Tag implements Serializable {
 
+    @OneToMany(mappedBy = "tagId")
+    private Set<Question> questionSet;
+    @OneToMany(mappedBy = "tagId")
+    private Set<Assignment> assignmentSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +115,24 @@ public class Tag implements Serializable {
     @Override
     public String toString() {
         return "com.htt.pojo.Tag[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Set<Question> getQuestionSet() {
+        return questionSet;
+    }
+
+    public void setQuestionSet(Set<Question> questionSet) {
+        this.questionSet = questionSet;
+    }
+
+    @XmlTransient
+    public Set<Assignment> getAssignmentSet() {
+        return assignmentSet;
+    }
+
+    public void setAssignmentSet(Set<Assignment> assignmentSet) {
+        this.assignmentSet = assignmentSet;
     }
     
 }

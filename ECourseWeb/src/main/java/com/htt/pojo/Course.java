@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -62,6 +63,14 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Course.findByDiscount", query = "SELECT c FROM Course c WHERE c.discount = :discount"),
     @NamedQuery(name = "Course.findByImage", query = "SELECT c FROM Course c WHERE c.image = :image")})
 public class Course implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
+    @JsonIgnore
+    private Set<Assignment> assignmentSet;
+    
+    @OneToMany(mappedBy = "courseId")
+    @JsonIgnore
+    private Set<Lesson> lessonSet;
 
     @OneToMany(mappedBy = "courseId")
     @JsonIgnore
@@ -141,5 +150,23 @@ public class Course implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         this.updatedDate = new Date();
+    }
+
+    @XmlTransient
+    public Set<Assignment> getAssignmentSet() {
+        return assignmentSet;
+    }
+
+    public void setAssignmentSet(Set<Assignment> assignmentSet) {
+        this.assignmentSet = assignmentSet;
+    }
+
+    @XmlTransient
+    public Set<Lesson> getLessonSet() {
+        return lessonSet;
+    }
+
+    public void setLessonSet(Set<Lesson> lessonSet) {
+        this.lessonSet = lessonSet;
     }
 }

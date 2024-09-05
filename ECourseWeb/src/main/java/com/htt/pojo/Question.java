@@ -50,6 +50,13 @@ import lombok.Setter;
 })
 public class Question implements Serializable {
 
+//    @OneToMany(mappedBy = "questionId")
+//    private Set<Answerchoice> answerchoiceSet;
+//    @OneToMany(mappedBy = "questionId")
+//    private Set<Essay> essaySet;
+//    @OneToMany(mappedBy = "questionId")
+//    private Set<Choice> choiceSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -92,5 +99,32 @@ public class Question implements Serializable {
     public void setAssignmentId(Assignment assignmentId) {
         this.assignmentId = assignmentId;
     }
+
+//    @XmlTransient
+//    public Set<Answerchoice> getAnswerchoiceSet() {
+//        return answerchoiceSet;
+//    }
+//
+//    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
+//        this.answerchoiceSet = answerchoiceSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<Essay> getEssaySet() {
+//        return essaySet;
+//    }
+//
+//    public void setEssaySet(Set<Essay> essaySet) {
+//        this.essaySet = essaySet;
+//    }
+//
+//    @XmlTransient
+//    public Set<Choice> getChoiceSet() {
+//        return choiceSet;
+//    }
+//
+//    public void setChoiceSet(Set<Choice> choiceSet) {
+//        this.choiceSet = choiceSet;
+//    }
 
 }

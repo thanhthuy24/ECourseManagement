@@ -33,12 +33,12 @@ public class LessonServiceImpl implements LessonService{
     }
 
     @Override
-    public Lesson getLessonById(int id) {
+    public Lesson getLessonById(Long id) {
         return this.lessonRepo.getLessonById(id);
     }
 
     @Override
-    public void deleteLesson(int id) {
+    public void deleteLesson(Long id) {
         this.lessonRepo.deleteLesson(id);
     }
 

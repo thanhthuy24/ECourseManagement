@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
 import { Button, Card } from "react-bootstrap";
-import { format } from "date-fns";
+import { differenceInMilliseconds, format, subHours } from "date-fns";
 
 import './styleAssignments.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,6 +45,45 @@ const Assignments = () => {
         }
         
     }
+
+    // const addNotic = async (e, assignment) => {
+    //     try {
+    //         e.preventDefault();
+    
+    //         const now = new Date();
+    //         const dueDate = new Date(assignment.dueDate);
+
+    //         // Tính toán thời gian cần hiển thị thông báo (1 giờ trước dueDate)
+    //         const notificationTime = subHours(dueDate, 1); // Trừ đi 1 tiếng từ dueDate
+    //         const timeUntilNotification = differenceInMilliseconds(notificationTime, now);
+    
+    //         if (timeUntilNotification > 0) {
+    
+    //             setTimeout(async () => {
+    //                 for (let student of enrollment) {
+    //                     const noticData = {
+    //                         title: "Hạn nộp bài tập",
+    //                         message: `Bài tập ${assignment.name} trong khóa học ${assignment.courseId?.name} sắp hết hạn! Làm ngay nào!`,
+    //                         userId: { id: student.userId?.id }
+    //                     };
+    
+    //                     await authAPIs().post(endpoints['send-notic'], noticData, {
+    //                         headers: {
+    //                             'Content-Type': "application/json"
+    //                         }
+    //                     });
+    //                 }
+    //                 toast.success("Notifications sent successfully!");
+    //             }, timeUntilNotification);
+    //         } else {
+    //             toast.warning("Thời gian thông báo đã qua.");
+    //         }
+    
+    //     } catch (err) {
+    //         toast.error('An error occurred while sending notifications!');
+    //     }
+    // }
+    
 
     const loadAssignments = async (courseId) => {
         let res = await authAPIs().get(endpoints['assignment-by-course'](courseId));

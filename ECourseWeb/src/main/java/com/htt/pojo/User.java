@@ -63,6 +63,13 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByPhoneNumber", query = "SELECT u FROM User u WHERE u.phoneNumber = :phoneNumber")})
 public class User implements Serializable {
 
+//    @OneToMany(mappedBy = "userId")
+//    private Set<Answerchoice> answerchoiceSet;
+//    @OneToMany(mappedBy = "userId")
+//    private Set<Teacher> teacherSet;
+//    @OneToMany(mappedBy = "userId")
+//    private Set<Essay> essaySet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -143,5 +150,32 @@ public class User implements Serializable {
     protected void onCreate() {
         this.createdDate = new Date();
     }
+
+//    @XmlTransient
+//    public Set<Answerchoice> getAnswerchoiceSet() {
+//        return answerchoiceSet;
+//    }
+//
+//    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
+//        this.answerchoiceSet = answerchoiceSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<Teacher> getTeacherSet() {
+//        return teacherSet;
+//    }
+//
+//    public void setTeacherSet(Set<Teacher> teacherSet) {
+//        this.teacherSet = teacherSet;
+//    }
+//
+//    @XmlTransient
+//    public Set<Essay> getEssaySet() {
+//        return essaySet;
+//    }
+//
+//    public void setEssaySet(Set<Essay> essaySet) {
+//        this.essaySet = essaySet;
+//    }
 
 }

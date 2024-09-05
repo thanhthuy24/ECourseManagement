@@ -44,7 +44,6 @@ const Courses = () => {
     const loadNotic = async() => {
         try{
             if (!user || !user.id) {
-                // toast.warn("User is not logged in. Notifications will not be loaded.");
                 return;
             }
 

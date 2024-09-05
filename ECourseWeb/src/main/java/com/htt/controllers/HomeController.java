@@ -54,7 +54,7 @@ public class HomeController {
     @RequestMapping("/")
     public String index(Model model, @RequestParam Map<String, String> params){
         model.addAttribute("courses", this.courseService.getCourses(params));
-         model.addAttribute("lessons", this.lessonSer.getLessons(params));
+        model.addAttribute("lessons", this.lessonSer.getLessons(params));
         return "home";
     }
     

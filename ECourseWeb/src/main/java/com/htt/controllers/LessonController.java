@@ -37,6 +37,7 @@ public class LessonController {
 
     @GetMapping("/lessons")
     public String viewLessons(Model model) {
+        model.addAttribute("lesson", new Lesson());
         model.addAttribute("lessons", this.lessonSer.getLessons());
 
         return "lessons";
@@ -49,7 +50,7 @@ public class LessonController {
     }
 
     @GetMapping("/lessons/{lessonId}")
-    public String LessonView(Model model, @PathVariable(value = "lessonId") int id) {
+    public String LessonView(Model model, @PathVariable(value = "lessonId") Long id) {
         model.addAttribute("lesson", this.lessonSer.getLessonById(id));
         return "lesson";
     }

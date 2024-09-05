@@ -61,6 +61,7 @@ const App = () => {
                             <TeacherHeader />
                             <Routes>
                                 <Route path='/' element={<HomeTeacher />} />
+                                <Route path="/login" element={<Login />} />
                                 <Route path='/lecturer/assignments/courses/:courseId' element={<Assignments />} />
                                 <Route path='/lecturer/assignment/:assignmentId' element={<AssignmentUpdate />} />
                                 <Route path='/questions/assignment/:assignmentId' element={<Questions />} />
