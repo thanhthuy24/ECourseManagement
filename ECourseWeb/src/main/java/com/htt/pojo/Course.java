@@ -64,18 +64,6 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Course.findByImage", query = "SELECT c FROM Course c WHERE c.image = :image")})
 public class Course implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
-    @JsonIgnore
-    private Set<Assignment> assignmentSet;
-    
-    @OneToMany(mappedBy = "courseId")
-    @JsonIgnore
-    private Set<Lesson> lessonSet;
-
-    @OneToMany(mappedBy = "courseId")
-    @JsonIgnore
-    private Set<ReceiptDetail> recepitDetailSet;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,21 +98,6 @@ public class Course implements Serializable {
     @Column(name = "image")
     private String image;
 
-//    @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
-//    private Set<Lesson> lessonSet;
-//
-//    @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
-//    private Set<Video> videoSet;
-//
-//    @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
-//    private Set<Certification> certificationSet;
-//
-//    @OneToMany(mappedBy = "courseId")
-//    @JsonIgnore
-//    private Set<Enrollment> enrollmentSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
     @JsonIgnore
@@ -152,21 +125,5 @@ public class Course implements Serializable {
         this.updatedDate = new Date();
     }
 
-    @XmlTransient
-    public Set<Assignment> getAssignmentSet() {
-        return assignmentSet;
-    }
-
-    public void setAssignmentSet(Set<Assignment> assignmentSet) {
-        this.assignmentSet = assignmentSet;
-    }
-
-    @XmlTransient
-    public Set<Lesson> getLessonSet() {
-        return lessonSet;
-    }
-
-    public void setLessonSet(Set<Lesson> lessonSet) {
-        this.lessonSet = lessonSet;
-    }
+   
 }

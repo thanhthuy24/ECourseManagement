@@ -46,9 +46,7 @@ public class Category implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "categoryId")
-    @JsonIgnore
-    private Set<Course> courseSet;
+    
 
     public Category() {
     }
@@ -78,14 +76,6 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public Set<Course> getCourseSet() {
-        return courseSet;
-    }
-
-    public void setCourseSet(Set<Course> courseSet) {
-        this.courseSet = courseSet;
-    }
 
     @Override
     public int hashCode() {

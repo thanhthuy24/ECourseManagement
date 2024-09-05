@@ -56,10 +56,6 @@ public class Teacher implements Serializable {
     @ManyToOne
     @JsonIgnore
     private User userId;
-    
-    @OneToMany(mappedBy = "teacherId")
-    @JsonIgnore
-    private Set<Course> courseSet;
 
     public Teacher() {
     }
@@ -103,15 +99,6 @@ public class Teacher implements Serializable {
 
     public void setUserId(User userId) {
         this.userId = userId;
-    }
-
-    @XmlTransient
-    public Set<Course> getCourseSet() {
-        return courseSet;
-    }
-
-    public void setCourseSet(Set<Course> courseSet) {
-        this.courseSet = courseSet;
     }
 
     @Override

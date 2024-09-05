@@ -50,9 +50,6 @@ import lombok.Setter;
     @NamedQuery(name = "Choice.findByIsCorrect", query = "SELECT c FROM Choice c WHERE c.isCorrect = :isCorrect")})
 public class Choice implements Serializable {
 
-//    @OneToMany(mappedBy = "choiceId")
-//    private Set<Answerchoice> answerchoiceSet;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,21 +61,9 @@ public class Choice implements Serializable {
     @Column(name = "isCorrect")
     private Boolean isCorrect;
     
-//    @OneToMany(mappedBy = "choiceId")
-//    @JsonIgnore
-//    private Set<Answerchoice> answerchoiceSet;
     
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     @ManyToOne
     private Question questionId;
-
-//    @XmlTransient
-//    public Set<Answerchoice> getAnswerchoiceSet() {
-//        return answerchoiceSet;
-//    }
-//
-//    public void setAnswerchoiceSet(Set<Answerchoice> answerchoiceSet) {
-//        this.answerchoiceSet = answerchoiceSet;
-//    }
 
 }

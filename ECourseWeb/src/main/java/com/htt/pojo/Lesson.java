@@ -59,10 +59,6 @@ import lombok.Setter;
     @NamedQuery(name = "Lesson.findByUpdatedDate", query = "SELECT l FROM Lesson l WHERE l.updatedDate = :updatedDate")})
 public class Lesson implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lessonId")
-    @JsonIgnore
-    private Set<Assignment> assignmentSet;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,12 +84,6 @@ public class Lesson implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 
-//    @OneToMany(mappedBy = "lessonId")
-//    @JsonIgnore
-//    private Set<Assignment> assignmentSet;
-//    @OneToMany(mappedBy = "lessonId")
-//    @JsonIgnore
-//    private Set<Document> documentSet;
     
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     @ManyToOne
@@ -111,15 +101,6 @@ public class Lesson implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         this.updatedDate = new Date();
-    }
-
-    @XmlTransient
-    public Set<Assignment> getAssignmentSet() {
-        return assignmentSet;
-    }
-
-    public void setAssignmentSet(Set<Assignment> assignmentSet) {
-        this.assignmentSet = assignmentSet;
     }
 
 }
