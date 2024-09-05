@@ -53,6 +53,8 @@ export const endpoints = {
     'answer': '/answerchoices',
 
     'check-assignment-done': (userId) => `/answerchoices/user/${userId}`,
+    'check-answerchoice':(userId, assignmentId) => `/answerchoices/user/${userId}/assignment/${assignmentId}`,
+
     'score': (assignmentId, userId) => `/score/assignment/${assignmentId}/user/${userId}`,
     'add-score-essay': '/score',
     

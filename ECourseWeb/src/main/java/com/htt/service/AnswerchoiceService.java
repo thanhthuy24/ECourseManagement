@@ -14,5 +14,6 @@ import java.util.List;
 public interface AnswerchoiceService {
     void addAnswerChoice(Answerchoice answerchoice, Long assignmentId, Long userId, Long questionId);
     List<Answerchoice> getAnswerchoiceByUserId(Long userId);
+    List<Answerchoice> getAnswerchoices(Long userId, Long assignmentId);
     List<Answerchoice> getAnswerchoiceByAssignmentAndUserId(Long userId, Long assignmentId, Long questionId);
 }

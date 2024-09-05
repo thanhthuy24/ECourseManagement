@@ -81,30 +81,4 @@ public class ApiUserController {
         return new ResponseEntity<>(u, HttpStatus.OK);
     }
     
-//    
-//    @GetMapping(path = "/my-courses", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @CrossOrigin
-//    public ResponseEntity<UserEnrollDTO> myCourses(Principal user) {
-//        User u = this.userService.getUserByUsername(user.getName());
-//        UserEnrollDTO userEnroll = convertToDTO1(u);
-//        return new ResponseEntity<>(userEnroll, HttpStatus.OK);
-//    }
-//    
-//    private UserEnrollDTO convertToDTO1(User user, Enrollment enroll) {
-//        UserEnrollDTO userEnrollDTO = new UserEnrollDTO();
-//        userEnrollDTO.setUsername(user.getUsername());
-//        userEnrollDTO.setAvatar(user.getAvatar());
-//
-//        EnrollmentDTO enrollmentDTO = new EnrollmentDTO();
-//        
-////        enrollmentDTO.setCourse(enroll.getCourseId());
-//        enrollmentDTO.setEnrollmentDate(enroll.getEnrollmentDate());
-//        
-//        
-//        userEnrollDTO.setEnroll(enrollmentDTO);
-//        
-//        return userEnrollDTO;
-//    }
-    
-    
 }

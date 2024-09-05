@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Image, Row, Spinner } from "react-bootstrap";
 import { authAPIs, endpoints } from "../configs/APIs";
 import { toast, ToastContainer } from "react-toastify";
@@ -6,6 +6,22 @@ import { MyUserContext } from "../App";
 
 const UpdateUser = () => {
     const user = useContext(MyUserContext);
+
+    const [userUpdate, setUserUpdate] = useState('');
+
+    const loadUserInfor = async () => {
+        try {
+            let res = authAPIs().get(endpoints['current-user']);
+            setUserUpdate(res.data);
+        } catch(err){
+            console.error(err);
+        }
+
+    }
+
+    useEffect(() => {
+        loadUserInfor();
+    }, [user]);
 
     const [formData, setFormData] = useState({
         firstName: user?.firstName || '',
@@ -36,6 +52,8 @@ const UpdateUser = () => {
         if (formData.file) {
             data.append('file', formData.file);
         }
+        // else
+            // data.append('file')
 
         try {
             await authAPIs().post(endpoints['update-user'], data, {
@@ -43,15 +61,15 @@ const UpdateUser = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            alert("User information updated successfully!");
+            toast.success("User information updated successfully!");
         } catch (error) {
-            console.error("Error updating user information:", error);
-            alert("Failed to update user information. Please try again.");
+            toast.error("Failed to update user information. Please try again.");
         }
     };
 
     return (
         <>
+        <ToastContainer/>
             <div className="container">
                 <Row>
                     <Col>

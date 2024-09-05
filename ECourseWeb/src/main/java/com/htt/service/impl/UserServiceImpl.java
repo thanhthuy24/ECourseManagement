@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(u.getRole())); 
+        authorities.add(new SimpleGrantedAuthority(u.getRole()));
         return new org.springframework.security.core.userdetails.User(
                 u.getUsername(), u.getPassword(), authorities);
     }
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserWithEnrollments(Long userId) {
         User user = userRepo.findByIdWithEnrollments(userId);
-     
+
         // Convert User entity to UserDTO
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
@@ -143,8 +143,7 @@ public class UserServiceImpl implements UserService {
 //        }).collect(Collectors.toList());
 //
 //        userDTO.setEnrollments(enrollmentDTOs);
-
-        return userDTO;  
+        return userDTO;
     }
 
     @Override
@@ -154,7 +153,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateInfomationUser(User user) {
-        if (!user.getFile().isEmpty()) {
+        if (user.getFile() != null && !user.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(user.getFile().getBytes(),
                         ObjectUtils.asMap("resource_type", "auto"));
@@ -162,7 +161,12 @@ public class UserServiceImpl implements UserService {
             } catch (IOException ex) {
                 Logger.getLogger(CourseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else {
+            // Nếu không chọn file mới, lấy avatar cũ từ cơ sở dữ liệu
+            User existingUser = this.userRepo.getUserById(user.getId());
+            user.setAvatar(existingUser.getAvatar());
         }
+
 //        this.userRepo.addOrUpdate(c);
         this.userRepo.updateInfomationUser(user);
     }

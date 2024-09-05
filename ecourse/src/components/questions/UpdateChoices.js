@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { useLocation } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
 import { Button, Form } from "react-bootstrap";
 
@@ -29,24 +29,19 @@ const UpdateChoices = () => {
             questionId: {id: questionId}
         };
 
-        let res = await authAPIs().post(endpoints['add-choice'], choiceData, {
+        await authAPIs().post(endpoints['add-choice'], choiceData, {
             headers: {
                 'Content-Type':  "application/json"
             }
         })
-        console.info(choiceData);
+        setChoice({ content: '', isCorrect: false, questionId: null });
+        setIsChecked(false);
 
     }
 
     const change = (e, fields) => {
         setChoice({...choice, [fields]: e.target.value});
     }
-
-    // const handleCheck = (e) => {
-    //     const isChecked = e.target.checked;
-    //     setChoice(prevChoice => ({ ...prevChoice, isCorrect: isChecked }));
-    //     console.log("Checkbox changed:", isChecked);
-    // }
 
     const [isChecked, setIsChecked] = useState(false);
     const handleCheckboxChange = () => {

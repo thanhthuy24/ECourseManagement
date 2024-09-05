@@ -36,4 +36,9 @@ public class AnswerchoiceServiceImpl implements AnswerchoiceService{
         return this.answerChoiceRepo.checkAnswers(userId, assignmentId, questionId);
     }
     
+    @Override
+    public List<Answerchoice> getAnswerchoices(Long userId, Long assignmentId) {
+        return this.answerChoiceRepo.checkAnswer(userId, assignmentId);
+    }
+    
 }

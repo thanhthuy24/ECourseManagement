@@ -46,4 +46,12 @@ public class ApiAnswerChoiceController {
         return ResponseEntity.ok(answerChoiceSer.getAnswerchoiceByUserId(userId));
     }
     
+    @GetMapping("/answerchoices/user/{userId}/assignment/{assignmentId}")
+    public ResponseEntity<?> checkAnswers(
+            @PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "assignmentId") Long assignmentId
+    ){
+        return ResponseEntity.ok(answerChoiceSer.getAnswerchoices(userId, assignmentId));
+    }
+    
 }

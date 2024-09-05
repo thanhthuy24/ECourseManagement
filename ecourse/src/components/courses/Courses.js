@@ -252,7 +252,7 @@ const Courses = () => {
             <div className="container">
                 <Alert key={notification.id} variant="info">
                     {notification.title} {notification.message}
-                    <Button onClick={() => markAsRead(notification.id)}>Mark as Read</Button>
+                    <Button key={notification.id} onClick={() => markAsRead(notification.id)}>Mark as Read</Button>
                 </Alert>
             </div>
             

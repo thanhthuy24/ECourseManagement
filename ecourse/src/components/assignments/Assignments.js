@@ -39,7 +39,7 @@ const Assignments = () => {
                 });
             }
 
-            toast.success("Notification successful!");
+            // toast.success("Notification successful!");
         } catch (err) {
             toast.error('You had done before!');
         }

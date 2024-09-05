@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
-import { Button, Card, CardFooter, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { MyUserContext } from "../../App";
 import { ToastContainer, toast, Bounce  } from 'react-toastify';
 import { format } from "date-fns";
@@ -16,9 +16,21 @@ const Quiz = () => {
     const [selectedId, setSelectedId] = useState({});
     const [assignmentDone, setAssignmentDone] = useState([]);
     const [score, setScore] = useState({});
-    const nav = useNavigate();
+
+    const [answer, setAnswer] = useState([]);
+    // const nav = useNavigate();
     
     const user = useContext(MyUserContext);
+
+    const loadAnswerChoice = async() => {
+        try {
+            let res = await authAPIs().get(endpoints['check-answerchoice'](user.id, assignmentId));
+            setAnswer(res.data);
+            // console.log(res.data);
+        } catch(ex) {
+            console.error(ex);
+        }
+    }
 
     const loadQuestions = async () => {
         let res = await authAPIs().get(endpoints['questions'](assignmentId));
@@ -37,6 +49,7 @@ const Quiz = () => {
     const loadAssignmentDone = async () => {
         let res = await authAPIs().get(endpoints['userDone'](assignmentId, user.id));
         setAssignmentDone(res.data);
+        // console.log(res.data);
     }
 
     const loadScore = async () => {
@@ -80,6 +93,7 @@ const Quiz = () => {
         loadQuestions();
         loadAssignmentDone();
         loadScore();
+        loadAnswerChoice();
     }, []);
 
     const handleChoiceSelect = (questionId, choiceId) => {
@@ -121,11 +135,14 @@ const Quiz = () => {
                                                 {choices[question.id].map(c => (
                                                     <div key={c.id} className="mb-3 d-flex" style={{ marginLeft: "10px" }}>
                                                         <input
+                                                           style={{
+                                                            width: "20px",
+                                                            height: "20px"
+                                                        }}
                                                             type="checkbox"
-                                                            checked={selectedId[question.id] === c.id}
+                                                            checked={answer.find(a => a.choiceId?.id === c.id)?.id || selectedId[question.id] === c.id}
                                                             onChange={() => handleChoiceSelect(question.id, c.id)}
                                                         />
-                                                        {/* <p style={{ margin: "0px", marginLeft: "10px" }}>{c.content}</p> */}
                                                         <p style={{ margin: "0px", marginLeft: "10px" }}>
                                                             {c.content}
                                                         </p>
@@ -149,7 +166,7 @@ const Quiz = () => {
                                     </Card.Footer>
                                 </Card>
                             ))}
-                            {assignmentDone ? <>
+                            {assignmentDone.length > 0 ? <>
                                 <Button disabled type="submit">You'd done all Answers</Button>
                             </> : <>
                                 <Button type="submit">Save All Answers</Button>

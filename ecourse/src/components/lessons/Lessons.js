@@ -117,16 +117,20 @@ const Lessons = () => {
         }
     }
 
+    const [videoCom, setVideoCom] = useState([]);
+
     const loadVideosComplete = async() => {
         try {
             let res = await authAPIs().get(endpoints['videosCompleted'](userId));
 
-            setWatchedVideos(res.data);
-            // console.log('Watched Videos Map:', watchedVideosMap);
+            setVideoCom(res.data);
+            // console.log(res.data);
         } catch(ex) {
             console.log(ex);
         }
     }
+
+    
 
     const loadAssignment = async(courseId) => {
         let res = await authAPIs().get(endpoints['user-assignments'](courseId));
@@ -154,13 +158,25 @@ const Lessons = () => {
     }, [assignments]);
 
     const handleCheckboxChange = async (videoId) => {
-        const isWatched = !watchedVideos[videoId];
+        // const isWatched = !watchedVideos[videoId];
         
-        setWatchedVideos(prevState => ({
-            ...prevState,
-            [videoId]: isWatched
-        }));
+        // setWatchedVideos(prevState => ({
+        //     ...prevState,
+        //     [videoId]: isWatched
+        // }));
     
+        setWatchedVideos(prevState => {
+            const isWatched = prevState.includes(videoId);
+    
+            if (isWatched) {
+                // Nếu videoId đã tồn tại trong watchedVideos, xóa nó
+                return prevState.filter(id => id !== videoId);
+            } else {
+                // Nếu videoId không tồn tại, thêm nó vào watchedVideos
+                return [...prevState, videoId];
+            }
+        });
+
         try {
             await authAPIs().post(endpoints['addCompleted'], null, {
                 params: {
@@ -168,11 +184,11 @@ const Lessons = () => {
                     videoId: videoId
                 }
             });
-            loadProgress();
+            await loadProgress();
             toast.success("Video completion status saved successfully.");
         } catch (err) {
             toast.error("Error saving video completion status:", err);
-            console.log(err);
+            // console.log(err);
         }
     }
     
@@ -551,7 +567,8 @@ const Lessons = () => {
                                                             <Form.Check 
                                                                 type="checkbox" 
                                                                 label="Watched"
-                                                                checked={watchedVideos[video.id] || false}
+                                                                checked={videoCom.find(w => w.videoId?.id === video.id)?.id || videoCom.videoId?.id === video.id}
+                                                                // checked={(Array.isArray(watchedVideos) && !!watchedVideos.find(w => w.videoId?.id === video.id)?.id) || (watchedVideos[video.id]?.id === video.id) }
                                                                 onChange={() => handleCheckboxChange(video.id)}
                                                             />
                                                         </Form>
