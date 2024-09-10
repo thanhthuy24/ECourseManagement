@@ -76,7 +76,6 @@ public class CourseRepositoryImpl implements CourseRepository {
 
             String rating = params.get("rating");
             if (rating != null && !rating.isEmpty()) {
-                // Giả sử có bảng CourseRating lưu đánh giá và khóa học
                 // Thay đổi để phù hợp với cấu trúc dữ liệu thực tế của bạn
                 Subquery<Double> subquery = c.subquery(Double.class);
                 Root<Courserating> ratingRoot = subquery.from(Courserating.class);

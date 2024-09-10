@@ -84,8 +84,8 @@ public class ScoreRepositoryImpl implements ScoreRepository {
         }
 
         Score userScore = new Score();
-        userScore.setUserId(this.userRepo.getUserByUsername(username));  // Giả sử User có constructor User(Long id)
-        userScore.setAssignmentId(this.assignmentRepo.getAssignmentById(assignmentId));  // Giả sử Assignment có constructor Assignment(Long id)
+        userScore.setUserId(this.userRepo.getUserByUsername(username));  
+        userScore.setAssignmentId(this.assignmentRepo.getAssignmentById(assignmentId)); 
         userScore.setScore(score);
         userScore.setFeedBack(feedback);
 

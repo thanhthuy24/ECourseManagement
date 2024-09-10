@@ -114,6 +114,21 @@
             <artifactId>itextpdf</artifactId>
             <version>5.5.13.2</version> 
         </dependency>
+        <dependency>
+            <groupId>com.google.auth</groupId>
+            <artifactId>google-auth-library-oauth2-http</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.32.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.0.1-jre</version> <!-- Bạn có thể chọn phiên bản mới nhất -->
+        </dependency>
     </dependencies>
 
     <build>

@@ -59,11 +59,9 @@ public class AnswerchoiceRepositoryImpl implements AnswerchoiceRepository {
                 u.setAssignmentId(answerchoice.getAssignmentId());
                 u.setUserId(answerchoice.getUserId());
                 s.save(u);
-
             }
             
             s.save(answerchoice);
-//            scoreRepo.addScore(assignmentId, userId);
         }
     }
 

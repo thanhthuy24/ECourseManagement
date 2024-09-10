@@ -26,6 +26,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -89,6 +90,7 @@ public class Course implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
+    @Min(value = 1, message = "{course.price.errMsg}")
     private float price;
     @Basic(optional = false)
     @NotNull

@@ -70,7 +70,7 @@ public class Assignment implements Serializable {
     private Tag tagId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 255, message = "{assignment.name.errMsg}")
     @Column(name = "name")
     private String name;
     @Column(name = "createdDate", updatable = false)

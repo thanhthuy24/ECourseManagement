@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useLocation } from "react-router";
 import { authAPIs, endpoints } from "../../configs/APIs";
 import { ToastContainer, toast, Bounce  } from 'react-toastify';
@@ -104,7 +104,9 @@ const CheckEssays = ({u}) => {
                       theme="colored"
                       transition= {Bounce}
                 />
-                {essays.map((essay, index) => (
+                <Row>
+                    <Col>
+                    {essays.map((essay, index) => (
                 <Card className="mt-3" key={essay.id} style={{ marginBottom: "20px" }}>
                     <Card.Header className="d-flex justify-content-between">
                         <div className="div-card-header">
@@ -124,65 +126,67 @@ const CheckEssays = ({u}) => {
                         </Form.Group>
                     </Card.Body>
                     <Card.Footer>
-                            <Form method="post" onSubmit={(e) => addScoreEssay(e, essay)}>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label>Score:</Form.Label>
-                                    <Form.Control 
-                                        type="number" 
-                                        placeholder="Enter score" 
-                                        value={score[essay.id]?.score || ''}
-                                        onChange={e => change(e, "score", essay.id)}
-                                        />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label>Feedback for student:</Form.Label>
-                                    <Form.Control 
-                                        as="textarea" 
-                                        rows={3} 
-                                        value={score[essay.id]?.feedBack || ''}
-                                        onChange={e => change(e, "feedBack", essay.id)}
-                                        />
-                                </Form.Group>
-                                <Button type="submit">Send feedBack</Button>
-                            </Form>
-                        </Card.Footer>
-                    {/* {scoreDone.length > 0 ?
-                    <>
-                        <Card.Footer>
-                            <Form method="post" onSubmit={(e) => addScoreEssay(e, essay)}>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label>Score:</Form.Label>
-                                    <Form.Control 
-                                        type="number" 
-                                        placeholder="Enter score" 
-                                        value={score[essay.id]?.score || ''}
-                                        onChange={e => change(e, "score", essay.id)}
-                                        />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label>Feedback for student:</Form.Label>
-                                    <Form.Control 
-                                        as="textarea" 
-                                        rows={3} 
-                                        value={score[essay.id]?.feedBack || ''}
-                                        onChange={e => change(e, "feedBack", essay.id)}
-                                        />
-                                </Form.Group>
-                                <Button type="submit">Send feedBack</Button>
-                            </Form>
-                        </Card.Footer>
-                    </>    
-                    : <>
-                        <Card.Footer>
-                            <Button>You'd have checked!</Button>
-                        </Card.Footer>
-                        
-                    </>
-                    } */}
-
                     
+                     </Card.Footer>
+                   
                 </Card>
             ))}
+                    </Col>
+                    <Col>
+                        {essays.length > 0 && (<>
+                            <Form method="post" onSubmit={(e) => addScoreEssay(e, essays[0])}>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Score:</Form.Label>
+                                    <Form.Control 
+                                        type="number" 
+                                        placeholder="Enter score" 
+                                        value={score[essays[0].id]?.score || scoreDone.score}
+                                        onChange={e => change(e, "score", essays[0].id)}
+                                        />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                    <Form.Label>Feedback for student:</Form.Label>
+                                    <Form.Control 
+                                        as="textarea" 
+                                        rows={3} 
+                                        value={score[essays[0].id]?.feedBack || scoreDone.feedBack}
+                                        onChange={e => change(e, "feedBack", essays[0].id)}
+                                        />
+                                </Form.Group>
+                                {scoreDone ? (<>
+                                    <Button type="submit" disabled>You'd checked!!</Button>
+                                </>) : (<>
+                                    <Button type="submit">Send feedBack</Button>
+                                </>)}
+                                
+                            </Form>
+                        </>)}
+                    </Col>
+                </Row>
+                
+            {/* {scoreDone ? (
+            <Form method="post" onSubmit={(e) => addScoreEssay(e)}>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Score:</Form.Label>
+                    <Form.Control 
+                        type="number" 
+                        placeholder="Enter score" 
+                        value={scoreDone.score || ''}
+                        // onChange={e => change(e, "score", essay.id)}
+                        />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Feedback for student:</Form.Label>
+                    <Form.Control 
+                        as="textarea" 
+                        rows={3} 
+                        value={scoreDone.feedBack || ''}
+                        // onChange={e => change(e, "feedBack", essay.id)}
+                        />
+                </Form.Group>
+                <Button disabled type="submit">You'd checked!</Button>
+            </Form>):( <></> )
+            } */}
         </div>
         </>
     );

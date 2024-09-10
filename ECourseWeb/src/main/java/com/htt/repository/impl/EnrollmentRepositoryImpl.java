@@ -56,13 +56,13 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
                 .list();
     }
     
+//    đếm số lượng học viên trong khóa học
     @Override
     public Long countByCourseId(Long courseId) {
         Session session = this.factory.getObject().getCurrentSession();
-        // Sử dụng `user_id` như trong câu lệnh SQL
         String sql = "SELECT COUNT(*) FROM enrollment WHERE course_id = :courseId";
         return ((Number) session.createNativeQuery(sql)
-                .setParameter("courseId", courseId) // Tham số thứ nhất trong câu lệnh SQL
+                .setParameter("courseId", courseId) 
                 .getSingleResult()).longValue();
     }
     

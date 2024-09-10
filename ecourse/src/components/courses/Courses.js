@@ -63,6 +63,7 @@ const Courses = () => {
     const markAsRead = async(notificationId) => {
         let res = await authAPIs().post(endpoints['mark-notic'](notificationId));
         setNotifications(res.data);
+        await loadNotic();
     }
     
     const loadCates = async () => {
@@ -158,7 +159,6 @@ const Courses = () => {
         loadCourses();
         loadCourseSlider();
         loadNotic();
-        // loadUserEnrollment();
     }, [q, page]);
     
     useEffect(() => {
@@ -389,14 +389,7 @@ const Courses = () => {
                             <Button onClick={loadCourses}>Lọc</Button>
                             </Card.Body>
                         </Card>
-                        <Card>
-                            <Card.Header>
-                                Thời gian
-                            </Card.Header>
-                            <Card.Body>
-                                
-                            </Card.Body>
-                        </Card>
+                       
                     </Col>
                    
                     {courses && courses.length > 0 && courses.map(t => (

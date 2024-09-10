@@ -81,11 +81,13 @@ public class AssignmentController {
 
     @PostMapping("/assignments")
     public String createView(Model model,
+            @Valid
             @ModelAttribute Assignment assignment,
             BindingResult rs) {
         Date today = new Date();
         if (assignment.getDueDate() == null || assignment.getDueDate().before(today)) {
-            rs.rejectValue("dueDate", "error.assignment", "Due date must be today or in the future.");
+            rs.rejectValue("dueDate", "error.assignment",
+                    "Due date must be today or in the future.");
             return "assignment";
         }
 

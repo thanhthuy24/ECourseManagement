@@ -1,6 +1,6 @@
 import { Alert, Button, Col, Row, Table } from "react-bootstrap";
 import './styleCart.css';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import cookie from "react-cookies";
 import { MyCartContext, MyUserContext } from "../../App";
 import { authAPIs, endpoints } from "../../configs/APIs";
@@ -37,24 +37,12 @@ const Cart = () => {
         let res = await authAPIs().post(endpoints["create-payment"], {
           orderId: newOrderId,
           amount: totalPrice,
-          returnUrl: "http://localhost:3000/cart",
+          returnUrl: "http://localhost:3000/cart", // Chuyển hướng đến trang này sau khi thanh toán
         });
         console.log(res.data);
-        
         const { payUrl } = res.data;
-
         if (payUrl) {
-          window.location.href = payUrl;
-          let res2 = await authAPIs().post(
-            endpoints["update-payment"],
-            Object.values(cart)
-          );
-          if (res2.status === 201) {
-            setCart([]);
-            cookie.remove("cart");
-            dispatch({ type: "paid" });
-            toast.success("Pay successfully!");
-          }
+          window.location.href = payUrl; // Chuyển hướng tới trang thanh toán
         } else {
           console.error("payUrl không tồn tại");
         }
@@ -62,6 +50,31 @@ const Cart = () => {
         console.error("Tạo thanh toán thất bại!!!");
       }
     };
+  
+    useEffect(() => {
+      const updatePayment = async () => {
+        try {
+          let res2 = await authAPIs().post(
+            endpoints["update-payment"],
+            Object.values(cart)
+          );
+          if (res2.status === 200) {
+            setCart([]);
+            cookie.remove("cart");
+            dispatch({ type: "paid" });
+          }
+        } catch {
+          console.error("Cập nhật thanh toán thất bại");
+        }
+      };
+  
+      const queryParams = new URLSearchParams(window.location.search);
+      const paymentStatus = queryParams.get("message"); // Kiểm tra trạng thái thanh toán từ URL
+  
+      if (paymentStatus === "Success") {
+        updatePayment(); // Chỉ cập nhật thanh toán nếu thành công
+      }
+    }, [window.location.search]);
 
 
 

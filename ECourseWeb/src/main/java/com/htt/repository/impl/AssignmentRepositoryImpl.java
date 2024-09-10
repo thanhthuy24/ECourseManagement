@@ -5,8 +5,11 @@
 package com.htt.repository.impl;
 
 import com.htt.pojo.Assignment;
+import com.htt.pojo.Enrollment;
 import com.htt.pojo.Lesson;
 import com.htt.repository.AssignmentRepository;
+import com.htt.repository.EnrollmentRepository;
+import com.htt.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,10 +76,27 @@ public class AssignmentRepositoryImpl implements AssignmentRepository {
          Query q = s.createQuery("From Assignment");
         return q.getResultList();
     }
+    
+        @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private EnrollmentRepository enrollmentRepo;
+
 
     @Override
     public List<Assignment> getAssignmentByCourseId(Long courseId) {
         Session s = this.factory.getObject().getCurrentSession();
+        
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        Long userId = this.userRepo.getUserByUsername(username).getId();
+//
+//        List<Enrollment> enrollments = enrollmentRepo.getAllEnrollments(userId, courseId);
+//        System.out.println("e" + enrollments);
+//        if (enrollments.isEmpty()) {
+//            throw new IllegalArgumentException("User is not enrolled in course: " + courseId);
+//        }
+        
         String assignQuery = "FROM Assignment p WHERE p.courseId.id = :courseId";
         return s.createQuery(assignQuery)
                 .setParameter("courseId", courseId)

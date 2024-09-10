@@ -133,8 +133,13 @@ const Lessons = () => {
     
 
     const loadAssignment = async(courseId) => {
-        let res = await authAPIs().get(endpoints['user-assignments'](courseId));
-        setAssignment(res.data);
+        try{
+            let res = await authAPIs().get(endpoints['user-assignments'](courseId));
+            setAssignment(res.data);
+        } catch(er){
+            toast.error("Khóa học chưa đăng ký");
+        }
+        
     }
 
     const loadAssignmentDone = async (assignmentId) => {
@@ -160,22 +165,11 @@ const Lessons = () => {
     const handleCheckboxChange = async (videoId) => {
         // const isWatched = !watchedVideos[videoId];
         
-        // setWatchedVideos(prevState => ({
-        //     ...prevState,
-        //     [videoId]: isWatched
-        // }));
+        setWatchedVideos(prevState => ({
+            ...prevState,
+            [videoId]: !watchedVideos[videoId]
+        }));
     
-        setWatchedVideos(prevState => {
-            const isWatched = prevState.includes(videoId);
-    
-            if (isWatched) {
-                // Nếu videoId đã tồn tại trong watchedVideos, xóa nó
-                return prevState.filter(id => id !== videoId);
-            } else {
-                // Nếu videoId không tồn tại, thêm nó vào watchedVideos
-                return [...prevState, videoId];
-            }
-        });
 
         try {
             await authAPIs().post(endpoints['addCompleted'], null, {
@@ -185,7 +179,9 @@ const Lessons = () => {
                 }
             });
             await loadProgress();
+            await loadVideosComplete();
             toast.success("Video completion status saved successfully.");
+            
         } catch (err) {
             toast.error("Error saving video completion status:", err);
             // console.log(err);

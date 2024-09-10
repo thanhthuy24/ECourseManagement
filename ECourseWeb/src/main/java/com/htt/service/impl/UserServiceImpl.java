@@ -170,4 +170,16 @@ public class UserServiceImpl implements UserService {
 //        this.userRepo.addOrUpdate(c);
         this.userRepo.updateInfomationUser(user);
     }
+    
+    @Override
+    public User getUserByUsername1(String username) {
+        return this.userRepo.getUserByUsername1(username);
+    }
+    
+    @Override
+    public void addUserGG(String username, String email, String firstName, String lastName, String avatar) {
+       this.userRepo.addUserGG(username, email,firstName,lastName, avatar);
+    }
+
+    
 }

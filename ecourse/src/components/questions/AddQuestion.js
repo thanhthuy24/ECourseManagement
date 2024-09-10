@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { authAPIs, endpoints } from "../../configs/APIs";
 import { useNavigate, useParams } from "react-router";
 import { Button, Form, Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const AddQuestion = () => {
     const {assignmentId} = useParams();
@@ -11,22 +12,26 @@ const AddQuestion = () => {
     const nav = useNavigate();
 
     const loadAddQuestion = async (e) => {
+        try {
+            e.preventDefault();
 
-        e.preventDefault();
-
-        const questionData = {
-            name: question.name,
-            assignmentId: { id: assignmentId },
-            tagId: parseInt(question.tagId)
-        };
-
-        let res = await authAPIs().post(endpoints['add-question'], questionData, {
-            headers: {
-                'Content-Type':  "application/json"
-            }
-        })
-        const url = endpoints['questions'](assignmentId);
-        nav(url);
+            const questionData = {
+                name: question.name,
+                assignmentId: { id: assignmentId },
+                tagId: parseInt(question.tagId)
+            };
+    
+            await authAPIs().post(endpoints['add-question'], questionData, {
+                headers: {
+                    'Content-Type':  "application/json"
+                }
+            })
+            
+            const url = endpoints['questions'](assignmentId);
+            nav(url);
+        } catch(err){
+            toast.error("Không thể tải câu hỏi lên!")
+        }
     }
 
     const loadAssignments = async (assignmentId) => {
@@ -58,7 +63,7 @@ const AddQuestion = () => {
                     <div className="d-flex" >
                         <Form.Group style={{margin: "10px", width: "500px"}} className="mb-3" controlId="controliInputFirstname">
                             <Form.Label>question name: </Form.Label>
-                            <Form.Control type="text" placeholder="Enter question name" 
+                            <Form.Control required type="text" placeholder="Enter question name" 
                             value={question.name}
                             onChange={e => change(e, "name")}  />
                         </Form.Group>

@@ -85,6 +85,8 @@ export const endpoints = {
 
     'tags': '/tags',
 
+    "google-login": "/google"
+
 }
 
 export const authAPIs = () => {

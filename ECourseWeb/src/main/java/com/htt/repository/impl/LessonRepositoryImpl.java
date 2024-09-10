@@ -3,8 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.htt.repository.impl;
+
+import com.htt.pojo.Enrollment;
 import com.htt.pojo.Lesson;
+import com.htt.repository.EnrollmentRepository;
 import com.htt.repository.LessonRepository;
+import com.htt.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +21,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class LessonRepositoryImpl implements LessonRepository{
-    
-     private static final int PAGE_SIZE = 10;
-    
+public class LessonRepositoryImpl implements LessonRepository {
+
+    private static final int PAGE_SIZE = 10;
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -37,30 +42,30 @@ public class LessonRepositoryImpl implements LessonRepository{
     public List<Lesson> getLessons(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
-        
+
         CriteriaQuery<Lesson> c = b.createQuery(Lesson.class);
-        
+
         Root root = c.from(Lesson.class);
         c.select(root);
-        
-        if(params != null){
+
+        if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
-            
+
             String kw = params.get("q");
-            if(kw != null && !kw.isEmpty()){
+            if (kw != null && !kw.isEmpty()) {
                 Predicate p1 = b.like(root.get("name"), String.format("%%%s%%", kw));
                 predicates.add(p1);
             }
-            
+
             String courseId = params.get("courseId");
             if (courseId != null && !courseId.isEmpty()) {
                 Predicate p4 = b.equal(root.get("courseId"), Integer.parseInt(courseId));
                 predicates.add(p4);
             }
-            
+
             c.where(predicates.toArray(Predicate[]::new));
         }
-        
+
         Query query = s.createQuery(c);
 
         if (params != null) {
@@ -73,7 +78,7 @@ public class LessonRepositoryImpl implements LessonRepository{
                 query.setMaxResults(PAGE_SIZE);
             }
         }
-        
+
         return query.getResultList();
     }
 
@@ -101,20 +106,38 @@ public class LessonRepositoryImpl implements LessonRepository{
         s.delete(c);
     }
 
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private EnrollmentRepository enrollmentRepo;
+
     @Override
     public List<Lesson> getLessons() {
-       Session s = this.factory.getObject().getCurrentSession();
+        Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createQuery("From Lesson");
         return q.getResultList();
     }
-    
+
     @Override
     public List<Lesson> getLessonsByCourseId(Long courseId) {
         Session s = this.factory.getObject().getCurrentSession();
-            String hql = "FROM Lesson WHERE courseId.id = :courseId";
-            return s.createQuery(hql, Lesson.class)
-                          .setParameter("courseId", courseId)
-                          .list();
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long userId = this.userRepo.getUserByUsername(username).getId();
+
+        List<Enrollment> enrollments = enrollmentRepo.getAllEnrollments(userId, courseId);
+//        System.out.println("e" + enrollments);
+        if (enrollments.isEmpty()) {
+            throw new IllegalArgumentException("User is not enrolled in course: " + courseId);
+        }
+
+        String hql = "FROM Lesson WHERE courseId.id = :courseId";
+
+        return s.createQuery(hql, Lesson.class
+        )
+                .setParameter("courseId", courseId)
+                .list();
     }
-    
+
 }

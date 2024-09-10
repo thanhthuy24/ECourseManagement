@@ -25,4 +25,6 @@ public interface UserService extends UserDetailsService {
     UserDTO getUserWithEnrollments(Long userId);
     void deleteUser(Long id);
     void updateInfomationUser(User user);
+    User getUserByUsername1(String username);
+    void addUserGG(String username, String email, String firstName, String lastName, String avatar);
 }

@@ -18,11 +18,13 @@
                 <div class="mb-3 mt-3">
                     <label for="position" class="form-label label-input">Position: </label>
                     <form:input path="position" type="text" class="form-control form-input" id="position" name="position" />
+                    <form:errors path="position" element="div" cssClass="alert alert-danger" />
                 </div>
 
                 <div class="mb-3 mt-3">
                     <label for="description" class="form-label label-input">Description: </label>
                     <form:input path="description" type="text" class="form-control form-input" id="description" name="description" />
+                    <form:errors path="description" element="div" cssClass="alert alert-danger" />
                 </div>
 
                 <div class="mb-3 mt-3">

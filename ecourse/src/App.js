@@ -70,6 +70,7 @@ const App = () => {
                                 <Route path='/questions/assignments/:assignmentId' element={<AddQuestion />} />
                                 <Route path="/user" element={<UserInfor />}/>
                                 <Route path='/essays/question/:questionId' element={<CheckEssays  />} />
+                                <Route path='/update-user' element={<UpdateUser />} />
                             </Routes>
                         </> : 
                         <>

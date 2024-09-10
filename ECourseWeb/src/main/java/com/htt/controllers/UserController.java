@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String submitForm(@ModelAttribute User user, BindingResult result) {
+    public String submitForm(@ModelAttribute @Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "user";
         }

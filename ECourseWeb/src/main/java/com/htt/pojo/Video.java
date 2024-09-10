@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -57,10 +58,10 @@ public class Video implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = "{video.name.errMsg}")
     @Column(name = "name")
     private String name;
-    @Size(max = 255)
+    @Size(min = 1, max = 255)
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "course_id", referencedColumnName = "id")
@@ -72,6 +73,7 @@ public class Video implements Serializable {
     private Lesson lessonId;
     
     @Transient
+    @NotNull
     private MultipartFile file;
 
 }

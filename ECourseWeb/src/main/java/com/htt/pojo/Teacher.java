@@ -46,10 +46,11 @@ public class Teacher implements Serializable {
     private Long id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 100, message = "{teacher.position.errMsg}")
     @Column(name = "position")
     private String position;
-    @Size(max = 255)
+    @NotNull
+    @Size(min = 1, max = 255, message = "{teacher.description.errMsg}")
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -75,10 +75,10 @@ public class CertificateRepositoryImpl implements CertificateRepository {
         try {
             PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
             document.open();
-            document.add(new Paragraph("Chứng chỉ hoàn thành khóa học" + " " + course.getName()));
-            document.add(new Paragraph("Người học: " + user.getFirstName() + " " + user.getLastName()));
-            document.add(new Paragraph("Khóa học: " + course.getName()));
-            document.add(new Paragraph("Ngày cấp: " + LocalDate.now()));
+            document.add(new Paragraph("Certificate" + " " + course.getName()));
+            document.add(new Paragraph("Student: " + user.getFirstName() + " " + user.getLastName()));
+            document.add(new Paragraph("Course name: " + course.getName()));
+            document.add(new Paragraph("Issuance date: " + LocalDate.now()));
             document.close();
         } catch (FileNotFoundException | DocumentException ex) {
             Logger.getLogger(CertificateRepositoryImpl.class.getName()).log(Level.SEVERE, "Error creating PDF: " + ex.getMessage(), ex);

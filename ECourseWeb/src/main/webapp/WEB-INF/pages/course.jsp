@@ -59,6 +59,7 @@
             <div class="mb-3 mt-3">
                 <label for="price" class="form-label label-input">Pricing:</label>
                 <form:input path="price" type="number" class="form-control form-input" id="price" name="price" />
+                <form:errors path="price" element="div" cssClass="alert alert-danger" />
             </div>
 
             <div class="mb-3 mt-3">

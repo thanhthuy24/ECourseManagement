@@ -18,12 +18,14 @@
                 <label for="name" class="form-label label-input">Video name:</label>
                 <form:input path="name" type="text" class="form-control form-input" id="name" 
                             placeholder="type your course name..." name="name" />
+                <form:errors path="name" element="div" cssClass="alert alert-danger" />
             </div>
             <div class="mb-3 mt-3">
                 <label for="file" class="form-label label-input">Upload video:</label>
 
                 <form:input path="file" type="file" accept="*" 
                             class="form-control form-input" id="file" name="file" />
+                <%--<form:errors path="file" element="div" cssClass="alert alert-danger" />--%>
                 <c:if test="${video.description != null}">
                     <img class="mt-3" src="${video.description}" alt="${video.description}" width="120px" />
                     <video width="640" height="360" controls>

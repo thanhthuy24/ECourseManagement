@@ -9,6 +9,8 @@ import cookie from "react-cookies";
 import { MyDispatchContext, MyUserContext } from "../../App";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
+// import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 const Login = () => {
     const user = useContext(MyUserContext);
@@ -36,6 +38,26 @@ const Login = () => {
         })
     }
 
+    const handleGoogleLogin = async (response) => {
+        const googleToken = response.credential;
+        console.log(googleToken);
+    
+        // Gửi googleToken lên server để xác thực và nhận JWT
+        let res = await APIs.post(endpoints["google-login"], {
+          token: googleToken,
+        });
+    
+        cookie.save("token", res.data);
+    
+        let user = await authAPIs().get(endpoints["current-user"]);
+        cookie.save("user", user.data);
+    
+        dispatch({
+          type: "login",
+          payload: user.data,
+        });
+      };
+
     if(user != null){
         return <Navigate to="/" />
     }
@@ -51,10 +73,14 @@ const Login = () => {
                         <p className="text-sign-in margin" >Sign in</p>
                         <p style={{textAlign: "center"}}>Welcome back! You've been missed!</p>
                         <div className="d-flex button-sign-gg-fb">
-                            <Button>
-                                <FontAwesomeIcon style={{marginRight: "10px"}} icon={faGoogle} />
-                                Sign in with Google
-                            </Button>
+                             <GoogleOAuthProvider clientId="346215026499-vu1g4jg1opqppmfnas0lbsl59doph3mm.apps.googleusercontent.com">
+                                <GoogleLogin
+                                onSuccess={handleGoogleLogin}
+                                onError={() => {
+                                    console.log("Login Failed");
+                                }}
+                                />
+                            </GoogleOAuthProvider>
                             <Button>
                             <FontAwesomeIcon style={{marginRight: "10px"}}  icon={faFacebook} />
                                 Sign in with FaceBook

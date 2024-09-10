@@ -56,6 +56,7 @@ public class Question implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+//    @NotNull
     @Column(name = "name")
     private String name;
     

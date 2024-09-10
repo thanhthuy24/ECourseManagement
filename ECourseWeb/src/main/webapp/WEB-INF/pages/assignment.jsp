@@ -19,6 +19,7 @@
             <div class="mb-3 mt-3">
                 <label for="name" class="form-label label-input">Assignment name:</label>
                 <form:input path="name" type="text" class="form-control form-input" id="name" placeholder="type lesson name..." name="name" />
+                <form:errors path="name" element="div" cssClass="alert alert-danger" />
             </div>
 
             <div class="mb-3 mt-3">

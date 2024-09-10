@@ -59,7 +59,7 @@ const UpdateChoices = () => {
                     <div className="d-flex" >
                         <Form.Group style={{margin: "10px", width: "500px"}} className="mb-3" controlId="controliInputFirstname">
                             <Form.Label>Content: </Form.Label>
-                            <Form.Control type="text" placeholder="Enter question name" 
+                            <Form.Control required type="text" placeholder="Enter question name" 
                             value={choice.content}
                             onChange={e => change(e, "content")}  />
                         </Form.Group>

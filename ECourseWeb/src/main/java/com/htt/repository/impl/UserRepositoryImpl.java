@@ -120,4 +120,43 @@ public class UserRepositoryImpl implements UserRepository {
         }
 
     }
+    
+    @Override
+    public User getUserByUsername1(String username) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("User.findByUsername");
+        q.setParameter("username", username);
+
+        // Sử dụng getResultList để tránh ném ngoại lệ khi không có kết quả
+        List<User> results = q.getResultList();
+
+        // Kiểm tra nếu danh sách trống
+        if (!results.isEmpty()) {
+            return results.get(0); // Trả về user đầu tiên nếu tìm thấy
+        }
+        return null; // Trả về null nếu không có kết quả
+    }
+    
+     @Override
+    public void addUserGG(String username, String email, String firstName, String lastName, String avatar) {
+        Session s = this.factory.getObject().getCurrentSession();
+        // Kiểm tra xem người dùng đã tồn tại dựa trên email
+        User existingUser = getUserByUsername1(username);
+        if (existingUser == null) {
+            // Tạo người dùng mới nếu không tồn tại
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setEmail(email);
+            newUser.setRole("ROLE_USER");
+            newUser.setCreatedDate(new Date());
+            newUser.setIsActive(true);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setPassword("000000");
+            newUser.setAvatar(avatar);
+            s.save(newUser);
+        } else {
+            System.out.println("User already exists with email: " + email);
+        }
+    }
 }

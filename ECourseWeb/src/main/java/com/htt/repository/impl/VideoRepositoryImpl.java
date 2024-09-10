@@ -90,7 +90,10 @@ public class VideoRepositoryImpl implements VideoRepository {
     @Override
     public void addOrUpdate(Video c) {
         Session s = this.factory.getObject().getCurrentSession();
+//        Video existingVideo = s.get(Video.class, c.getId());
+        
         if (c.getId() != null) {
+//            existingVideo.setDescription(c.getDescription());
             s.update(c);
         } else {
             s.save(c);

@@ -14,9 +14,9 @@
 <section>
     <div >
 
-        <h1 class="text-center text-primary mt-1">USER INFORMATION</h1>
+        <h1 class="text-center text-primary mt-1">QUẢN LÝ THÔNG TIN NGƯỜI DÙNG</h1>
         <div >
-            <div class="d-flex mt-3" style="justify-content: space-between">
+<!--            <div class="d-flex mt-3" style="justify-content: space-between">
                 <div style="display: flex;
                      justify-content: flex-end;
                      margin-right: 7%;">
@@ -28,7 +28,7 @@
                         Thêm user
                     </a>
                 </div>   
-            </div>
+            </div>-->
 
         </div>
         <table class="table">
